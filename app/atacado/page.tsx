@@ -32,9 +32,12 @@ export default async function AtacadoPage() {
           <p className="text-gold/50 text-[11px] font-inter tracking-[0.3em] uppercase mb-4">
             Tabacaria Eldorado
           </p>
-          <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl text-white mb-4 leading-tight">
+          <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
             Catálogo de{' '}
-            <span className="text-gold" style={{ textShadow: '0 0 30px rgba(201,168,76,0.3)' }}>
+            <span
+              className="text-gold-shine"
+              style={{ textShadow: '0 0 40px rgba(var(--gold-rgb), 0.3)' }}
+            >
               Atacado
             </span>
           </h1>

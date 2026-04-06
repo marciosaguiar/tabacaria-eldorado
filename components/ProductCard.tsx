@@ -13,9 +13,19 @@ export default function ProductCard({ product, channel }: ProductCardProps) {
     value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 
   return (
-    <div className="group relative bg-dark-card border border-dark-border rounded-sm overflow-hidden transition-all duration-300 ease-in-out hover:border-gold/40 hover:shadow-[0_4px_24px_rgba(201,168,76,0.12)] animate-fade-in">
+    <div
+      className="product-card group relative rounded-sm overflow-hidden animate-fade-in"
+      style={{
+        backgroundColor: 'var(--bg-card)',
+        border: '1px solid var(--bg-border)',
+        transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+      }}
+    >
       {/* Image */}
-      <div className="relative aspect-square overflow-hidden bg-[#0d0d0d]">
+      <div
+        className="relative aspect-square overflow-hidden"
+        style={{ backgroundColor: 'var(--bg-hover)' }}
+      >
         {product.imagem ? (
           <Image
             src={product.imagem}
@@ -28,7 +38,8 @@ export default function ProductCard({ product, channel }: ProductCardProps) {
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <svg
-              className="w-12 h-12 text-gray-800"
+              className="w-12 h-12"
+              style={{ color: 'var(--bg-border)' }}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -43,28 +54,43 @@ export default function ProductCard({ product, channel }: ProductCardProps) {
           </div>
         )}
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-dark-card/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ background: 'linear-gradient(to top, var(--bg-card) 0%, transparent 60%)' }}
+        />
       </div>
 
       {/* Content */}
       <div className="p-3 sm:p-4">
-        <h3 className="font-playfair text-base sm:text-lg text-white group-hover:text-gold-light transition-colors duration-300 line-clamp-1 leading-snug">
+        <h3
+          className="font-playfair text-base sm:text-lg line-clamp-1 leading-snug transition-colors duration-300"
+          style={{ color: 'var(--text-primary)' }}
+        >
           {product.nome}
         </h3>
         {product.descricao && (
-          <p className="text-gray-500 text-xs sm:text-sm mt-1 line-clamp-2 font-inter leading-relaxed">
+          <p
+            className="text-xs sm:text-sm mt-1 line-clamp-2 font-inter leading-relaxed"
+            style={{ color: 'var(--text-secondary)' }}
+          >
             {product.descricao}
           </p>
         )}
         {price !== null && price !== undefined && (
-          <p className="text-gold font-inter font-semibold text-base sm:text-lg mt-3 tracking-wide">
+          <p
+            className="font-inter font-semibold text-base sm:text-lg mt-3 tracking-wide"
+            style={{ color: 'var(--gold)' }}
+          >
             {formatPrice(price)}
           </p>
         )}
       </div>
 
       {/* Gold accent bottom line */}
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center" />
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"
+        style={{ background: 'linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent)' }}
+      />
     </div>
   )
 }

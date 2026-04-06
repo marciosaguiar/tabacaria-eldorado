@@ -2,57 +2,197 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --gold: #C9A84C;
-  --gold-light: #F0D080;
-  --dark: #0a0a0a;
-  --dark-card: #111111;
+/* ============================================================
+   DESIGN TOKENS — TEMA ESCURO (padrão)
+   Fundo degradê de preto quente para marrom escuro
+   ============================================================ */
+:root,
+[data-theme="dark"] {
+  --bg-base:    #0c0806;
+  --bg-end:     #1f1009;
+  --bg-card:    #150d08;
+  --bg-hover:   #201408;
+  --bg-border:  #2e1a0c;
+
+  --text-primary:   #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.38);
+  --text-muted:     rgba(255, 255, 255, 0.15);
+
+  --gold:        #D4A017;
+  --gold-light:  #FFD060;
+  --gold-bright: #FFE080;
+  --gold-dark:   #A07808;
+  --gold-rgb:    212, 160, 23;
+  --shadow-gold: rgba(212, 160, 23, 0.18);
+
+  --header-bg:    rgba(12, 8, 6, 0.88);
+  --scrollbar-bg: #0c0806;
 }
 
-* {
-  box-sizing: border-box;
+/* ============================================================
+   DESIGN TOKENS — TEMA CLARO
+   Fundo creme/marfim quente com texto marrom
+   ============================================================ */
+[data-theme="light"] {
+  --bg-base:    #FAF5EE;
+  --bg-end:     #F0E6D8;
+  --bg-card:    #FFFAF4;
+  --bg-hover:   #EDE3D5;
+  --bg-border:  #DDD0BC;
+
+  --text-primary:   #1A0D06;
+  --text-secondary: #8B6040;
+  --text-muted:     #C8B09A;
+
+  --gold:        #B8860B;
+  --gold-light:  #C89010;
+  --gold-bright: #D4A820;
+  --gold-dark:   #8A6408;
+  --gold-rgb:    184, 134, 11;
+  --shadow-gold: rgba(184, 134, 11, 0.15);
+
+  --header-bg:    rgba(250, 245, 238, 0.92);
+  --scrollbar-bg: #FAF5EE;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* ============================================================
+   BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
-  background-color: #0a0a0a;
-  color: #ffffff;
+  background: linear-gradient(160deg, var(--bg-base) 0%, var(--bg-end) 50%, var(--bg-base) 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  min-height: 100vh;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-::-webkit-scrollbar-track {
-  background: #0a0a0a;
-}
-::-webkit-scrollbar-thumb {
-  background: #C9A84C;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #F0D080;
+/* ============================================================
+   TEMA CLARO — overrides de classes Tailwind
+   ============================================================ */
+[data-theme="light"] .bg-dark             { background-color: var(--bg-base) !important; }
+[data-theme="light"] .bg-dark-card        { background-color: var(--bg-card) !important; }
+[data-theme="light"] .bg-dark-hover       { background-color: var(--bg-hover) !important; }
+[data-theme="light"] .bg-\[\#0d0d0d\]    { background-color: var(--bg-hover) !important; }
+[data-theme="light"] .bg-\[\#0a0a0a\]    { background-color: var(--bg-base) !important; }
+
+[data-theme="light"] .text-white          { color: var(--text-primary) !important; }
+[data-theme="light"] .text-gray-300       { color: #5A3520 !important; }
+[data-theme="light"] .text-gray-400       { color: #6A4230 !important; }
+[data-theme="light"] .text-gray-500       { color: var(--text-secondary) !important; }
+[data-theme="light"] .text-gray-600       { color: #9A7060 !important; }
+[data-theme="light"] .text-gray-700       { color: var(--text-muted) !important; }
+[data-theme="light"] .text-gray-800       { color: #C0A080 !important; }
+
+[data-theme="light"] .border-dark-border  { border-color: var(--bg-border) !important; }
+[data-theme="light"] .divide-dark-border > * + * { border-color: var(--bg-border) !important; }
+
+/* Header no tema claro */
+[data-theme="light"] .sticky.bg-dark      { background-color: var(--header-bg) !important; }
+[data-theme="light"] .border-b.border-gold\/20 { border-color: rgba(var(--gold-rgb), 0.25) !important; }
+
+/* Bordas de ouro no tema claro */
+[data-theme="light"] .border-gold         { border-color: var(--gold) !important; }
+[data-theme="light"] .border-gold\/10     { border-color: rgba(var(--gold-rgb), 0.10) !important; }
+[data-theme="light"] .border-gold\/15     { border-color: rgba(var(--gold-rgb), 0.15) !important; }
+[data-theme="light"] .border-gold\/20     { border-color: rgba(var(--gold-rgb), 0.20) !important; }
+[data-theme="light"] .border-gold\/40     { border-color: rgba(var(--gold-rgb), 0.40) !important; }
+
+/* Cards no tema claro */
+[data-theme="light"] .product-card        { background-color: var(--bg-card) !important; border-color: var(--bg-border) !important; }
+[data-theme="light"] .product-card:hover  { border-color: rgba(var(--gold-rgb), 0.4) !important; box-shadow: 0 4px 24px var(--shadow-gold) !important; }
+
+/* Gradientes de fundo no tema claro */
+[data-theme="light"] .from-dark-card      { --tw-gradient-from: var(--bg-card) !important; }
+[data-theme="light"] .via-dark            { --tw-gradient-via: var(--bg-base) !important; }
+[data-theme="light"] .to-dark             { --tw-gradient-to: var(--bg-base) !important; }
+
+/* Footer no tema claro */
+[data-theme="light"] footer.border-t      { background-color: var(--bg-card) !important; }
+
+/* Admin inputs no tema claro */
+[data-theme="light"] input,
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+  background-color: var(--bg-hover) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--bg-border) !important;
 }
 
-/* Input file styling */
-input[type='file'] {
-  cursor: pointer;
+/* ============================================================
+   DOURADO BRILHANTE — utilitários especiais
+   ============================================================ */
+
+/* Texto com efeito metálico animado */
+.text-gold-shine {
+  background: linear-gradient(
+    90deg,
+    #7A5A00  0%,
+    #D4A017  15%,
+    #FFD700  35%,
+    #FFF4B0  50%,
+    #FFD700  65%,
+    #D4A017  85%,
+    #7A5A00  100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: goldShimmer 4s linear infinite;
 }
 
-/* Transitions */
+@keyframes goldShimmer {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Borda degradê dourada */
+.border-gold-shine {
+  border-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold),
+    var(--gold-light),
+    var(--gold),
+    transparent
+  ) 1;
+}
+
+/* Sombra dourada brilhante */
+.shadow-gold-glow {
+  box-shadow:
+    0 0 15px rgba(var(--gold-rgb), 0.3),
+    0 0 30px rgba(var(--gold-rgb), 0.15),
+    0 0 60px rgba(var(--gold-rgb), 0.05);
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar        { width: 5px; height: 5px; }
+::-webkit-scrollbar-track  { background: var(--scrollbar-bg); }
+::-webkit-scrollbar-thumb  { background: var(--gold); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-light); }
+
+/* ============================================================
+   TRANSIÇÕES
+   ============================================================ */
+input[type='file'] { cursor: pointer; }
+
 a, button, input, textarea, select {
   transition-property: color, background-color, border-color, box-shadow;
   transition-duration: 0.3s;
   transition-timing-function: ease;
 }
 
-/* Line clamp */
+/* ============================================================
+   LINE CLAMP
+   ============================================================ */
 .line-clamp-1 {
   overflow: hidden;
   display: -webkit-box;

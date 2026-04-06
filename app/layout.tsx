@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
+import ThemeProvider from '@/components/ThemeProvider'
 import './globals.css'
 
 const playfair = Playfair_Display({
@@ -33,9 +34,23 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-BR" className={`${playfair.variable} ${inter.variable}`}>
-      <body className="min-h-screen bg-dark text-white font-inter">
-        {children}
+    <html
+      lang="pt-BR"
+      className={`${playfair.variable} ${inter.variable}`}
+      data-theme="dark"
+    >
+      <head>
+        {/* Script anti-flash: lê tema salvo antes do primeiro render */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('eldorado-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();`,
+          }}
+        />
+      </head>
+      <body className="min-h-screen font-inter">
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )
