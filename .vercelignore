@@ -1,0 +1,10 @@
+# Arquivos de design originais (não necessários no deploy)
+Logo/
+Produtos/
+*.psd
+*.af
+IMG_0632.JPG
+
+# Desenvolvimento
+node_modules/
+.next/

@@ -1,0 +1,19 @@
+.DS_Store
+*.af
+*.psd
+*.pdf
+node_modules/
+.next/
+.env
+.env.local
+.env*.local
+.vercel
+
+# Pastas de arquivos originais (já copiados para public/)
+Logo/
+Produtos/
+
+# Arquivos grandes na raiz
+IMG_0632.JPG
+index.html
+server.py
