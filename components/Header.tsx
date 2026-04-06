@@ -1,12 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import ThemeToggle from './ThemeToggle'
+import { getSettings } from '@/lib/settings'
 
 interface HeaderProps {
   channel?: 'atacado' | 'varejo'
 }
 
-export default function Header({ channel }: HeaderProps) {
+export default async function Header({ channel }: HeaderProps) {
+  const settings = await getSettings()
+
   return (
     <header
       className="border-b border-gold/20 sticky top-0 z-40 backdrop-blur-sm"
@@ -16,8 +19,8 @@ export default function Header({ channel }: HeaderProps) {
         <Link href="/" className="flex items-center flex-shrink-0">
           <div className="relative h-14 w-44 sm:h-16 sm:w-52">
             <Image
-              src="/images/logo.png"
-              alt="Tabacaria Eldorado"
+              src={settings.logoUrl || '/images/logo.png'}
+              alt={settings.nome}
               fill
               sizes="(max-width: 640px) 176px, 208px"
               style={{ objectFit: 'contain', objectPosition: 'left center' }}

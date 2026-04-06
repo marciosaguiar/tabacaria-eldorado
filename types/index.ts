@@ -8,3 +8,15 @@ export interface Product {
   visivelAtacado: boolean
   visivelVarejo: boolean
 }
+
+export interface CompanySettings {
+  nome: string
+  slogan: string
+  endereco: string
+  telefone: string
+  whatsapp: string
+  email: string
+  instagram: string
+  facebook: string
+  logoUrl: string
+}
