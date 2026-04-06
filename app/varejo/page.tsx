@@ -25,24 +25,30 @@ export default async function VarejoPage() {
       <Header channel="varejo" />
 
       {/* Hero Banner */}
-      <div className="relative border-b border-gold/10 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-dark-card via-dark to-dark" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(240,208,128,0.05),transparent_60%)]" />
+      <div className="relative overflow-hidden" style={{ borderBottom: '1px solid rgba(var(--gold-rgb), 0.12)' }}>
+        <div className="absolute inset-0" style={{ background: 'var(--hero-overlay)' }} />
+        <div className="absolute inset-0" style={{ background: 'var(--hero-glow)' }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20 text-center">
-          <p className="text-gold-light/40 text-[11px] font-inter tracking-[0.3em] uppercase mb-4">
+          <p
+            className="text-[11px] font-inter tracking-[0.3em] uppercase mb-4"
+            style={{ color: 'rgba(var(--gold-rgb), 0.55)' }}
+          >
             Tabacaria Eldorado
           </p>
-          <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
+          <h1
+            className="font-playfair text-3xl sm:text-4xl md:text-5xl mb-4 leading-tight"
+            style={{ color: 'var(--text-primary)' }}
+          >
             Catálogo de{' '}
-            <span
-              className="text-gold-shine"
-              style={{ textShadow: '0 0 40px rgba(var(--gold-rgb), 0.3)' }}
-            >
+            <span className="text-gold-shine">
               Varejo
             </span>
           </h1>
-          <div className="h-px w-20 bg-gradient-to-r from-transparent via-gold-light/50 to-transparent mx-auto mb-4" />
-          <p className="text-gray-500 font-inter text-sm">
+          <div
+            className="h-px w-20 mx-auto mb-4"
+            style={{ background: 'linear-gradient(90deg, transparent, rgba(var(--gold-rgb),0.6), transparent)' }}
+          />
+          <p className="font-inter text-sm" style={{ color: 'var(--text-secondary)' }}>
             Produtos premium selecionados para você
           </p>
         </div>

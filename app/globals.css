@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 /* ============================================================
-   DESIGN TOKENS — TEMA ESCURO (padrão)
-   Fundo degradê de preto quente para marrom escuro
+   TEMA ESCURO — padrão
+   Degradê: preto quente → marrom profundo
    ============================================================ */
 :root,
 [data-theme="dark"] {
@@ -26,33 +26,37 @@
   --shadow-gold: rgba(212, 160, 23, 0.18);
 
   --header-bg:    rgba(12, 8, 6, 0.88);
+  --hero-overlay: linear-gradient(to bottom, #150d08, #0c0806);
+  --hero-glow:    radial-gradient(ellipse at top, rgba(212,160,23,0.07), transparent 60%);
   --scrollbar-bg: #0c0806;
 }
 
 /* ============================================================
-   DESIGN TOKENS — TEMA CLARO
-   Fundo creme/marfim quente com texto marrom
+   TEMA CLARO — "Pergaminho & Ouro"
+   Fundo: marfim aquecido. Cards: branco puro. Texto: espresso.
    ============================================================ */
 [data-theme="light"] {
-  --bg-base:    #FAF5EE;
-  --bg-end:     #F0E6D8;
-  --bg-card:    #FFFAF4;
-  --bg-hover:   #EDE3D5;
-  --bg-border:  #DDD0BC;
+  --bg-base:    #F3EDE3;
+  --bg-end:     #E6DDD0;
+  --bg-card:    #FFFFFF;
+  --bg-hover:   #EDE6DC;
+  --bg-border:  #D8CCBA;
 
-  --text-primary:   #1A0D06;
-  --text-secondary: #8B6040;
-  --text-muted:     #C8B09A;
+  --text-primary:   #1C0D04;
+  --text-secondary: #7A5030;
+  --text-muted:     #B8A088;
 
-  --gold:        #B8860B;
-  --gold-light:  #C89010;
-  --gold-bright: #D4A820;
-  --gold-dark:   #8A6408;
-  --gold-rgb:    184, 134, 11;
-  --shadow-gold: rgba(184, 134, 11, 0.15);
+  --gold:        #9A7200;
+  --gold-light:  #B88C14;
+  --gold-bright: #CCA830;
+  --gold-dark:   #705200;
+  --gold-rgb:    154, 114, 0;
+  --shadow-gold: rgba(154, 114, 0, 0.12);
 
-  --header-bg:    rgba(250, 245, 238, 0.92);
-  --scrollbar-bg: #FAF5EE;
+  --header-bg:    rgba(243, 237, 227, 0.96);
+  --hero-overlay: linear-gradient(to bottom, rgba(243,237,227,0.6), rgba(230,221,208,0.3));
+  --hero-glow:    radial-gradient(ellipse at top, rgba(154,114,0,0.08), transparent 60%);
+  --scrollbar-bg: #F3EDE3;
 }
 
 /* ============================================================
@@ -72,62 +76,77 @@ body {
 }
 
 /* ============================================================
-   TEMA CLARO — overrides de classes Tailwind
+   TEMA CLARO — overrides Tailwind
    ============================================================ */
-[data-theme="light"] .bg-dark             { background-color: var(--bg-base) !important; }
-[data-theme="light"] .bg-dark-card        { background-color: var(--bg-card) !important; }
-[data-theme="light"] .bg-dark-hover       { background-color: var(--bg-hover) !important; }
-[data-theme="light"] .bg-\[\#0d0d0d\]    { background-color: var(--bg-hover) !important; }
-[data-theme="light"] .bg-\[\#0a0a0a\]    { background-color: var(--bg-base) !important; }
 
-[data-theme="light"] .text-white          { color: var(--text-primary) !important; }
-[data-theme="light"] .text-gray-300       { color: #5A3520 !important; }
-[data-theme="light"] .text-gray-400       { color: #6A4230 !important; }
-[data-theme="light"] .text-gray-500       { color: var(--text-secondary) !important; }
-[data-theme="light"] .text-gray-600       { color: #9A7060 !important; }
-[data-theme="light"] .text-gray-700       { color: var(--text-muted) !important; }
-[data-theme="light"] .text-gray-800       { color: #C0A080 !important; }
+/* Página principal: bg-dark → transparente (deixa o gradiente do body aparecer) */
+[data-theme="light"] .bg-dark          { background-color: transparent !important; }
 
-[data-theme="light"] .border-dark-border  { border-color: var(--bg-border) !important; }
-[data-theme="light"] .divide-dark-border > * + * { border-color: var(--bg-border) !important; }
+/* Cards e superfícies elevadas → branco puro */
+[data-theme="light"] .bg-dark-card     { background-color: #FFFFFF !important; }
+[data-theme="light"] .bg-dark-hover    { background-color: var(--bg-hover) !important; }
+[data-theme="light"] .bg-\[\#0d0d0d\] { background-color: var(--bg-hover) !important; }
 
-/* Header no tema claro */
-[data-theme="light"] .sticky.bg-dark      { background-color: var(--header-bg) !important; }
-[data-theme="light"] .border-b.border-gold\/20 { border-color: rgba(var(--gold-rgb), 0.25) !important; }
+/* Texto */
+[data-theme="light"] .text-white       { color: var(--text-primary) !important; }
+[data-theme="light"] .text-gray-300    { color: #5A3520 !important; }
+[data-theme="light"] .text-gray-400    { color: #6A4228 !important; }
+[data-theme="light"] .text-gray-500    { color: var(--text-secondary) !important; }
+[data-theme="light"] .text-gray-600    { color: #8A6848 !important; }
+[data-theme="light"] .text-gray-700    { color: var(--text-muted) !important; }
+[data-theme="light"] .text-gray-800    { color: #C8B090 !important; }
 
-/* Bordas de ouro no tema claro */
-[data-theme="light"] .border-gold         { border-color: var(--gold) !important; }
-[data-theme="light"] .border-gold\/10     { border-color: rgba(var(--gold-rgb), 0.10) !important; }
-[data-theme="light"] .border-gold\/15     { border-color: rgba(var(--gold-rgb), 0.15) !important; }
-[data-theme="light"] .border-gold\/20     { border-color: rgba(var(--gold-rgb), 0.20) !important; }
-[data-theme="light"] .border-gold\/40     { border-color: rgba(var(--gold-rgb), 0.40) !important; }
+/* Texto ouro com opacidade (era quase invisível no claro) */
+[data-theme="light"] [class*="text-gold-light/"] { color: rgba(var(--gold-rgb), 0.65) !important; }
+[data-theme="light"] [class*="text-gold/"]        { color: rgba(var(--gold-rgb), 0.65) !important; }
 
-/* Cards no tema claro */
-[data-theme="light"] .product-card        { background-color: var(--bg-card) !important; border-color: var(--bg-border) !important; }
-[data-theme="light"] .product-card:hover  { border-color: rgba(var(--gold-rgb), 0.4) !important; box-shadow: 0 4px 24px var(--shadow-gold) !important; }
+/* Bordas */
+[data-theme="light"] .border-dark-border           { border-color: var(--bg-border) !important; }
+[data-theme="light"] [class*="border-gold/"]       { border-color: rgba(var(--gold-rgb), 0.3) !important; }
+[data-theme="light"] .border-gold                  { border-color: var(--gold) !important; }
 
-/* Gradientes de fundo no tema claro */
-[data-theme="light"] .from-dark-card      { --tw-gradient-from: var(--bg-card) !important; }
-[data-theme="light"] .via-dark            { --tw-gradient-via: var(--bg-base) !important; }
-[data-theme="light"] .to-dark             { --tw-gradient-to: var(--bg-base) !important; }
+/* Hero overlays escuros → usa variável do tema */
+[data-theme="light"] .from-dark-card {
+  --tw-gradient-from: transparent !important;
+  --tw-gradient-stops: transparent, transparent !important;
+}
+[data-theme="light"] .via-dark { --tw-gradient-via: transparent !important; }
+[data-theme="light"] .to-dark  { --tw-gradient-to: transparent !important; }
 
-/* Footer no tema claro */
-[data-theme="light"] footer.border-t      { background-color: var(--bg-card) !important; }
+/* Cards de produto */
+[data-theme="light"] .product-card {
+  background-color: #FFFFFF !important;
+  border-color: var(--bg-border) !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
+}
+[data-theme="light"] .product-card:hover {
+  border-color: rgba(var(--gold-rgb), 0.45) !important;
+  box-shadow: 0 4px 20px var(--shadow-gold), 0 1px 4px rgba(0,0,0,0.06) !important;
+}
 
-/* Admin inputs no tema claro */
-[data-theme="light"] input,
+/* Footer */
+[data-theme="light"] footer { background-color: #FFFFFF !important; }
+
+/* Inputs e formulários (admin) */
+[data-theme="light"] input:not([type="file"]):not([type="range"]),
 [data-theme="light"] textarea,
 [data-theme="light"] select {
-  background-color: var(--bg-hover) !important;
+  background-color: #FFFFFF !important;
   color: var(--text-primary) !important;
   border-color: var(--bg-border) !important;
 }
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* Badges dos canais */
+[data-theme="light"] .bg-gold\/10    { background-color: rgba(var(--gold-rgb), 0.08) !important; }
+[data-theme="light"] .bg-gold-light\/10 { background-color: rgba(var(--gold-rgb), 0.06) !important; }
 
 /* ============================================================
-   DOURADO BRILHANTE — utilitários especiais
+   DOURADO METÁLICO ANIMADO
    ============================================================ */
-
-/* Texto com efeito metálico animado */
 .text-gold-shine {
   background: linear-gradient(
     90deg,
@@ -149,18 +168,6 @@ body {
 @keyframes goldShimmer {
   0%   { background-position: 0% center; }
   100% { background-position: 200% center; }
-}
-
-/* Borda degradê dourada */
-.border-gold-shine {
-  border-image: linear-gradient(
-    90deg,
-    transparent,
-    var(--gold),
-    var(--gold-light),
-    var(--gold),
-    transparent
-  ) 1;
 }
 
 /* Sombra dourada brilhante */
