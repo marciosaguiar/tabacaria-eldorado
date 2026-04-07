@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import ThemeToggle from './ThemeToggle'
+import AdminHeaderLink from './AdminHeaderLink'
 import { getSettings } from '@/lib/settings'
 
 interface HeaderProps {
@@ -45,6 +46,7 @@ export default async function Header({ channel }: HeaderProps) {
             </span>
           )}
 
+          <AdminHeaderLink />
           <ThemeToggle />
         </div>
       </div>
