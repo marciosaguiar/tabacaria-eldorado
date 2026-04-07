@@ -30,6 +30,7 @@ export default function AdminProductFAB({ channel, categorias, onAdded }: Props)
   const [preview, setPreview] = useState('')
   const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
+  const backdrop = useRef<HTMLDivElement>(null)
 
   const [form, setForm] = useState({
     nome: '', descricao: '', imagem: '',
@@ -49,6 +50,8 @@ export default function AdminProductFAB({ channel, categorias, onAdded }: Props)
     const n = parseFloat(s.replace(/[^\d,]/g, '').replace(',', '.'))
     return isNaN(n) ? null : n
   }
+
+  const handleBd = (e: React.MouseEvent) => { if (e.target === backdrop.current) setOpen(false) }
 
   const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -89,9 +92,6 @@ export default function AdminProductFAB({ channel, categorias, onAdded }: Props)
     } catch { setToast({ msg: 'Erro de conexão', ok: false }) }
     finally { setSaving(false) }
   }
-
-  const backdrop = useRef<HTMLDivElement>(null)
-  const handleBd = (e: React.MouseEvent) => { if (e.target === backdrop.current) setOpen(false) }
 
   return (
     <>
