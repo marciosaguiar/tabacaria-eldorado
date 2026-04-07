@@ -44,6 +44,7 @@ export default async function VarejoPage() {
         initialProducts={products}
         categorias={settings.categorias || []}
         channel="varejo"
+        whatsapp={settings.whatsapp || ''}
       />
 
       <Footer />

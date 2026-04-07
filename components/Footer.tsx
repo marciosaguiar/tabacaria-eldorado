@@ -40,9 +40,15 @@ export default async function Footer() {
         {hasContact && (
           <div className="text-center mb-6 space-y-2">
             {settings.endereco && (
-              <p className="font-inter text-xs" style={{ color: 'var(--text-secondary)' }}>
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.endereco)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-inter text-xs inline-flex items-center gap-1 hover:underline transition-colors"
+                style={{ color: 'var(--text-secondary)' }}
+              >
                 📍 {settings.endereco}
-              </p>
+              </a>
             )}
             <div className="flex flex-wrap justify-center gap-4 mt-2">
               {settings.whatsapp && (

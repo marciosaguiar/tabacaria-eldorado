@@ -44,6 +44,7 @@ export default async function AtacadoPage() {
         initialProducts={products}
         categorias={settings.categorias || []}
         channel="atacado"
+        whatsapp={settings.whatsapp || ''}
       />
 
       <Footer />
