@@ -138,7 +138,7 @@ export default async function HomePage() {
 
       {/* ── Products Section ─────────────────────────────────── */}
       <main className="flex-1">
-        <HomeProductSection initialProducts={products} />
+        <HomeProductSection initialProducts={products} categorias={settings.categorias || []} />
       </main>
 
       <Footer />

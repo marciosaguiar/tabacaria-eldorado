@@ -10,6 +10,7 @@ const KEY = 'company:settings'
 export const DEFAULT_SETTINGS: CompanySettings = {
   nome: 'Tabacaria Eldorado',
   slogan: 'Produtos premium para os mais exigentes apreciadores',
+  footerPhrase: 'Qualidade que se sente, elegância que se vive. Cada produto escolhido com paixão e tradição.',
   endereco: '',
   telefone: '',
   whatsapp: '',
@@ -17,6 +18,9 @@ export const DEFAULT_SETTINGS: CompanySettings = {
   instagram: '',
   facebook: '',
   logoUrl: '/images/logo.png',
+  categorias: ['Charutos', 'Cachimbos', 'Cigarrilhas', 'Acessórios', 'Tabaco'],
+  catalogOrdem: 'cadastro',
+  mostrarPrecoSemValor: true,
 }
 
 async function getKV() {

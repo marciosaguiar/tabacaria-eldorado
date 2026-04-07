@@ -6,280 +6,317 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { CompanySettings } from '@/types'
 
-const EMPTY: CompanySettings = {
-  nome: '', slogan: '', endereco: '', telefone: '',
+const DEFAULT: CompanySettings = {
+  nome: '', slogan: '', footerPhrase: '', endereco: '', telefone: '',
   whatsapp: '', email: '', instagram: '', facebook: '', logoUrl: '',
+  categorias: [], catalogOrdem: 'cadastro', mostrarPrecoSemValor: true,
 }
 
-function Toast({ message, type, onClose }: { message: string; type: 'success' | 'error'; onClose: () => void }) {
+// ─── Toast ────────────────────────────────────────────────────────────────────
+function Toast({ msg, ok, onClose }: { msg: string; ok: boolean; onClose: () => void }) {
   useEffect(() => { const t = setTimeout(onClose, 3000); return () => clearTimeout(t) }, [onClose])
   return (
-    <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-sm shadow-lg font-inter text-sm animate-slide-up border ${
-      type === 'success'
-        ? 'border-gold/40 text-white'
-        : 'border-red-500/40 text-white'
-    }`}
-    style={{ backgroundColor: type === 'success' ? 'var(--bg-card)' : 'var(--bg-card)', color: type === 'success' ? 'var(--gold)' : '#ef4444' }}>
-      {type === 'success' ? (
-        <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-        </svg>
-      ) : (
-        <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      )}
-      {message}
+    <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-sm shadow-lg font-inter text-sm border ${ok ? 'border-gold/40' : 'border-red-500/40'}`}
+      style={{ backgroundColor: 'var(--bg-card)', color: ok ? 'var(--gold)' : '#ef4444' }}>
+      {ok
+        ? <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+        : <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+      }
+      {msg}
     </div>
   )
 }
 
+// ─── Field ────────────────────────────────────────────────────────────────────
 function Field({ label, value, onChange, placeholder, type = 'text', hint }: {
   label: string; value: string; onChange: (v: string) => void
   placeholder?: string; type?: string; hint?: string
 }) {
   return (
     <div>
-      <label className="block font-inter text-xs tracking-widest uppercase mb-2" style={{ color: 'var(--text-secondary)' }}>
-        {label}
-      </label>
-      <input
-        type={type}
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="w-full px-4 py-3 rounded-sm border font-inter text-sm outline-none focus:ring-1 focus:ring-gold/40 transition-all"
-        style={{
-          backgroundColor: 'var(--bg-hover)',
-          borderColor: 'var(--bg-border)',
-          color: 'var(--text-primary)',
-        }}
-      />
+      <label className="block font-inter text-xs tracking-widest uppercase mb-1.5" style={{ color: 'var(--text-secondary)' }}>{label}</label>
+      <input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder}
+        className="w-full px-4 py-2.5 rounded-sm border font-inter text-sm outline-none focus:ring-1 focus:ring-gold/40 transition-all"
+        style={{ backgroundColor: 'var(--bg-hover)', borderColor: 'var(--bg-border)', color: 'var(--text-primary)' }} />
       {hint && <p className="mt-1 font-inter text-xs" style={{ color: 'var(--text-muted)' }}>{hint}</p>}
     </div>
   )
 }
 
+// ─── Section ─────────────────────────────────────────────────────────────────
+function Section({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <div className="rounded-sm border p-5 space-y-4" style={{ backgroundColor: 'var(--bg-card)', borderColor: 'rgba(var(--gold-rgb),0.15)' }}>
+      <div className="flex items-center gap-2 pb-3 border-b" style={{ borderColor: 'rgba(var(--gold-rgb),0.1)' }}>
+        <span style={{ color: 'var(--gold)' }}>{icon}</span>
+        <h3 className="font-playfair text-base" style={{ color: 'var(--text-primary)' }}>{title}</h3>
+      </div>
+      {children}
+    </div>
+  )
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
 export default function ConfiguracoesPage() {
   const router = useRouter()
-  const [form, setForm] = useState<CompanySettings>(EMPTY)
-  const [isLoading, setIsLoading] = useState(true)
-  const [isSaving, setIsSaving] = useState(false)
-  const [isUploadingLogo, setIsUploadingLogo] = useState(false)
-  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
-  const logoInputRef = useRef<HTMLInputElement>(null)
+  const [settings, setSettings] = useState<CompanySettings>(DEFAULT)
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [preview, setPreview] = useState('')
+  const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null)
+  const [newCat, setNewCat] = useState('')
+  const fileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    const token = localStorage.getItem('eldorado_admin_token')
-    if (!token) { router.push('/admin/login'); return }
-    fetch('/api/settings')
-      .then(r => r.json())
-      .then(data => { setForm(data); setIsLoading(false) })
-      .catch(() => setIsLoading(false))
+    if (!localStorage.getItem('eldorado_admin_token')) { router.replace('/admin/login'); return }
+    fetch('/api/settings').then(r => r.json()).then(data => {
+      setSettings({ ...DEFAULT, ...data })
+      setPreview(data.logoUrl || '/images/logo.png')
+      setLoading(false)
+    })
   }, [router])
 
-  const set = (field: keyof CompanySettings) => (value: string) =>
-    setForm(f => ({ ...f, [field]: value }))
+  const set = (key: keyof CompanySettings, value: unknown) =>
+    setSettings(prev => ({ ...prev, [key]: value }))
 
-  async function handleSave() {
-    setIsSaving(true)
-    try {
-      const res = await fetch('/api/settings', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      })
-      if (!res.ok) throw new Error()
-      setToast({ message: 'Configurações salvas com sucesso!', type: 'success' })
-    } catch {
-      setToast({ message: 'Erro ao salvar configurações', type: 'error' })
-    } finally {
-      setIsSaving(false)
-    }
-  }
-
-  async function handleLogoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
-    setIsUploadingLogo(true)
+    setUploading(true)
     try {
-      const fd = new FormData()
-      fd.append('file', file)
+      const fd = new FormData(); fd.append('file', file)
       const res = await fetch('/api/settings/logo', { method: 'POST', body: fd })
       const data = await res.json()
-      if (data.logoUrl) {
-        setForm(f => ({ ...f, logoUrl: data.logoUrl }))
-        setToast({ message: 'Logo atualizada!', type: 'success' })
-      } else {
-        throw new Error(data.error || 'Erro ao enviar')
-      }
-    } catch (err: any) {
-      setToast({ message: err.message || 'Erro ao enviar logo', type: 'error' })
-    } finally {
-      setIsUploadingLogo(false)
-      if (logoInputRef.current) logoInputRef.current.value = ''
-    }
+      if (data.logoUrl) { set('logoUrl', data.logoUrl); setPreview(data.logoUrl); setToast({ msg: 'Logo atualizado!', ok: true }) }
+      else setToast({ msg: 'Erro ao atualizar logo', ok: false })
+    } catch { setToast({ msg: 'Erro no upload', ok: false }) }
+    finally { setUploading(false) }
   }
 
-  if (isLoading) {
+  const handleSave = async () => {
+    setSaving(true)
+    try {
+      const res = await fetch('/api/settings', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(settings) })
+      if (res.ok) setToast({ msg: 'Configurações salvas!', ok: true })
+      else setToast({ msg: 'Erro ao salvar', ok: false })
+    } catch { setToast({ msg: 'Erro de conexão', ok: false }) }
+    finally { setSaving(false) }
+  }
+
+  const addCat = () => {
+    const c = newCat.trim()
+    if (!c || settings.categorias.includes(c)) return
+    set('categorias', [...settings.categorias, c])
+    setNewCat('')
+  }
+
+  const removeCat = (c: string) => set('categorias', settings.categorias.filter(x => x !== c))
+
+  if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--bg-base)' }}>
-        <div className="w-6 h-6 border-2 border-gold/30 border-t-gold rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-dark">
+        <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: 'var(--gold)' }} />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen font-inter" style={{ backgroundColor: 'var(--bg-base)', color: 'var(--text-primary)' }}>
-
+    <div className="min-h-screen bg-dark" style={{ color: 'var(--text-primary)' }}>
       {/* Header */}
       <header className="sticky top-0 z-40 border-b backdrop-blur-sm" style={{ backgroundColor: 'var(--header-bg)', borderColor: 'rgba(var(--gold-rgb),0.15)' }}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link
-              href="/admin"
-              className="flex items-center gap-1.5 font-inter text-sm transition-colors"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Link href="/admin" className="p-2 rounded-sm hover:opacity-70 transition-opacity" style={{ color: 'var(--text-secondary)' }}>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
-              Admin
             </Link>
-            <span style={{ color: 'var(--bg-border)' }}>|</span>
-            <h1 className="font-playfair text-lg" style={{ color: 'var(--text-primary)' }}>Configurações</h1>
+            <h1 className="font-playfair text-xl" style={{ color: 'var(--text-primary)' }}>
+              Configurações
+            </h1>
           </div>
-          <button
-            onClick={handleSave}
-            disabled={isSaving}
-            className="flex items-center gap-2 px-5 py-2 rounded-sm border font-inter text-sm transition-all duration-300 disabled:opacity-50"
-            style={{ borderColor: 'rgba(var(--gold-rgb),0.5)', color: 'var(--gold)', backgroundColor: 'rgba(var(--gold-rgb),0.06)' }}
-          >
-            {isSaving ? (
-              <div className="w-3.5 h-3.5 border border-gold/40 border-t-gold rounded-full animate-spin" />
-            ) : (
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-            )}
-            {isSaving ? 'Salvando…' : 'Salvar'}
+          <button onClick={handleSave} disabled={saving}
+            className="flex items-center gap-2 px-5 py-2 rounded-sm text-sm font-inter font-semibold transition-all hover:opacity-90 disabled:opacity-50"
+            style={{ backgroundColor: 'var(--gold)', color: '#000' }}>
+            {saving
+              ? <><span className="w-4 h-4 border-2 border-t-transparent rounded-full animate-spin" />Salvando…</>
+              : <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>Salvar</>
+            }
           </button>
         </div>
       </header>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-6">
 
-        {/* ── Logo ── */}
-        <section>
-          <h2 className="font-playfair text-xl mb-1" style={{ color: 'var(--text-primary)' }}>Logo da Empresa</h2>
-          <div className="h-px mb-6" style={{ background: 'linear-gradient(90deg, rgba(var(--gold-rgb),0.4), transparent)' }} />
-
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-
-            {/* Preview */}
-            <div
-              className="relative w-32 h-32 rounded-sm border flex-shrink-0 overflow-hidden"
-              style={{ borderColor: 'rgba(var(--gold-rgb),0.2)', backgroundColor: 'var(--bg-card)' }}
-            >
-              {form.logoUrl ? (
-                <Image
-                  src={form.logoUrl}
-                  alt="Logo"
-                  fill
-                  style={{ objectFit: 'contain' }}
-                  unoptimized={form.logoUrl.startsWith('http')}
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1} style={{ color: 'var(--bg-border)' }}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
+        {/* ── Logo ─────────────────────────────────────────── */}
+        <Section title="Logo da Empresa" icon={
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        }>
+          <div className="flex items-center gap-5">
+            <div className="relative w-24 h-24 rounded-sm overflow-hidden flex-shrink-0 border cursor-pointer"
+              style={{ backgroundColor: 'var(--bg-hover)', borderColor: 'rgba(var(--gold-rgb),0.25)' }}
+              onClick={() => fileRef.current?.click()}>
+              {preview && <Image src={preview} alt="Logo" fill style={{ objectFit: 'contain', padding: '8px' }} />}
+              {uploading && (
+                <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}>
+                  <div className="w-6 h-6 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: 'var(--gold)' }} />
                 </div>
               )}
             </div>
-
-            {/* Upload */}
             <div className="flex-1">
-              <p className="font-inter text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
-                A logo é exibida no cabeçalho e na página principal do site.
-              </p>
-              <input
-                ref={logoInputRef}
-                type="file"
-                accept="image/jpeg,image/png,image/webp,image/gif"
-                className="hidden"
-                onChange={handleLogoUpload}
-              />
-              <button
-                onClick={() => logoInputRef.current?.click()}
-                disabled={isUploadingLogo}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-sm border font-inter text-sm transition-all duration-300 disabled:opacity-50"
-                style={{ borderColor: 'rgba(var(--gold-rgb),0.3)', color: 'var(--text-primary)', backgroundColor: 'var(--bg-card)' }}
-              >
-                {isUploadingLogo ? (
-                  <div className="w-4 h-4 border border-gold/30 border-t-gold rounded-full animate-spin" />
-                ) : (
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                  </svg>
-                )}
-                {isUploadingLogo ? 'Enviando…' : 'Trocar logo'}
+              <button onClick={() => fileRef.current?.click()} type="button"
+                className="px-4 py-2 rounded-sm border text-sm font-inter transition-colors"
+                style={{ borderColor: 'rgba(var(--gold-rgb),0.3)', color: 'var(--gold)', backgroundColor: 'rgba(var(--gold-rgb),0.05)' }}>
+                {uploading ? 'Enviando…' : 'Trocar logo'}
               </button>
-              <p className="mt-2 font-inter text-xs" style={{ color: 'var(--text-muted)' }}>
-                PNG, JPG ou WEBP · máx. 5 MB
+              <p className="text-xs mt-1.5 font-inter" style={{ color: 'var(--text-muted)' }}>
+                JPG, PNG ou WebP. Recomendado: fundo transparente (PNG)
               </p>
+              <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} />
             </div>
-
           </div>
-        </section>
+        </Section>
 
-        {/* ── Identidade ── */}
-        <section>
-          <h2 className="font-playfair text-xl mb-1" style={{ color: 'var(--text-primary)' }}>Identidade da Empresa</h2>
-          <div className="h-px mb-6" style={{ background: 'linear-gradient(90deg, rgba(var(--gold-rgb),0.4), transparent)' }} />
-          <div className="grid grid-cols-1 gap-5">
-            <Field label="Nome da empresa" value={form.nome} onChange={set('nome')} placeholder="Tabacaria Eldorado" />
-            <Field label="Slogan / descrição curta" value={form.slogan} onChange={set('slogan')} placeholder="Produtos premium para os mais exigentes apreciadores" />
+        {/* ── Cabeçalho ─────────────────────────────────────── */}
+        <Section title="Cabeçalho & Identidade" icon={
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 21H5a2 2 0 01-2-2V7l7-4 7 4v12a2 2 0 01-2 2z" />
+          </svg>
+        }>
+          <Field label="Nome da Empresa" value={settings.nome} onChange={v => set('nome', v)} placeholder="Tabacaria Eldorado" hint="Exibido no cabeçalho e rodapé" />
+          <Field label="Slogan" value={settings.slogan} onChange={v => set('slogan', v)} placeholder="Produtos premium para os mais exigentes" hint="Aparece abaixo do nome na página inicial" />
+          <div>
+            <label className="block font-inter text-xs tracking-widest uppercase mb-1.5" style={{ color: 'var(--text-secondary)' }}>Frase de Impacto (Rodapé)</label>
+            <textarea value={settings.footerPhrase} onChange={e => set('footerPhrase', e.target.value)}
+              placeholder="Qualidade que se sente, elegância que se vive…" rows={2}
+              className="w-full px-4 py-2.5 rounded-sm border font-inter text-sm outline-none focus:ring-1 focus:ring-gold/40 transition-all resize-none"
+              style={{ backgroundColor: 'var(--bg-hover)', borderColor: 'var(--bg-border)', color: 'var(--text-primary)' }} />
+            <p className="mt-1 font-inter text-xs" style={{ color: 'var(--text-muted)' }}>Frase exibida no rodapé em itálico</p>
           </div>
-        </section>
+        </Section>
 
-        {/* ── Contato ── */}
-        <section>
-          <h2 className="font-playfair text-xl mb-1" style={{ color: 'var(--text-primary)' }}>Contato</h2>
-          <div className="h-px mb-6" style={{ background: 'linear-gradient(90deg, rgba(var(--gold-rgb),0.4), transparent)' }} />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <Field label="WhatsApp" value={form.whatsapp} onChange={set('whatsapp')} placeholder="55 11 99999-9999" hint="Com código do país, ex: 55 11 99999-0000" />
-            <Field label="Telefone" value={form.telefone} onChange={set('telefone')} placeholder="(11) 99999-9999" />
-            <Field label="E-mail" value={form.email} onChange={set('email')} type="email" placeholder="contato@tabacaria.com.br" />
-            <Field label="Endereço" value={form.endereco} onChange={set('endereco')} placeholder="Rua das Flores, 123 — São Paulo, SP" />
+        {/* ── Contato ───────────────────────────────────────── */}
+        <Section title="Contato" icon={
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+          </svg>
+        }>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Field label="WhatsApp" value={settings.whatsapp} onChange={v => set('whatsapp', v)} placeholder="(11) 99999-9999" hint="Usado para botão de contato" />
+            <Field label="Telefone" value={settings.telefone} onChange={v => set('telefone', v)} placeholder="(11) 3333-3333" />
+            <Field label="E-mail" value={settings.email} onChange={v => set('email', v)} placeholder="contato@tabacaria.com" type="email" />
+            <Field label="Endereço" value={settings.endereco} onChange={v => set('endereco', v)} placeholder="Rua das Flores, 123 — Cidade/UF" />
           </div>
-        </section>
+        </Section>
 
-        {/* ── Redes sociais ── */}
-        <section>
-          <h2 className="font-playfair text-xl mb-1" style={{ color: 'var(--text-primary)' }}>Redes Sociais</h2>
-          <div className="h-px mb-6" style={{ background: 'linear-gradient(90deg, rgba(var(--gold-rgb),0.4), transparent)' }} />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <Field label="Instagram" value={form.instagram} onChange={set('instagram')} placeholder="@tabacaria.eldorado" hint="Somente o @ ou o nome de usuário" />
-            <Field label="Facebook" value={form.facebook} onChange={set('facebook')} placeholder="tabacaria.eldorado" hint="Somente o nome da página" />
+        {/* ── Redes Sociais ─────────────────────────────────── */}
+        <Section title="Redes Sociais" icon={
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+          </svg>
+        }>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Field label="Instagram" value={settings.instagram} onChange={v => set('instagram', v)} placeholder="@tabacaria.eldorado" hint="Sem https://" />
+            <Field label="Facebook" value={settings.facebook} onChange={v => set('facebook', v)} placeholder="tabacaria.eldorado" hint="Sem https://" />
           </div>
-        </section>
+        </Section>
 
-        {/* Botão salvar (mobile) */}
-        <div className="pb-4">
-          <button
-            onClick={handleSave}
-            disabled={isSaving}
-            className="w-full py-4 rounded-sm border font-inter text-sm tracking-widest uppercase transition-all duration-300 disabled:opacity-50"
-            style={{ borderColor: 'rgba(var(--gold-rgb),0.5)', color: 'var(--gold)', backgroundColor: 'rgba(var(--gold-rgb),0.06)' }}
-          >
-            {isSaving ? 'Salvando…' : 'Salvar configurações'}
+        {/* ── Catálogo ──────────────────────────────────────── */}
+        <Section title="Configurações do Catálogo" icon={
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" />
+          </svg>
+        }>
+          {/* Ordem */}
+          <div>
+            <label className="block font-inter text-xs tracking-widest uppercase mb-2" style={{ color: 'var(--text-secondary)' }}>Ordenação dos Produtos</label>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {([
+                { val: 'cadastro', label: 'Cadastro' },
+                { val: 'nome', label: 'Nome A–Z' },
+                { val: 'preco-asc', label: 'Menor preço' },
+                { val: 'preco-desc', label: 'Maior preço' },
+              ] as const).map(opt => (
+                <button key={opt.val} type="button" onClick={() => set('catalogOrdem', opt.val)}
+                  className="py-2 px-3 rounded-sm border text-xs font-inter transition-all"
+                  style={{
+                    borderColor: settings.catalogOrdem === opt.val ? 'var(--gold)' : 'var(--bg-border)',
+                    backgroundColor: settings.catalogOrdem === opt.val ? 'rgba(var(--gold-rgb),0.12)' : 'transparent',
+                    color: settings.catalogOrdem === opt.val ? 'var(--gold)' : 'var(--text-secondary)',
+                  }}>
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Exibir sem preço */}
+          <div className="flex items-center justify-between py-2 border-t" style={{ borderColor: 'rgba(var(--gold-rgb),0.1)' }}>
+            <div>
+              <p className="font-inter text-sm" style={{ color: 'var(--text-primary)' }}>Exibir produtos sem preço</p>
+              <p className="font-inter text-xs" style={{ color: 'var(--text-muted)' }}>Produtos sem preço cadastrado ficam visíveis</p>
+            </div>
+            <button type="button" onClick={() => set('mostrarPrecoSemValor', !settings.mostrarPrecoSemValor)}
+              className="relative w-11 h-6 rounded-full transition-colors flex-shrink-0"
+              style={{ backgroundColor: settings.mostrarPrecoSemValor ? 'var(--gold)' : 'var(--bg-border)' }}>
+              <span className="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform"
+                style={{ transform: settings.mostrarPrecoSemValor ? 'translateX(1.25rem)' : 'translateX(0.125rem)' }} />
+            </button>
+          </div>
+
+          {/* Categorias */}
+          <div className="border-t pt-4" style={{ borderColor: 'rgba(var(--gold-rgb),0.1)' }}>
+            <label className="block font-inter text-xs tracking-widest uppercase mb-3" style={{ color: 'var(--text-secondary)' }}>
+              Categorias de Produtos
+            </label>
+            <div className="flex flex-wrap gap-2 mb-3">
+              {settings.categorias.map(c => (
+                <span key={c} className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-inter"
+                  style={{ backgroundColor: 'rgba(var(--gold-rgb),0.1)', color: 'var(--gold)', border: '1px solid rgba(var(--gold-rgb),0.25)' }}>
+                  {c}
+                  <button onClick={() => removeCat(c)} className="w-3.5 h-3.5 flex items-center justify-center rounded-full hover:bg-red-500/20 transition-colors">
+                    <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </span>
+              ))}
+              {settings.categorias.length === 0 && (
+                <p className="text-xs font-inter" style={{ color: 'var(--text-muted)' }}>Nenhuma categoria. Adicione abaixo.</p>
+              )}
+            </div>
+            <div className="flex gap-2">
+              <input value={newCat} onChange={e => setNewCat(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addCat())}
+                placeholder="Nova categoria…" className="flex-1 px-3 py-2 rounded-sm border text-sm font-inter outline-none"
+                style={{ backgroundColor: 'var(--bg-hover)', borderColor: 'var(--bg-border)', color: 'var(--text-primary)' }} />
+              <button onClick={addCat} type="button"
+                className="px-4 py-2 rounded-sm text-sm font-inter font-medium transition-all hover:opacity-80"
+                style={{ backgroundColor: 'rgba(var(--gold-rgb),0.15)', color: 'var(--gold)', border: '1px solid rgba(var(--gold-rgb),0.3)' }}>
+                + Adicionar
+              </button>
+            </div>
+          </div>
+        </Section>
+
+        {/* Save bottom */}
+        <div className="flex justify-end pt-2 pb-8">
+          <button onClick={handleSave} disabled={saving}
+            className="flex items-center gap-2 px-8 py-3 rounded-sm text-sm font-inter font-semibold transition-all hover:opacity-90 disabled:opacity-50"
+            style={{ backgroundColor: 'var(--gold)', color: '#000', boxShadow: '0 0 20px rgba(var(--gold-rgb),0.25)' }}>
+            {saving
+              ? <><span className="w-4 h-4 border-2 border-t-transparent rounded-full animate-spin" />Salvando…</>
+              : 'Salvar todas as configurações'
+            }
           </button>
         </div>
 
       </div>
 
-      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      {toast && <Toast msg={toast.msg} ok={toast.ok} onClose={() => setToast(null)} />}
     </div>
   )
 }

@@ -1,11 +1,15 @@
 {
   "nome": "Tabacaria Eldorado",
   "slogan": "Produtos premium para os mais exigentes apreciadores",
+  "footerPhrase": "Qualidade que se sente, elegância que se vive. Cada produto escolhido com paixão e tradição.",
   "endereco": "",
   "telefone": "",
   "whatsapp": "",
   "email": "",
   "instagram": "",
   "facebook": "",
-  "logoUrl": "/images/logo.png"
+  "logoUrl": "/images/logo.png",
+  "categorias": ["Charutos", "Cachimbos", "Cigarrilhas", "Acessórios", "Tabaco"],
+  "catalogOrdem": "cadastro",
+  "mostrarPrecoSemValor": true
 }

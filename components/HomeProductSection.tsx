@@ -9,6 +9,7 @@ type Channel = 'todos' | 'varejo' | 'atacado'
 
 interface Props {
   initialProducts: Product[]
+  categorias?: string[]
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -25,6 +26,7 @@ const EMPTY: Omit<Product, 'id'> = {
   precoVarejo: null,
   visivelAtacado: true,
   visivelVarejo: true,
+  categoria: '',
 }
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
@@ -204,10 +206,12 @@ function ProductModal({
   product,
   onClose,
   onSaved,
+  categorias = [],
 }: {
   product: Partial<Product> | null
   onClose: () => void
   onSaved: (p: Product) => void
+  categorias?: string[]
 }) {
   const isEdit = !!product?.id
   const [form, setForm] = useState<Omit<Product, 'id'>>({
@@ -218,6 +222,7 @@ function ProductModal({
     precoVarejo:    product?.precoVarejo    ?? null,
     visivelAtacado: product?.visivelAtacado ?? true,
     visivelVarejo:  product?.visivelVarejo  ?? true,
+    categoria:      product?.categoria      ?? '',
   })
   const [precoAtacadoStr, setPrecoAtacadoStr] = useState(
     product?.precoAtacado != null ? String(product.precoAtacado).replace('.', ',') : ''
@@ -369,6 +374,21 @@ function ProductModal({
             />
           </div>
 
+          {/* Categoria */}
+          {categorias.length > 0 && (
+            <div>
+              <label className="block text-xs font-inter font-medium mb-1.5 uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>
+                Categoria
+              </label>
+              <select value={form.categoria} onChange={e => setForm(f => ({ ...f, categoria: e.target.value }))}
+                className="w-full px-3 py-2.5 rounded-sm text-sm font-inter outline-none border"
+                style={{ backgroundColor: 'var(--bg-hover)', borderColor: 'rgba(var(--gold-rgb),0.2)', color: 'var(--text-primary)' }}>
+                <option value="">Sem categoria</option>
+                {categorias.map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+          )}
+
           {/* Preços */}
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -505,7 +525,7 @@ function DeleteModal({ name, onConfirm, onCancel, deleting }: { name: string; on
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
-export default function HomeProductSection({ initialProducts }: Props) {
+export default function HomeProductSection({ initialProducts, categorias = [] }: Props) {
   const [products, setProducts]     = useState<Product[]>(initialProducts)
   const [channel, setChannel]       = useState<Channel>('todos')
   const [isAdmin, setIsAdmin]       = useState(false)
@@ -679,6 +699,7 @@ export default function HomeProductSection({ initialProducts }: Props) {
           product={modal === 'edit' ? editing : null}
           onClose={() => { setModal(null); setEditing(null) }}
           onSaved={handleSaved}
+          categorias={categorias}
         />
       )}
       {deleting && (

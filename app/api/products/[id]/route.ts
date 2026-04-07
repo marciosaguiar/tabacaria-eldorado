@@ -31,6 +31,7 @@ export async function PUT(
           : null,
       visivelAtacado: body.visivelAtacado !== undefined ? Boolean(body.visivelAtacado) : products[index].visivelAtacado,
       visivelVarejo: body.visivelVarejo !== undefined ? Boolean(body.visivelVarejo) : products[index].visivelVarejo,
+      categoria: body.categoria !== undefined ? String(body.categoria) : (products[index].categoria || ''),
     }
 
     products[index] = updated

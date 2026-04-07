@@ -33,6 +33,7 @@ export async function POST(request: Request) {
           : null,
       visivelAtacado: body.visivelAtacado !== false,
       visivelVarejo: body.visivelVarejo !== false,
+      categoria: String(body.categoria || ''),
     }
 
     products.push(newProduct)
