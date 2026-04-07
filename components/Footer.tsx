@@ -117,12 +117,22 @@ export default async function Footer() {
 
         <div className="h-px mb-4" style={{ background: 'linear-gradient(90deg, transparent, rgba(var(--gold-rgb),0.15), transparent)' }} />
 
-        {/* Copyright */}
-        <p className="text-center text-xs font-inter" style={{ color: 'var(--text-muted)' }}>
-          © {new Date().getFullYear()}{' '}
-          <span style={{ color: 'var(--gold)', opacity: 0.7 }}>{settings.nome}</span>
-          . Todos os direitos reservados.
-        </p>
+        {/* Copyright + Admin link */}
+        <div className="flex items-center justify-center gap-4">
+          <p className="text-center text-xs font-inter" style={{ color: 'var(--text-muted)' }}>
+            © {new Date().getFullYear()}{' '}
+            <span style={{ color: 'var(--gold)', opacity: 0.7 }}>{settings.nome}</span>
+            . Todos os direitos reservados.
+          </p>
+          <a
+            href="/admin/login"
+            className="text-[10px] font-inter transition-opacity hover:opacity-60"
+            style={{ color: 'var(--text-muted)', opacity: 0.35 }}
+            title="Acesso administrativo"
+          >
+            ⚙
+          </a>
+        </div>
 
       </div>
     </footer>
