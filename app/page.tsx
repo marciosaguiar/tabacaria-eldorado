@@ -42,7 +42,7 @@ export default async function HomePage() {
           </div>
 
           {/* Nome */}
-          <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl mb-2 leading-tight">
+          <h1 className="font-playfair font-bold text-4xl sm:text-5xl md:text-6xl mb-2 leading-tight">
             <span className="text-gold-shine">{settings.nome}</span>
           </h1>
 
@@ -66,7 +66,7 @@ export default async function HomePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               <div className="text-left">
-                <span className="block font-playfair text-lg" style={{ color: 'var(--text-primary)' }}>Catálogo Varejo</span>
+                <span className="block font-playfair font-bold text-lg" style={{ color: 'var(--text-primary)' }}>Catálogo Varejo</span>
                 <span className="block font-inter text-[11px] tracking-wide uppercase mt-0.5" style={{ color: 'var(--text-secondary)' }}>Para o consumidor final</span>
               </div>
               <svg className="w-4 h-4 ml-auto opacity-40 group-hover:opacity-80 group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} style={{ color: 'var(--gold)' }}>
@@ -83,7 +83,7 @@ export default async function HomePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
               </svg>
               <div className="text-left">
-                <span className="block font-playfair text-lg" style={{ color: 'var(--text-primary)' }}>Catálogo Atacado</span>
+                <span className="block font-playfair font-bold text-lg" style={{ color: 'var(--text-primary)' }}>Catálogo Atacado</span>
                 <span className="block font-inter text-[11px] tracking-wide uppercase mt-0.5" style={{ color: 'var(--text-secondary)' }}>Para revendedores</span>
               </div>
               <svg className="w-4 h-4 ml-auto opacity-40 group-hover:opacity-80 group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} style={{ color: 'var(--gold)' }}>

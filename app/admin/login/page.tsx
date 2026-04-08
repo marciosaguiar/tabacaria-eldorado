@@ -56,7 +56,7 @@ export default function LoginPage() {
         {/* Card */}
         <div className="bg-dark-card border border-gold/20 rounded-sm p-8 shadow-[0_0_40px_rgba(0,0,0,0.8)]">
           <div className="text-center mb-8">
-            <h1 className="font-playfair text-2xl text-white tracking-wide">
+            <h1 className="font-playfair font-bold text-2xl text-white tracking-wide">
               Painel <span className="text-gold">Administrativo</span>
             </h1>
             <div className="h-px w-16 bg-gradient-to-r from-transparent via-gold/50 to-transparent mx-auto mt-4" />

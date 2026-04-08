@@ -123,7 +123,7 @@ export default function AdminProductFAB({ channel, categorias, onAdded }: Props)
             style={{ backgroundColor: 'var(--bg-card)', border: '1px solid rgba(var(--gold-rgb),0.2)' }}>
 
             <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: 'rgba(var(--gold-rgb),0.15)' }}>
-              <h2 className="font-playfair text-lg" style={{ color: 'var(--text-primary)' }}>
+              <h2 className="font-playfair font-bold text-lg" style={{ color: 'var(--text-primary)' }}>
                 Novo Produto — <span className="capitalize" style={{ color: 'var(--gold)' }}>{channel}</span>
               </h2>
               <button onClick={() => setOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full" style={{ color: 'var(--text-secondary)' }}>

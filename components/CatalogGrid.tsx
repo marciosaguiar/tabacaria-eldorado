@@ -79,7 +79,7 @@ function Lightbox({ product, channel, whatsapp, related, onClose, onSelectProduc
               </span>
             )}
           </div>
-          <h2 className="font-playfair text-lg sm:text-xl mt-1 leading-tight text-white truncate">{product.nome}</h2>
+          <h2 className="font-playfair font-bold text-lg sm:text-xl mt-1 leading-tight text-white truncate">{product.nome}</h2>
         </div>
         <button onClick={onClose}
           className="ml-3 flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-full transition-colors hover:bg-white/10"
@@ -408,7 +408,7 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
           <section>
             <div className="flex items-center gap-3 mb-5">
               <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(var(--gold-rgb),0.4), transparent)' }} />
-              <h2 className="font-playfair text-lg tracking-wide" style={{ color: 'var(--gold)' }}>✦ Combos & Kits</h2>
+              <h2 className="font-playfair font-bold text-lg tracking-wide" style={{ color: 'var(--gold)' }}>✦ Combos & Kits</h2>
               <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, transparent, rgba(var(--gold-rgb),0.4))' }} />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -441,7 +441,7 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
             {combos.length > 0 && filterCat === 'todas' && (
               <div className="flex items-center gap-3 mb-5">
                 <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(var(--gold-rgb),0.2), transparent)' }} />
-                <h2 className="font-playfair text-base tracking-wide" style={{ color: 'var(--text-secondary)' }}>Produtos</h2>
+                <h2 className="font-playfair font-bold text-base tracking-wide" style={{ color: 'var(--text-secondary)' }}>Produtos</h2>
                 <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, transparent, rgba(var(--gold-rgb),0.2))' }} />
               </div>
             )}

@@ -17,12 +17,12 @@ const ThemeContext = createContext<ThemeContextType>({
 export const useTheme = () => useContext(ThemeContext)
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark')
+  const [theme, setTheme] = useState<Theme>('light')
 
   useEffect(() => {
-    // Lê preferência salva no localStorage
+    // Lê preferência salva no localStorage; padrão agora é claro
     const saved = localStorage.getItem('eldorado-theme') as Theme | null
-    const preferred = saved === 'light' || saved === 'dark' ? saved : 'dark'
+    const preferred = saved === 'light' || saved === 'dark' ? saved : 'light'
     setTheme(preferred)
     document.documentElement.setAttribute('data-theme', preferred)
   }, [])

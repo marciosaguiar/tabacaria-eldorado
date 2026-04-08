@@ -146,7 +146,7 @@ function ProductFormModal({
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="font-playfair text-xl text-white">
+              <h2 className="font-playfair font-bold text-xl text-white">
                 {editingProduct ? 'Editar Produto' : 'Novo Produto'}
               </h2>
               <div className="h-px w-12 bg-gold/40 mt-2" />

@@ -19,7 +19,7 @@ export default async function Footer() {
 
         {/* Brand + Frase de Impacto */}
         <div className="text-center mb-7">
-          <p className="font-playfair text-2xl mb-1 tracking-wide">
+          <p className="font-playfair font-bold text-2xl mb-1 tracking-wide">
             <span className="text-gold-shine">{settings.nome}</span>
           </p>
           <div

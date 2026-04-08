@@ -50,7 +50,7 @@ function Section({ title, icon, children }: { title: string; icon: React.ReactNo
     <div className="rounded-sm border p-5 space-y-4" style={{ backgroundColor: 'var(--bg-card)', borderColor: 'rgba(var(--gold-rgb),0.15)' }}>
       <div className="flex items-center gap-2 pb-3 border-b" style={{ borderColor: 'rgba(var(--gold-rgb),0.1)' }}>
         <span style={{ color: 'var(--gold)' }}>{icon}</span>
-        <h3 className="font-playfair text-base" style={{ color: 'var(--text-primary)' }}>{title}</h3>
+        <h3 className="font-playfair font-bold text-base" style={{ color: 'var(--text-primary)' }}>{title}</h3>
       </div>
       {children}
     </div>
@@ -133,7 +133,7 @@ export default function ConfiguracoesPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
             </Link>
-            <h1 className="font-playfair text-xl" style={{ color: 'var(--text-primary)' }}>
+            <h1 className="font-playfair font-bold text-xl" style={{ color: 'var(--text-primary)' }}>
               Configurações
             </h1>
           </div>

@@ -31,7 +31,7 @@ export default async function VarejoPage() {
           <p className="text-[11px] font-inter tracking-[0.3em] uppercase mb-3" style={{ color: 'rgba(var(--gold-rgb),0.55)' }}>
             Tabacaria Eldorado
           </p>
-          <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
+          <h1 className="font-playfair font-bold text-3xl sm:text-4xl md:text-5xl mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
             Catálogo de <span className="text-gold-shine">Varejo</span>
           </h1>
           <div className="h-px w-20 mx-auto mb-4"

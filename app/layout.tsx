@@ -55,13 +55,13 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       className={`${playfair.variable} ${inter.variable}`}
-      data-theme="dark"
+      data-theme="light"
     >
       <head>
         {/* Script anti-flash: lê tema salvo antes do primeiro render */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('eldorado-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('eldorado-theme');document.documentElement.setAttribute('data-theme',(t==='light'||t==='dark')?t:'light');}catch(e){}})();`,
           }}
         />
       </head>

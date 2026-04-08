@@ -139,7 +139,7 @@ function HomeCard({
 
       {/* Content */}
       <div className="p-3 sm:p-4 flex flex-col flex-1">
-        <h3 className="font-playfair text-base sm:text-lg line-clamp-1 leading-snug" style={{ color: 'var(--text-primary)' }}>
+        <h3 className="font-playfair font-bold text-base sm:text-lg line-clamp-1 leading-snug" style={{ color: 'var(--text-primary)' }}>
           {product.nome}
         </h3>
         {product.descricao && (
@@ -602,7 +602,7 @@ export default function HomeProductSection({ initialProducts, categorias = [] }:
       {/* Section header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
-          <h2 className="font-playfair text-2xl sm:text-3xl" style={{ color: 'var(--text-primary)' }}>
+          <h2 className="font-playfair font-bold text-2xl sm:text-3xl" style={{ color: 'var(--text-primary)' }}>
             Nossos <span className="text-gold-shine">Produtos</span>
           </h2>
           <div className="h-px w-16 mt-2" style={{ background: 'linear-gradient(90deg, rgba(var(--gold-rgb),0.6), transparent)' }} />
