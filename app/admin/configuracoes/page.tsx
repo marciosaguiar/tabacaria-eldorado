@@ -9,7 +9,7 @@ import type { CompanySettings } from '@/types'
 const DEFAULT: CompanySettings = {
   nome: '', slogan: '', footerPhrase: '', endereco: '', telefone: '',
   whatsapp: '', email: '', instagram: '', facebook: '', logoUrl: '',
-  categorias: [], catalogOrdem: 'cadastro', mostrarPrecoSemValor: true,
+  mapsUrl: '', categorias: [], catalogOrdem: 'cadastro', mostrarPrecoSemValor: true,
 }
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
@@ -205,11 +205,18 @@ export default function ConfiguracoesPage() {
           </svg>
         }>
           <div className="grid sm:grid-cols-2 gap-4">
-            <Field label="WhatsApp" value={settings.whatsapp} onChange={v => set('whatsapp', v)} placeholder="(11) 99999-9999" hint="Usado para botão de contato" />
+            <Field label="WhatsApp" value={settings.whatsapp} onChange={v => set('whatsapp', v)} placeholder="5511999999999" hint="Com código do país (55) e DDD" />
             <Field label="Telefone" value={settings.telefone} onChange={v => set('telefone', v)} placeholder="(11) 3333-3333" />
             <Field label="E-mail" value={settings.email} onChange={v => set('email', v)} placeholder="contato@tabacaria.com" type="email" />
-            <Field label="Endereço" value={settings.endereco} onChange={v => set('endereco', v)} placeholder="Rua das Flores, 123 — Cidade/UF" />
+            <Field label="Endereço (texto)" value={settings.endereco} onChange={v => set('endereco', v)} placeholder="Rua das Flores, 123 — Cidade/UF" />
           </div>
+          <Field
+            label="Link do Google Maps"
+            value={settings.mapsUrl}
+            onChange={v => set('mapsUrl', v)}
+            placeholder="https://maps.app.goo.gl/..."
+            hint="Cole aqui o link compartilhado do Google Maps da sua localização"
+          />
         </Section>
 
         {/* ── Redes Sociais ─────────────────────────────────── */}

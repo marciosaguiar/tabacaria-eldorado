@@ -28,6 +28,7 @@ export interface CompanySettings {
 
   // Mídia
   logoUrl: string
+  mapsUrl: string              // Link do Google Maps da empresa
 
   // Catálogo
   categorias: string[]        // Lista de categorias disponíveis

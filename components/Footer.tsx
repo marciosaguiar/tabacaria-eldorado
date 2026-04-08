@@ -41,7 +41,7 @@ export default async function Footer() {
           <div className="text-center mb-6 space-y-2">
             {settings.endereco && (
               <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.endereco)}`}
+                href={settings.mapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.endereco)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-inter text-xs inline-flex items-center gap-1 hover:underline transition-colors"

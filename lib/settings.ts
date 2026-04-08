@@ -18,6 +18,7 @@ export const DEFAULT_SETTINGS: CompanySettings = {
   instagram: '',
   facebook: '',
   logoUrl: '/images/logo.png',
+  mapsUrl: 'https://maps.app.goo.gl/nJ2yeaJH1kmLwnDR8',
   categorias: ['Charutos', 'Cachimbos', 'Cigarrilhas', 'Acessórios', 'Tabaco'],
   catalogOrdem: 'cadastro',
   mostrarPrecoSemValor: true,
