@@ -22,6 +22,9 @@ export const DEFAULT_SETTINGS: CompanySettings = {
   categorias: ['Charutos', 'Cachimbos', 'Cigarrilhas', 'Acessórios', 'Tabaco'],
   catalogOrdem: 'cadastro',
   mostrarPrecoSemValor: true,
+  bannerAtivo: false,
+  bannerTexto: '',
+  bannerCor: '#C9A84C',
 }
 
 async function getKV() {

@@ -10,6 +10,7 @@ const DEFAULT: CompanySettings = {
   nome: '', slogan: '', footerPhrase: '', endereco: '', telefone: '',
   whatsapp: '', email: '', instagram: '', facebook: '', logoUrl: '',
   mapsUrl: '', categorias: [], catalogOrdem: 'cadastro', mostrarPrecoSemValor: true,
+  bannerAtivo: false, bannerTexto: '', bannerCor: '#C9A84C',
 }
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
@@ -305,6 +306,45 @@ export default function ConfiguracoesPage() {
                 style={{ backgroundColor: 'rgba(var(--gold-rgb),0.15)', color: 'var(--gold)', border: '1px solid rgba(var(--gold-rgb),0.3)' }}>
                 + Adicionar
               </button>
+            </div>
+          </div>
+        </Section>
+
+        {/* ── Banner Promocional ─────────────────────────── */}
+        <Section title="Banner Promocional" icon={
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+          </svg>
+        }>
+          <div className="flex items-center justify-between py-2">
+            <div>
+              <p className="font-inter text-sm" style={{ color: 'var(--text-primary)' }}>Exibir banner nos catálogos</p>
+              <p className="font-inter text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>Aparece no topo das páginas Varejo e Atacado</p>
+            </div>
+            <button type="button" onClick={() => set('bannerAtivo', !settings.bannerAtivo)}
+              className="relative w-11 h-6 rounded-full transition-colors flex-shrink-0"
+              style={{ backgroundColor: settings.bannerAtivo ? 'var(--gold)' : 'var(--bg-border)' }}>
+              <span className="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform"
+                style={{ transform: settings.bannerAtivo ? 'translateX(1.25rem)' : 'translateX(0.125rem)' }} />
+            </button>
+          </div>
+          <Field label="Texto do banner" value={settings.bannerTexto} onChange={v => set('bannerTexto', v)}
+            placeholder="🔥 Promoção especial! 20% de desconto em charutos selecionados" />
+          <div>
+            <label className="block font-inter text-xs tracking-widest uppercase mb-1.5" style={{ color: 'var(--text-secondary)' }}>
+              Cor do banner
+            </label>
+            <div className="flex items-center gap-3">
+              <input type="color" value={settings.bannerCor} onChange={e => set('bannerCor', e.target.value)}
+                className="w-10 h-10 rounded cursor-pointer border-0 p-0.5"
+                style={{ backgroundColor: 'transparent' }} />
+              <span className="font-inter text-sm" style={{ color: 'var(--text-secondary)' }}>{settings.bannerCor}</span>
+              {settings.bannerTexto && (
+                <div className="flex-1 py-1.5 px-3 rounded text-xs font-inter font-semibold text-center"
+                  style={{ backgroundColor: settings.bannerCor, color: '#000' }}>
+                  Pré-visualização
+                </div>
+              )}
             </div>
           </div>
         </Section>

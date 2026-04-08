@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CatalogGrid from '@/components/CatalogGrid'
+import PromoBanner from '@/components/PromoBanner'
 import { getProducts } from '@/lib/db'
 import { getSettings } from '@/lib/settings'
 
@@ -20,6 +21,7 @@ export default async function VarejoPage() {
   return (
     <div className="min-h-screen flex flex-col bg-dark">
       <Header channel="varejo" />
+      <PromoBanner ativo={settings.bannerAtivo} texto={settings.bannerTexto} cor={settings.bannerCor} />
 
       {/* Hero */}
       <div className="relative overflow-hidden" style={{ borderBottom: '1px solid rgba(var(--gold-rgb),0.12)' }}>

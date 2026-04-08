@@ -14,6 +14,7 @@ const EMPTY_FORM = {
   visivelAtacado: true,
   visivelVarejo: true,
   imagem: '',
+  tipo: 'produto' as 'produto' | 'combo',
 }
 
 type FormData = typeof EMPTY_FORM
@@ -535,6 +536,7 @@ export default function AdminPage() {
       visivelAtacado: product.visivelAtacado,
       visivelVarejo: product.visivelVarejo,
       imagem: product.imagem || '',
+      tipo: (product.tipo as 'produto' | 'combo') || 'produto',
     })
     setImageFile(null)
     setImagePreview(null)

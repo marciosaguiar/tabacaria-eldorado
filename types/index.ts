@@ -8,6 +8,12 @@ export interface Product {
   visivelAtacado: boolean
   visivelVarejo: boolean
   categoria: string
+  tipo?: 'produto' | 'combo'   // undefined = produto normal
+}
+
+export interface CartItem {
+  product: Product
+  quantity: number
 }
 
 export interface CompanySettings {
@@ -34,4 +40,9 @@ export interface CompanySettings {
   categorias: string[]        // Lista de categorias disponíveis
   catalogOrdem: 'cadastro' | 'nome' | 'preco-asc' | 'preco-desc' | 'categoria'
   mostrarPrecoSemValor: boolean  // Exibir card mesmo sem preço cadastrado
+
+  // Banner promocional
+  bannerAtivo: boolean
+  bannerTexto: string
+  bannerCor: string            // hex, ex: '#C9A84C'
 }
