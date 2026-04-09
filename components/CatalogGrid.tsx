@@ -228,13 +228,27 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
         {product.imagem ? (
           <Image src={product.imagem} alt={product.nome} fill
             sizes="(max-width:640px) 50vw,(max-width:1024px) 33vw,20vw"
-            style={{ objectFit: 'cover' }}
+            style={{
+              objectFit: 'cover',
+              filter: product.ativo === false ? 'grayscale(100%) brightness(0.5)' : undefined,
+            }}
             className="transition-transform duration-500 group-hover:scale-105" />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <svg className="w-10 h-10 opacity-15" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--gold)' }}>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
+          </div>
+        )}
+
+        {/* Indisponível overlay */}
+        {product.ativo === false && (
+          <div className="absolute inset-0 flex items-end justify-center pb-3 pointer-events-none"
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 60%)' }}>
+            <span className="font-inter text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded"
+              style={{ backgroundColor: 'rgba(0,0,0,0.6)', color: '#aaa', border: '1px solid rgba(255,255,255,0.15)' }}>
+              Indisponível
+            </span>
           </div>
         )}
 

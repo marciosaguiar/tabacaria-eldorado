@@ -9,6 +9,7 @@ export interface Product {
   visivelVarejo: boolean
   categoria: string
   tipo?: 'produto' | 'combo'   // undefined = produto normal
+  ativo?: boolean              // undefined = ativo (padrão). false = indisponível
 }
 
 export interface CartItem {

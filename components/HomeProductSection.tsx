@@ -27,6 +27,7 @@ const EMPTY: Omit<Product, 'id'> = {
   visivelAtacado: true,
   visivelVarejo: true,
   categoria: '',
+  ativo: true,
 }
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
@@ -77,7 +78,10 @@ function HomeCard({
             alt={product.nome}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-            style={{ objectFit: 'cover' }}
+            style={{
+              objectFit: 'cover',
+              filter: product.ativo === false ? 'grayscale(100%) brightness(0.55)' : undefined,
+            }}
             className="transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
@@ -85,6 +89,28 @@ function HomeCard({
             <svg className="w-10 h-10 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--gold)' }}>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
+          </div>
+        )}
+
+        {/* Indisponível overlay (customers view) */}
+        {product.ativo === false && !isAdmin && (
+          <div className="absolute inset-0 flex items-end justify-center pb-3"
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%)' }}>
+            <span className="font-inter text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded"
+              style={{ backgroundColor: 'rgba(0,0,0,0.6)', color: '#aaa', border: '1px solid rgba(255,255,255,0.15)' }}>
+              Indisponível
+            </span>
+          </div>
+        )}
+
+        {/* Admin: "inactive" pill */}
+        {product.ativo === false && isAdmin && (
+          <div className="absolute inset-0 flex items-end justify-center pb-3 pointer-events-none"
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 60%)' }}>
+            <span className="font-inter text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded"
+              style={{ backgroundColor: 'rgba(220,38,38,0.7)', color: '#fff', border: '1px solid rgba(220,38,38,0.4)' }}>
+              Em falta
+            </span>
           </div>
         )}
 
@@ -106,13 +132,13 @@ function HomeCard({
           </div>
         )}
 
-        {/* Admin buttons */}
+        {/* Admin buttons — always visible (not hover-only) */}
         {isAdmin && (
-          <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="absolute top-2 right-2 flex gap-1.5 z-10">
             <button
-              onClick={() => onEdit(product)}
-              className="w-7 h-7 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110"
-              style={{ backgroundColor: 'rgba(var(--gold-rgb),0.9)' }}
+              onClick={(e) => { e.stopPropagation(); onEdit(product) }}
+              className="w-7 h-7 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95"
+              style={{ backgroundColor: 'rgba(var(--gold-rgb),0.92)' }}
               title="Editar"
             >
               <svg className="w-3.5 h-3.5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
@@ -120,8 +146,8 @@ function HomeCard({
               </svg>
             </button>
             <button
-              onClick={() => onDelete(product)}
-              className="w-7 h-7 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110"
+              onClick={(e) => { e.stopPropagation(); onDelete(product) }}
+              className="w-7 h-7 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95"
               style={{ backgroundColor: 'rgba(220,38,38,0.85)' }}
               title="Excluir"
             >
@@ -133,7 +159,7 @@ function HomeCard({
         )}
 
         {/* Hover overlay */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
           style={{ background: 'linear-gradient(to top, var(--bg-card) 0%, transparent 50%)' }} />
       </div>
 
@@ -223,6 +249,7 @@ function ProductModal({
     visivelAtacado: product?.visivelAtacado ?? true,
     visivelVarejo:  product?.visivelVarejo  ?? true,
     categoria:      product?.categoria      ?? '',
+    ativo:          product?.ativo          ?? true,
   })
   const [precoAtacadoStr, setPrecoAtacadoStr] = useState(
     product?.precoAtacado != null ? String(product.precoAtacado).replace('.', ',') : ''
@@ -469,6 +496,28 @@ function ProductModal({
                 Catálogo Atacado
               </button>
             </div>
+          </div>
+
+          {/* Disponibilidade */}
+          <div className="flex items-center justify-between py-3 px-4 rounded-sm border"
+            style={{ borderColor: form.ativo === false ? 'rgba(220,38,38,0.3)' : 'rgba(var(--gold-rgb),0.15)', backgroundColor: form.ativo === false ? 'rgba(220,38,38,0.05)' : 'transparent' }}>
+            <div>
+              <p className="font-inter text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+                {form.ativo === false ? '⚠ Produto em falta' : '✓ Produto disponível'}
+              </p>
+              <p className="font-inter text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                {form.ativo === false ? 'Aparece apagado no catálogo (indisponível)' : 'Visível normalmente no catálogo'}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setForm(f => ({ ...f, ativo: !f.ativo }))}
+              className="relative w-12 h-6 rounded-full transition-colors flex-shrink-0 ml-4"
+              style={{ backgroundColor: form.ativo === false ? '#dc2626' : 'var(--gold)' }}
+            >
+              <span className="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform"
+                style={{ transform: form.ativo === false ? 'translateX(0.125rem)' : 'translateX(1.375rem)' }} />
+            </button>
           </div>
 
           {error && (

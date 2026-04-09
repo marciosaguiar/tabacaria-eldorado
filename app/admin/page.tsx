@@ -15,6 +15,7 @@ const EMPTY_FORM = {
   visivelVarejo: true,
   imagem: '',
   tipo: 'produto' as 'produto' | 'combo',
+  ativo: true,
 }
 
 type FormData = typeof EMPTY_FORM
@@ -341,6 +342,28 @@ function ProductFormModal({
               </div>
             </div>
 
+            {/* Disponibilidade */}
+            <div className="flex items-center justify-between py-3 px-4 rounded-sm border transition-colors"
+              style={{ borderColor: formData.ativo ? 'rgba(201,168,76,0.2)' : 'rgba(220,38,38,0.3)', backgroundColor: formData.ativo ? 'transparent' : 'rgba(220,38,38,0.06)' }}>
+              <div>
+                <p className="font-inter text-sm font-medium" style={{ color: formData.ativo ? 'inherit' : '#f87171' }}>
+                  {formData.ativo ? '✓ Produto disponível' : '⚠ Produto em falta'}
+                </p>
+                <p className="font-inter text-xs mt-0.5 text-gray-500">
+                  {formData.ativo ? 'Visível normalmente no catálogo' : 'Aparece apagado (indisponível) para clientes'}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, ativo: !formData.ativo })}
+                className="relative w-12 h-6 rounded-full transition-colors flex-shrink-0 ml-4"
+                style={{ backgroundColor: formData.ativo ? '#C9A84C' : '#dc2626' }}
+              >
+                <span className="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform"
+                  style={{ transform: formData.ativo ? 'translateX(1.375rem)' : 'translateX(0.125rem)' }} />
+              </button>
+            </div>
+
             {/* Actions */}
             <div className="flex gap-3 pt-2">
               <button
@@ -393,7 +416,10 @@ function AdminProductCard({
             alt={product.nome}
             fill
             sizes="(max-width: 640px) 50vw, 25vw"
-            style={{ objectFit: 'cover' }}
+            style={{
+              objectFit: 'cover',
+              filter: product.ativo === false ? 'grayscale(100%) brightness(0.4)' : undefined,
+            }}
             className="transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
@@ -401,6 +427,14 @@ function AdminProductCard({
             <svg className="w-10 h-10 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
+          </div>
+        )}
+        {product.ativo === false && (
+          <div className="absolute inset-0 flex items-end justify-center pb-2 pointer-events-none">
+            <span className="text-[9px] font-inter font-bold uppercase tracking-widest px-2 py-0.5 rounded"
+              style={{ backgroundColor: 'rgba(220,38,38,0.75)', color: '#fff' }}>
+              Em falta
+            </span>
           </div>
         )}
       </div>
@@ -537,6 +571,7 @@ export default function AdminPage() {
       visivelVarejo: product.visivelVarejo,
       imagem: product.imagem || '',
       tipo: (product.tipo as 'produto' | 'combo') || 'produto',
+      ativo: product.ativo !== false,
     })
     setImageFile(null)
     setImagePreview(null)
@@ -576,6 +611,7 @@ export default function AdminPage() {
         precoVarejo: formData.precoVarejo !== '' ? parseFloat(formData.precoVarejo) : null,
         visivelAtacado: formData.visivelAtacado,
         visivelVarejo: formData.visivelVarejo,
+        ativo: formData.ativo,
       }
 
       if (editingProduct) {

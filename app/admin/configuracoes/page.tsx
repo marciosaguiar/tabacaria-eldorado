@@ -249,11 +249,11 @@ export default function ConfiguracoesPage() {
                 { val: 'preco-desc', label: 'Maior preço' },
               ] as const).map(opt => (
                 <button key={opt.val} type="button" onClick={() => set('catalogOrdem', opt.val)}
-                  className="py-2 px-3 rounded-sm border text-xs font-inter transition-all"
+                  className="py-2 px-3 rounded-sm border text-xs font-inter font-medium transition-all"
                   style={{
-                    borderColor: settings.catalogOrdem === opt.val ? 'var(--gold)' : 'var(--bg-border)',
-                    backgroundColor: settings.catalogOrdem === opt.val ? 'rgba(var(--gold-rgb),0.12)' : 'transparent',
-                    color: settings.catalogOrdem === opt.val ? 'var(--gold)' : 'var(--text-secondary)',
+                    borderColor: settings.catalogOrdem === opt.val ? 'var(--gold)' : 'rgba(var(--gold-rgb),0.3)',
+                    backgroundColor: settings.catalogOrdem === opt.val ? 'rgba(var(--gold-rgb),0.12)' : 'var(--bg-hover)',
+                    color: settings.catalogOrdem === opt.val ? 'var(--gold)' : 'var(--text-primary)',
                   }}>
                   {opt.label}
                 </button>
