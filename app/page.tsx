@@ -3,6 +3,7 @@ import Link from 'next/link'
 import HomeProductSection from '@/components/HomeProductSection'
 import ThemeToggle from '@/components/ThemeToggle'
 import AdminHeaderLink from '@/components/AdminHeaderLink'
+import AnalyticsTracker from '@/components/AnalyticsTracker'
 import { getSettings } from '@/lib/settings'
 import { getProducts } from '@/lib/db'
 
@@ -96,14 +97,15 @@ export default async function HomePage() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--el-bg-page)' }}>
+      <AnalyticsTracker page="home" />
 
       {/* ── HERO HEADER ─────────────────────────────────────────── */}
       <section
         style={{
           background: 'var(--el-gradient-dark)',
-          minHeight: '280px',
-          paddingTop: '48px',
-          paddingBottom: '40px',
+          minHeight: '320px',
+          paddingTop: '56px',
+          paddingBottom: '48px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -130,17 +132,17 @@ export default async function HomePage() {
         <div
           style={{
             position: 'relative',
-            width: '120px',
-            height: '120px',
+            width: '180px',
+            height: '180px',
             marginBottom: '20px',
-            filter: 'drop-shadow(0 0 24px rgba(201,150,42,0.3))',
+            filter: 'drop-shadow(0 0 32px rgba(201,150,42,0.45))',
           }}
         >
           <Image
             src={settings.logoUrl || '/images/logo.png'}
             alt={settings.nome}
             fill
-            sizes="120px"
+            sizes="180px"
             style={{ objectFit: 'contain' }}
             priority
           />
@@ -151,10 +153,11 @@ export default async function HomePage() {
           className="el-gold-text"
           style={{
             fontFamily: 'var(--font-playfair, serif)',
-            fontSize: '28px',
+            fontSize: '32px',
             fontWeight: 700,
             lineHeight: 1.2,
             marginBottom: '8px',
+            letterSpacing: '-0.01em',
           }}
         >
           {settings.nome || 'Tabacaria Eldorado'}
@@ -191,10 +194,10 @@ export default async function HomePage() {
       <div
         style={{
           padding: '28px 16px 8px',
-          display: 'flex',
-          flexDirection: 'column',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
           gap: '12px',
-          maxWidth: '480px',
+          maxWidth: '640px',
           margin: '0 auto',
           width: '100%',
         }}

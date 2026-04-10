@@ -3,6 +3,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CatalogGrid from '@/components/CatalogGrid'
 import PromoBanner from '@/components/PromoBanner'
+import AnalyticsTracker from '@/components/AnalyticsTracker'
 import { getProducts } from '@/lib/db'
 import { getSettings } from '@/lib/settings'
 
@@ -20,6 +21,7 @@ export default async function AtacadoPage() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--el-bg-page)' }}>
+      <AnalyticsTracker page="atacado" />
       <Header channel="atacado" />
       <PromoBanner ativo={settings.bannerAtivo} texto={settings.bannerTexto} cor={settings.bannerCor} />
       <CatalogGrid

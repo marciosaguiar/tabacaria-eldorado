@@ -589,6 +589,11 @@ function AdminProductCard({
 }
 
 // ─── Main Admin Page ──────────────────────────────────────────────────────────
+type AnalyticsResult = {
+  pages: Record<string, number>
+  topProducts: Array<{ id: string; name: string; views: number }>
+}
+
 export default function AdminPage() {
   const router = useRouter()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -605,9 +610,17 @@ export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
   const [copyLabel, setCopyLabel] = useState<'atacado' | 'varejo' | null>(null)
+  const [analytics, setAnalytics] = useState<AnalyticsResult | null>(null)
 
   const showToast = useCallback((message: string, type: 'success' | 'error') => {
     setToast({ message, type })
+  }, [])
+
+  const fetchAnalytics = useCallback(async () => {
+    try {
+      const res = await fetch('/api/analytics', { cache: 'no-store' })
+      if (res.ok) setAnalytics(await res.json())
+    } catch { /* silent */ }
   }, [])
 
   const fetchProducts = useCallback(async () => {
@@ -631,8 +644,9 @@ export default function AdminPage() {
     } else {
       setIsAuthenticated(true)
       fetchProducts()
+      fetchAnalytics()
     }
-  }, [router, fetchProducts])
+  }, [router, fetchProducts, fetchAnalytics])
 
   const handleLogout = () => {
     localStorage.removeItem('eldorado_admin_token')
@@ -861,6 +875,92 @@ export default function AdminPage() {
             </button>
           </div>
         </div>
+
+        {/* Analytics Panel */}
+        {analytics && (
+          <div className="mb-8 p-5 bg-dark-card border border-gold/15 rounded-sm">
+            <p className="text-[10px] text-gold/50 tracking-[0.2em] uppercase font-inter mb-4">
+              Visualizações do Site
+            </p>
+
+            {/* Page view stats */}
+            <div className="grid grid-cols-3 gap-3 mb-5">
+              {[
+                { label: 'Início', key: 'home', icon: '🏠' },
+                { label: 'Varejo', key: 'varejo', icon: '🛍' },
+                { label: 'Atacado', key: 'atacado', icon: '📦' },
+              ].map(item => (
+                <div
+                  key={item.key}
+                  className="flex flex-col items-center justify-center py-3 px-2 border border-gold/10 rounded-sm text-center"
+                  style={{ background: 'rgba(201,168,76,0.04)' }}
+                >
+                  <span className="text-xl mb-1">{item.icon}</span>
+                  <span className="font-playfair text-xl text-gold font-bold leading-none">
+                    {(analytics.pages[item.key] ?? 0).toLocaleString('pt-BR')}
+                  </span>
+                  <span className="font-inter text-[10px] text-gray-500 mt-1 uppercase tracking-wider">
+                    {item.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Top products */}
+            {analytics.topProducts.length > 0 && (
+              <div>
+                <p className="text-[10px] text-gray-600 tracking-[0.15em] uppercase font-inter mb-2">
+                  Produtos mais visualizados
+                </p>
+                <div className="space-y-1.5">
+                  {analytics.topProducts.slice(0, 7).map((p, i) => {
+                    const max = analytics.topProducts[0]?.views || 1
+                    const pct = Math.round((p.views / max) * 100)
+                    return (
+                      <div key={p.id} className="flex items-center gap-3">
+                        <span className="text-[10px] text-gray-600 font-inter w-4 text-right flex-shrink-0">
+                          {i + 1}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between mb-0.5">
+                            <span className="font-inter text-xs text-gray-300 truncate mr-2">{p.name}</span>
+                            <span className="font-inter text-[11px] text-gold/70 flex-shrink-0">{p.views}×</span>
+                          </div>
+                          <div className="h-1 rounded-full bg-dark-border overflow-hidden">
+                            <div
+                              className="h-full rounded-full"
+                              style={{
+                                width: `${pct}%`,
+                                background: 'linear-gradient(90deg, #C9A84C, #FFD966)',
+                                transition: 'width 0.6s ease',
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {analytics.topProducts.length === 0 && (analytics.pages['home'] ?? 0) === 0 && (
+              <p className="text-xs text-gray-600 font-inter text-center py-2">
+                Nenhuma visita registrada ainda. As estatísticas aparecem assim que clientes acessarem o catálogo.
+              </p>
+            )}
+
+            <button
+              onClick={fetchAnalytics}
+              className="mt-4 text-[10px] text-gold/40 hover:text-gold/70 font-inter transition-colors duration-200 flex items-center gap-1"
+            >
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Atualizar dados
+            </button>
+          </div>
+        )}
 
         {/* Tab bar + Add button */}
         <div className="flex items-center justify-between mb-6">

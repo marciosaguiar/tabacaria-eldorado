@@ -16,7 +16,7 @@ export default async function Header({ channel }: HeaderProps) {
       className="sticky top-0 z-40"
       style={{
         background: 'var(--el-gradient-dark)',
-        height: '64px',
+        height: '72px',
         display: 'flex',
         alignItems: 'center',
         boxShadow: '0 2px 16px rgba(0,0,0,0.4)',
@@ -36,13 +36,13 @@ export default async function Header({ channel }: HeaderProps) {
       >
         {/* Logo */}
         <Link href="/" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-          <div style={{ position: 'relative', height: '36px', width: '120px' }}>
+          <div style={{ position: 'relative', height: '52px', width: '160px' }}>
             <Image
               src={settings.logoUrl || '/images/logo.png'}
               alt={settings.nome}
               fill
-              sizes="120px"
-              style={{ objectFit: 'contain', objectPosition: 'left center' }}
+              sizes="160px"
+              style={{ objectFit: 'contain', objectPosition: 'left center', filter: 'drop-shadow(0 0 8px rgba(201,150,42,0.25))' }}
               priority
             />
           </div>

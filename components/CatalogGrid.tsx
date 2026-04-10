@@ -496,12 +496,22 @@ interface InnerProps {
 
 function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdded }: InnerProps) {
   const [filterCat, setFilterCat] = useState('todas')
+  const [search, setSearch] = useState('')
   const [sortOrder, setSortOrder] = useState<'cadastro' | 'nome-az' | 'nome-za' | 'preco-asc' | 'preco-desc'>('cadastro')
   const [lightbox, setLightbox] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
   const [isAdmin, setIsAdmin] = useState(false)
   const closeLightbox = useCallback(() => setLightbox(null), [])
   const { isFavorite, toggle, count: favCount } = useFavorites()
+
+  const openLightbox = useCallback((p: Product) => {
+    setLightbox(p)
+    fetch('/api/analytics', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'product', id: p.id, name: p.nome }),
+    }).catch(() => {})
+  }, [])
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 300)
@@ -511,11 +521,13 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
 
   const chanOk = (p: Product) => channel === 'varejo' ? p.visivelVarejo : p.visivelAtacado
 
+  const sq = search.trim().toLowerCase()
   const visibleRaw = products.filter(p => {
     if (!chanOk(p)) return false
-    if (filterCat === 'favoritos') return isFavorite(p.id)
-    if (filterCat === 'todas') return true
-    return p.categoria === filterCat
+    if (filterCat === 'favoritos' && !isFavorite(p.id)) return false
+    if (filterCat !== 'todas' && filterCat !== 'favoritos' && p.categoria !== filterCat) return false
+    if (sq && !p.nome.toLowerCase().includes(sq) && !(p.descricao || '').toLowerCase().includes(sq) && !(p.categoria || '').toLowerCase().includes(sq)) return false
+    return true
   })
 
   const getPrice = (p: Product) => channel === 'varejo' ? (p.precoVarejo ?? 0) : (p.precoAtacado ?? 0)
@@ -547,7 +559,7 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
           whatsapp={whatsapp}
           related={getRelated(lightbox)}
           onClose={closeLightbox}
-          onSelectProduct={setLightbox}
+          onSelectProduct={openLightbox}
         />
       )}
 
@@ -576,6 +588,54 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
           </Link>
         </div>
       )}
+
+      {/* Search bar */}
+      <div style={{ padding: '14px 16px 0' }}>
+        <div style={{ position: 'relative', maxWidth: '100%' }}>
+          <svg
+            width="15" height="15"
+            fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}
+            style={{
+              position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)',
+              color: 'var(--el-text-hint)', pointerEvents: 'none',
+            }}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="search"
+            placeholder="Buscar produto..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            style={{
+              width: '100%',
+              height: '40px',
+              paddingLeft: '36px',
+              paddingRight: search ? '36px' : '12px',
+              borderRadius: '20px',
+              border: '1px solid var(--el-gold-border)',
+              backgroundColor: 'var(--el-bg-surface)',
+              color: 'var(--el-text-primary)',
+              fontFamily: 'var(--font-inter, sans-serif)',
+              fontSize: '14px',
+              outline: 'none',
+              transition: 'border-color 0.2s',
+            }}
+          />
+          {search && (
+            <button
+              onClick={() => setSearch('')}
+              style={{
+                position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)',
+                background: 'none', border: 'none', cursor: 'pointer', padding: '4px',
+                color: 'var(--el-text-hint)', fontSize: '16px', lineHeight: 1,
+              }}
+            >
+              ×
+            </button>
+          )}
+        </div>
+      </div>
 
       {/* Category chips */}
       {cats.length > 1 && (
@@ -651,15 +711,8 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
 
         {/* Skeleton loading */}
         {loading && (
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-              gap: '16px',
-              paddingTop: '16px',
-            }}
-          >
-            {[1, 2, 3, 4].map(i => <SkeletonCard key={i} />)}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" style={{ gap: '16px', paddingTop: '16px' }}>
+            {[1, 2, 3, 4, 5, 6].map(i => <SkeletonCard key={i} />)}
           </div>
         )}
 
@@ -684,11 +737,8 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
                   <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, transparent, var(--el-gold-border))' }} />
                 </div>
                 <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                    gap: '16px',
-                  }}
+                  className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+                  style={{ gap: '16px' }}
                 >
                   {combos.map(p => (
                     <ProductCard
@@ -697,7 +747,7 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
                       channel={channel}
                       isFav={isFavorite(p.id)}
                       onToggleFav={() => toggle(p.id)}
-                      onImageClick={() => setLightbox(p)}
+                      onImageClick={() => openLightbox(p)}
                     />
                   ))}
                 </div>
@@ -797,11 +847,8 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
                 </p>
 
                 <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                    gap: '16px',
-                  }}
+                  className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+                  style={{ gap: '16px' }}
                 >
                   {regular.map(p => (
                     <ProductCard
@@ -810,7 +857,7 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
                       channel={channel}
                       isFav={isFavorite(p.id)}
                       onToggleFav={() => toggle(p.id)}
-                      onImageClick={() => setLightbox(p)}
+                      onImageClick={() => openLightbox(p)}
                     />
                   ))}
                 </div>
