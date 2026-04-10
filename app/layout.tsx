@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import InstallBanner from '@/components/InstallBanner'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -64,10 +65,17 @@ export default function RootLayout({
             __html: `(function(){try{var t=localStorage.getItem('eldorado-theme');document.documentElement.setAttribute('data-theme',(t==='light'||t==='dark')?t:'light');}catch(e){}})();`,
           }}
         />
+        {/* Service Worker registration for offline support */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});})}`,
+          }}
+        />
       </head>
       <body className="min-h-screen font-inter">
         <ThemeProvider>
           {children}
+          <InstallBanner />
         </ThemeProvider>
       </body>
     </html>
