@@ -24,7 +24,14 @@ export default function LoginPage() {
     setError('')
 
     setTimeout(() => {
-      if (username === 'admin' && password === 'eldorado2024') {
+      const stored = localStorage.getItem('eldorado_admin_credentials')
+      const creds = stored
+        ? (() => { try { return JSON.parse(stored) } catch { return null } })()
+        : null
+      const validUser = creds?.username || 'admin'
+      const validPass = creds?.password || 'eldorado2024'
+
+      if (username === validUser && password === validPass) {
         localStorage.setItem('eldorado_admin_token', 'authenticated')
         router.replace('/admin')
       } else {

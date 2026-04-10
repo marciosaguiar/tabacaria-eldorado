@@ -69,6 +69,12 @@ export default function ConfiguracoesPage() {
   const [newCat, setNewCat] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
 
+  // Credentials state
+  const [credUser, setCredUser] = useState('')
+  const [credPass, setCredPass] = useState('')
+  const [credConfirm, setCredConfirm] = useState('')
+  const [credError, setCredError] = useState('')
+
   useEffect(() => {
     if (!localStorage.getItem('eldorado_admin_token')) { router.replace('/admin/login'); return }
     fetch('/api/settings').then(r => r.json()).then(data => {
@@ -76,7 +82,36 @@ export default function ConfiguracoesPage() {
       setPreview(data.logoUrl || '/images/logo.png')
       setLoading(false)
     })
+    const stored = localStorage.getItem('eldorado_admin_credentials')
+    if (stored) {
+      try {
+        const { username } = JSON.parse(stored)
+        setCredUser(username || '')
+      } catch { /* ignore */ }
+    } else {
+      setCredUser('admin')
+    }
   }, [router])
+
+  const handleSaveCreds = () => {
+    setCredError('')
+    if (!credUser.trim()) { setCredError('Usuário não pode ser vazio.'); return }
+    if (credPass && credPass.length < 6) { setCredError('A senha deve ter no mínimo 6 caracteres.'); return }
+    if (credPass && credPass !== credConfirm) { setCredError('As senhas não coincidem.'); return }
+    const current = (() => {
+      try {
+        const s = localStorage.getItem('eldorado_admin_credentials')
+        return s ? JSON.parse(s) : { username: 'admin', password: 'eldorado2024' }
+      } catch { return { username: 'admin', password: 'eldorado2024' } }
+    })()
+    localStorage.setItem('eldorado_admin_credentials', JSON.stringify({
+      username: credUser.trim(),
+      password: credPass || current.password,
+    }))
+    setCredPass('')
+    setCredConfirm('')
+    setToast({ msg: 'Credenciais atualizadas!', ok: true })
+  }
 
   const set = (key: keyof CompanySettings, value: unknown) =>
     setSettings(prev => ({ ...prev, [key]: value }))
@@ -271,7 +306,7 @@ export default function ConfiguracoesPage() {
               className="relative w-11 h-6 rounded-full transition-colors flex-shrink-0"
               style={{ backgroundColor: settings.mostrarPrecoSemValor ? 'var(--gold)' : 'var(--bg-border)' }}>
               <span className="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform"
-                style={{ transform: settings.mostrarPrecoSemValor ? 'translateX(1.25rem)' : 'translateX(0.125rem)' }} />
+                style={{ position: 'absolute', top: '2px', left: settings.mostrarPrecoSemValor ? '21px' : '2px', width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#fff', boxShadow: '0 1px 3px rgba(0,0,0,0.3)', transition: 'left 0.2s' }} />
             </button>
           </div>
 
@@ -325,7 +360,7 @@ export default function ConfiguracoesPage() {
               className="relative w-11 h-6 rounded-full transition-colors flex-shrink-0"
               style={{ backgroundColor: settings.bannerAtivo ? 'var(--gold)' : 'var(--bg-border)' }}>
               <span className="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform"
-                style={{ transform: settings.bannerAtivo ? 'translateX(1.25rem)' : 'translateX(0.125rem)' }} />
+                style={{ position: 'absolute', top: '2px', left: settings.bannerAtivo ? '21px' : '2px', width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#fff', boxShadow: '0 1px 3px rgba(0,0,0,0.3)', transition: 'left 0.2s' }} />
             </button>
           </div>
           <Field label="Texto do banner" value={settings.bannerTexto} onChange={v => set('bannerTexto', v)}
@@ -346,6 +381,71 @@ export default function ConfiguracoesPage() {
                 </div>
               )}
             </div>
+          </div>
+        </Section>
+
+        {/* ── Acesso Admin ──────────────────────────────────── */}
+        <Section title="Acesso Administrativo" icon={
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        }>
+          <p className="font-inter text-xs" style={{ color: 'var(--text-muted)' }}>
+            Altere o usuário e/ou a senha de acesso ao painel. Deixe a senha em branco para manter a atual.
+          </p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-inter text-xs tracking-widest uppercase mb-1.5" style={{ color: 'var(--text-secondary)' }}>Usuário</label>
+              <input
+                type="text"
+                value={credUser}
+                onChange={e => setCredUser(e.target.value)}
+                placeholder="admin"
+                autoComplete="off"
+                className="w-full px-4 py-2.5 rounded-sm border font-inter text-sm outline-none focus:ring-1 focus:ring-gold/40 transition-all"
+                style={{ backgroundColor: 'var(--bg-hover)', borderColor: 'var(--bg-border)', color: 'var(--text-primary)' }}
+              />
+            </div>
+            <div />
+            <div>
+              <label className="block font-inter text-xs tracking-widest uppercase mb-1.5" style={{ color: 'var(--text-secondary)' }}>Nova Senha</label>
+              <input
+                type="password"
+                value={credPass}
+                onChange={e => setCredPass(e.target.value)}
+                placeholder="Mínimo 6 caracteres"
+                autoComplete="new-password"
+                className="w-full px-4 py-2.5 rounded-sm border font-inter text-sm outline-none focus:ring-1 focus:ring-gold/40 transition-all"
+                style={{ backgroundColor: 'var(--bg-hover)', borderColor: 'var(--bg-border)', color: 'var(--text-primary)' }}
+              />
+            </div>
+            <div>
+              <label className="block font-inter text-xs tracking-widest uppercase mb-1.5" style={{ color: 'var(--text-secondary)' }}>Confirmar Senha</label>
+              <input
+                type="password"
+                value={credConfirm}
+                onChange={e => setCredConfirm(e.target.value)}
+                placeholder="Repita a nova senha"
+                autoComplete="new-password"
+                className="w-full px-4 py-2.5 rounded-sm border font-inter text-sm outline-none focus:ring-1 focus:ring-gold/40 transition-all"
+                style={{ backgroundColor: 'var(--bg-hover)', borderColor: 'var(--bg-border)', color: 'var(--text-primary)' }}
+              />
+            </div>
+          </div>
+          {credError && (
+            <p className="font-inter text-xs text-red-400 flex items-center gap-1.5">
+              <span>⚠</span> {credError}
+            </p>
+          )}
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={handleSaveCreds}
+              className="px-5 py-2 rounded-sm text-sm font-inter font-semibold transition-all hover:opacity-80"
+              style={{ backgroundColor: 'rgba(var(--gold-rgb),0.15)', color: 'var(--gold)', border: '1px solid rgba(var(--gold-rgb),0.3)' }}
+            >
+              Atualizar credenciais
+            </button>
           </div>
         </Section>
 
