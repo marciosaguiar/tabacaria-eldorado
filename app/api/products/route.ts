@@ -34,6 +34,7 @@ export async function POST(request: Request) {
       visivelAtacado: body.visivelAtacado !== false,
       visivelVarejo: body.visivelVarejo !== false,
       categoria: String(body.categoria || ''),
+      tipo: body.tipo === 'combo' ? 'combo' : 'produto',
       ativo: body.ativo === false ? false : true,
     }
 

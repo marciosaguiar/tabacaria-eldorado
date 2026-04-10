@@ -32,6 +32,7 @@ export async function PUT(
       visivelAtacado: body.visivelAtacado !== undefined ? Boolean(body.visivelAtacado) : products[index].visivelAtacado,
       visivelVarejo: body.visivelVarejo !== undefined ? Boolean(body.visivelVarejo) : products[index].visivelVarejo,
       categoria: body.categoria !== undefined ? String(body.categoria) : (products[index].categoria || ''),
+      tipo: body.tipo !== undefined ? (body.tipo === 'combo' ? 'combo' : 'produto') : (products[index].tipo || 'produto'),
       ativo: body.ativo !== undefined ? Boolean(body.ativo) : (products[index].ativo !== false),
     }
 

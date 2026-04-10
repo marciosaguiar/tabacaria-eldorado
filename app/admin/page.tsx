@@ -14,6 +14,7 @@ const EMPTY_FORM = {
   visivelAtacado: true,
   visivelVarejo: true,
   imagem: '',
+  categoria: '',
   tipo: 'produto' as 'produto' | 'combo',
   ativo: true,
 }
@@ -116,6 +117,7 @@ function ProductFormModal({
   isSubmitting,
   onSubmit,
   onCancel,
+  categorias,
 }: {
   editingProduct: Product | null
   formData: FormData
@@ -127,6 +129,7 @@ function ProductFormModal({
   isSubmitting: boolean
   onSubmit: (e: React.FormEvent) => void
   onCancel: () => void
+  categorias: string[]
 }) {
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -188,6 +191,56 @@ function ProductFormModal({
                 className="w-full bg-dark border border-dark-border rounded-sm px-4 py-3 text-white placeholder-gray-700 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/20 font-inter text-sm resize-none"
                 placeholder="Descrição breve do produto..."
               />
+            </div>
+
+            {/* Categoria + Tipo */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[10px] text-gold/60 tracking-[0.2em] uppercase mb-2 font-inter">
+                  Categoria
+                </label>
+                <input
+                  type="text"
+                  list="categorias-list"
+                  value={formData.categoria}
+                  onChange={(e) => setFormData({ ...formData, categoria: e.target.value })}
+                  className="w-full bg-dark border border-dark-border rounded-sm px-4 py-3 text-white placeholder-gray-700 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/20 font-inter text-sm"
+                  placeholder="Ex: Charutos"
+                />
+                <datalist id="categorias-list">
+                  {categorias.map(c => <option key={c} value={c} />)}
+                </datalist>
+              </div>
+              <div>
+                <label className="block text-[10px] text-gold/60 tracking-[0.2em] uppercase mb-2 font-inter">
+                  Tipo
+                </label>
+                <div className="flex h-[46px] border border-dark-border rounded-sm overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, tipo: 'produto' })}
+                    className="flex-1 text-xs font-inter font-medium transition-all duration-200"
+                    style={{
+                      background: formData.tipo !== 'combo' ? 'rgba(201,168,76,0.15)' : 'transparent',
+                      color: formData.tipo !== 'combo' ? '#C9A84C' : '#6b7280',
+                      borderRight: '0.5px solid rgba(255,255,255,0.06)',
+                    }}
+                  >
+                    Produto
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, tipo: 'combo' })}
+                    className="flex-1 text-xs font-inter font-medium transition-all duration-200"
+                    style={{
+                      background: formData.tipo === 'combo' ? 'rgba(201,168,76,0.15)' : 'transparent',
+                      color: formData.tipo === 'combo' ? '#C9A84C' : '#6b7280',
+                    }}
+                  >
+                    Combo
+                  </button>
+                </div>
+              </div>
             </div>
 
             {/* Preços */}
@@ -441,7 +494,21 @@ function AdminProductCard({
 
       {/* Info */}
       <div className="p-3">
-        <h3 className="font-playfair text-sm text-white line-clamp-1 mb-2">{product.nome}</h3>
+        <h3 className="font-playfair text-sm text-white line-clamp-1 mb-1">{product.nome}</h3>
+        {(product.categoria || product.tipo === 'combo') && (
+          <div className="flex gap-1 mb-2 flex-wrap">
+            {product.tipo === 'combo' && (
+              <span className="text-[9px] px-1.5 py-0.5 rounded-sm font-inter font-bold tracking-wide bg-amber-500/15 text-amber-400 border border-amber-500/20">
+                COMBO
+              </span>
+            )}
+            {product.categoria && (
+              <span className="text-[9px] px-1.5 py-0.5 rounded-sm font-inter tracking-wide text-gray-500 border border-dark-border">
+                {product.categoria}
+              </span>
+            )}
+          </div>
+        )}
 
         {/* Prices */}
         <div className="space-y-0.5 mb-2">
@@ -570,6 +637,7 @@ export default function AdminPage() {
       visivelAtacado: product.visivelAtacado,
       visivelVarejo: product.visivelVarejo,
       imagem: product.imagem || '',
+      categoria: product.categoria || '',
       tipo: (product.tipo as 'produto' | 'combo') || 'produto',
       ativo: product.ativo !== false,
     })
@@ -611,6 +679,8 @@ export default function AdminPage() {
         precoVarejo: formData.precoVarejo !== '' ? parseFloat(formData.precoVarejo) : null,
         visivelAtacado: formData.visivelAtacado,
         visivelVarejo: formData.visivelVarejo,
+        categoria: formData.categoria,
+        tipo: formData.tipo,
         ativo: formData.ativo,
       }
 
@@ -673,6 +743,8 @@ export default function AdminPage() {
     activeTab === 'atacado' ? p.visivelAtacado : p.visivelVarejo
   )
   const allTabProducts = products
+
+  const allCategorias = Array.from(new Set(products.map(p => p.categoria).filter(Boolean))) as string[]
 
   if (!isAuthenticated) return null
 
@@ -891,6 +963,7 @@ export default function AdminPage() {
           isSubmitting={isSubmitting}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
+          categorias={allCategorias}
         />
       )}
 

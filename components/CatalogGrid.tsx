@@ -496,6 +496,7 @@ interface InnerProps {
 
 function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdded }: InnerProps) {
   const [filterCat, setFilterCat] = useState('todas')
+  const [sortOrder, setSortOrder] = useState<'cadastro' | 'nome-az' | 'nome-za' | 'preco-asc' | 'preco-desc'>('cadastro')
   const [lightbox, setLightbox] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
   const [isAdmin, setIsAdmin] = useState(false)
@@ -510,11 +511,21 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
 
   const chanOk = (p: Product) => channel === 'varejo' ? p.visivelVarejo : p.visivelAtacado
 
-  const visible = products.filter(p => {
+  const visibleRaw = products.filter(p => {
     if (!chanOk(p)) return false
     if (filterCat === 'favoritos') return isFavorite(p.id)
     if (filterCat === 'todas') return true
     return p.categoria === filterCat
+  })
+
+  const getPrice = (p: Product) => channel === 'varejo' ? (p.precoVarejo ?? 0) : (p.precoAtacado ?? 0)
+
+  const visible = [...visibleRaw].sort((a, b) => {
+    if (sortOrder === 'nome-az') return a.nome.localeCompare(b.nome, 'pt-BR')
+    if (sortOrder === 'nome-za') return b.nome.localeCompare(a.nome, 'pt-BR')
+    if (sortOrder === 'preco-asc') return getPrice(a) - getPrice(b)
+    if (sortOrder === 'preco-desc') return getPrice(b) - getPrice(a)
+    return 0 // 'cadastro' - keep original order
   })
 
   const combos   = visible.filter(p => p.tipo === 'combo')
@@ -599,6 +610,41 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
           })}
         </div>
       )}
+
+      {/* Sort bar */}
+      <div style={{ padding: '8px 16px 0', display: 'flex', alignItems: 'center', gap: '8px', overflowX: 'auto' }}>
+        <span style={{ fontFamily: 'var(--font-inter, sans-serif)', fontSize: '11px', color: 'var(--el-text-hint)', whiteSpace: 'nowrap', flexShrink: 0 }}>
+          Ordenar:
+        </span>
+        {([
+          { key: 'cadastro', label: 'Padrão' },
+          { key: 'nome-az', label: 'A → Z' },
+          { key: 'nome-za', label: 'Z → A' },
+          { key: 'preco-asc', label: 'Menor preço' },
+          { key: 'preco-desc', label: 'Maior preço' },
+        ] as const).map(opt => (
+          <button
+            key={opt.key}
+            onClick={() => setSortOrder(opt.key)}
+            style={{
+              fontFamily: 'var(--font-inter, sans-serif)',
+              fontSize: '11px',
+              padding: '4px 10px',
+              borderRadius: '12px',
+              border: sortOrder === opt.key ? 'none' : '0.5px solid var(--el-gold-border)',
+              background: sortOrder === opt.key ? 'var(--el-gradient-gold)' : 'transparent',
+              color: sortOrder === opt.key ? '#3B1A08' : 'var(--el-text-secondary)',
+              fontWeight: sortOrder === opt.key ? 600 : 400,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+              transition: 'all 0.15s ease',
+            }}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
 
       {/* Content */}
       <div style={{ flex: 1, padding: '0 16px 32px' }}>
