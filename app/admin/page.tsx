@@ -409,11 +409,31 @@ function ProductFormModal({
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, ativo: !formData.ativo })}
-                className="relative w-12 h-6 rounded-full transition-colors flex-shrink-0 ml-4"
-                style={{ backgroundColor: formData.ativo ? '#C9A84C' : '#dc2626' }}
+                style={{
+                  position: 'relative',
+                  width: '48px',
+                  height: '26px',
+                  borderRadius: '13px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                  marginLeft: '16px',
+                  backgroundColor: formData.ativo ? '#C9A84C' : '#dc2626',
+                  transition: 'background-color 0.2s',
+                }}
               >
-                <span className="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform"
-                  style={{ transform: formData.ativo ? 'translateX(1.375rem)' : 'translateX(0.125rem)' }} />
+                <span style={{
+                  position: 'absolute',
+                  top: '3px',
+                  left: formData.ativo ? '23px' : '3px',
+                  width: '20px',
+                  height: '20px',
+                  borderRadius: '50%',
+                  backgroundColor: '#fff',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+                  transition: 'left 0.2s',
+                  display: 'block',
+                }} />
               </button>
             </div>
 
