@@ -13,40 +13,68 @@ export default async function Header({ channel }: HeaderProps) {
 
   return (
     <header
-      className="border-b border-gold/20 sticky top-0 z-40 backdrop-blur-sm"
-      style={{ backgroundColor: 'var(--header-bg)' }}
+      className="sticky top-0 z-40"
+      style={{
+        background: 'var(--el-gradient-dark)',
+        height: '64px',
+        display: 'flex',
+        alignItems: 'center',
+        boxShadow: '0 2px 16px rgba(0,0,0,0.4)',
+      }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
-        <Link href="/" className="flex items-center flex-shrink-0">
-          <div className="relative h-14 w-44 sm:h-16 sm:w-52">
+      <div
+        style={{
+          width: '100%',
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: '0 16px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '12px',
+        }}
+      >
+        {/* Logo */}
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+          <div style={{ position: 'relative', height: '36px', width: '120px' }}>
             <Image
               src={settings.logoUrl || '/images/logo.png'}
               alt={settings.nome}
               fill
-              sizes="(max-width: 640px) 176px, 208px"
+              sizes="120px"
               style={{ objectFit: 'contain', objectPosition: 'left center' }}
               priority
             />
           </div>
         </Link>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        {/* Right side */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {/* Channel badge */}
           {channel && (
             <span
-              className={`
-                px-3 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-inter font-medium
-                tracking-[0.15em] uppercase border rounded-full transition-all duration-300
-                ${channel === 'atacado'
-                  ? 'border-gold text-gold bg-gold/10 shadow-[0_0_12px_rgba(212,160,23,0.2)]'
-                  : 'border-gold-light text-gold-light bg-gold-light/10 shadow-[0_0_12px_rgba(255,208,96,0.15)]'
-                }
-              `}
+              style={{
+                background: 'var(--el-gradient-gold)',
+                color: '#3B1A08',
+                fontFamily: 'var(--font-inter, sans-serif)',
+                fontSize: '11px',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                padding: '4px 12px',
+                borderRadius: '12px',
+                lineHeight: 1.4,
+                whiteSpace: 'nowrap',
+              }}
             >
               {channel === 'atacado' ? '◆ Atacado' : '◆ Varejo'}
             </span>
           )}
 
+          {/* Admin link */}
           <AdminHeaderLink />
+
+          {/* Theme toggle */}
           <ThemeToggle />
         </div>
       </div>

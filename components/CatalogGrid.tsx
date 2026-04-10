@@ -58,17 +58,18 @@ function Lightbox({ product, channel, whatsapp, related, onClose, onSelectProduc
   }
 
   return (
-    <div className="fixed inset-0 z-[200] flex flex-col"
+    <div
+      className="fixed inset-0 z-[200] flex flex-col"
       style={{ backgroundColor: 'rgba(0,0,0,0.96)', backdropFilter: 'blur(10px)' }}
-      onClick={onClose}>
-
+      onClick={onClose}
+    >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 flex-shrink-0" onClick={e => e.stopPropagation()}>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             {product.tipo === 'combo' && (
               <span className="text-[9px] font-inter font-bold tracking-widest uppercase px-2 py-0.5 rounded-full"
-                style={{ backgroundColor: 'rgba(var(--gold-rgb),0.25)', color: 'var(--gold)', border: '1px solid rgba(var(--gold-rgb),0.4)' }}>
+                style={{ backgroundColor: 'rgba(201,150,42,0.25)', color: 'var(--el-gold-light)', border: '1px solid rgba(201,150,42,0.4)' }}>
                 ✦ COMBO
               </span>
             )}
@@ -79,11 +80,15 @@ function Lightbox({ product, channel, whatsapp, related, onClose, onSelectProduc
               </span>
             )}
           </div>
-          <h2 className="font-playfair font-bold text-lg sm:text-xl mt-1 leading-tight text-white truncate">{product.nome}</h2>
+          <h2 className="font-playfair font-bold text-lg sm:text-xl mt-1 leading-tight text-white truncate">
+            {product.nome}
+          </h2>
         </div>
-        <button onClick={onClose}
+        <button
+          onClick={onClose}
           className="ml-3 flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-full transition-colors hover:bg-white/10"
-          style={{ color: 'rgba(255,255,255,0.6)' }}>
+          style={{ color: 'rgba(255,255,255,0.6)' }}
+        >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -91,21 +96,25 @@ function Lightbox({ product, channel, whatsapp, related, onClose, onSelectProduc
       </div>
 
       {/* Image */}
-      <div className="flex-1 relative mx-4 rounded-xl overflow-hidden" style={{ minHeight: 0 }}
-        onClick={e => e.stopPropagation()}>
+      <div
+        className="flex-1 relative mx-4 rounded-xl overflow-hidden"
+        style={{ minHeight: 0 }}
+        onClick={e => e.stopPropagation()}
+      >
         {product.imagem ? (
           <Image src={product.imagem} alt={product.nome} fill style={{ objectFit: 'contain' }} sizes="100vw" priority />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <svg className="w-20 h-20 opacity-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--gold)' }}>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            <svg className="w-20 h-20 opacity-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              style={{ color: 'var(--el-gold-solid)' }}>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
             </svg>
           </div>
         )}
       </div>
 
       {/* Footer */}
-      <div className="flex-shrink-0 px-4 pt-3 pb-4" onClick={e => e.stopPropagation()}>
+      <div className="flex-shrink-0 px-4 pt-3 pb-5" onClick={e => e.stopPropagation()}>
         {product.descricao && (
           <p className="font-inter text-sm mb-3 leading-relaxed line-clamp-2" style={{ color: 'rgba(255,255,255,0.55)' }}>
             {product.descricao}
@@ -113,20 +122,28 @@ function Lightbox({ product, channel, whatsapp, related, onClose, onSelectProduc
         )}
         <div className="flex items-center justify-between gap-3 mb-3">
           {fmt(price) ? (
-            <p className="font-playfair font-bold text-2xl sm:text-3xl tracking-tight" style={{ color: 'var(--gold)' }}>
+            <p className="font-playfair font-bold text-2xl sm:text-3xl tracking-tight el-gold-text">
               {fmt(price)}
             </p>
           ) : <span />}
           <div className="flex gap-2">
-            <button onClick={handleAddToCart}
+            <button
+              onClick={handleAddToCart}
               className="flex items-center gap-1.5 px-4 py-2.5 rounded-full font-inter font-semibold text-sm transition-all hover:scale-105 active:scale-95"
-              style={{ backgroundColor: added ? 'rgba(var(--gold-rgb),0.2)' : 'rgba(var(--gold-rgb),0.15)', color: 'var(--gold)', border: '1px solid rgba(var(--gold-rgb),0.4)' }}>
+              style={{
+                backgroundColor: added ? 'rgba(201,150,42,0.2)' : 'rgba(201,150,42,0.15)',
+                color: 'var(--el-gold-light)',
+                border: '1px solid rgba(201,150,42,0.4)',
+              }}
+            >
               {added ? '✓ Adicionado' : '+ Carrinho'}
             </button>
             {whatsapp && (
-              <button onClick={handleAddAndOrder}
+              <button
+                onClick={handleAddAndOrder}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-full font-inter font-semibold text-sm transition-all hover:scale-105 active:scale-95"
-                style={{ backgroundColor: '#25D366', color: '#fff' }}>
+                style={{ backgroundColor: '#25D366', color: '#fff' }}
+              >
                 <WaIcon />
                 Pedir
               </button>
@@ -140,11 +157,14 @@ function Lightbox({ product, channel, whatsapp, related, onClose, onSelectProduc
             <p className="font-inter text-[10px] tracking-widest uppercase mb-2" style={{ color: 'rgba(255,255,255,0.35)' }}>
               Veja também
             </p>
-            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+            <div className="flex gap-2 overflow-x-auto pb-1">
               {related.map(r => (
-                <button key={r.id} onClick={() => onSelectProduct(r)}
+                <button
+                  key={r.id}
+                  onClick={() => onSelectProduct(r)}
                   className="flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-xl transition-colors"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+                >
                   {r.imagem && (
                     <div className="relative w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
                       <Image src={r.imagem} alt={r.nome} fill style={{ objectFit: 'cover' }} sizes="32px" />
@@ -171,20 +191,55 @@ function CartFAB() {
   if (!mounted) return null
 
   return (
-    <button onClick={openDrawer}
+    <button
+      onClick={openDrawer}
       className="fixed bottom-6 left-6 z-[100] w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 active:scale-95"
-      style={{ backgroundColor: 'var(--bg-card)', border: '1px solid rgba(var(--gold-rgb),0.3)', boxShadow: '0 4px 20px rgba(0,0,0,0.4)' }}
-      title="Carrinho de compras">
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} style={{ color: 'var(--gold)' }}>
+      style={{
+        background: 'var(--el-gradient-dark)',
+        border: '1px solid var(--el-gold-border)',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+      }}
+      title="Carrinho de compras"
+    >
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}
+        style={{ color: 'var(--el-gold-light)' }}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
       </svg>
       {totalItems > 0 && (
-        <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center font-inter text-[10px] font-bold"
-          style={{ backgroundColor: 'var(--gold)', color: '#000' }}>
+        <span
+          className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center font-inter text-[10px] font-bold"
+          style={{ background: 'var(--el-gradient-gold)', color: '#3B1A08' }}
+        >
           {totalItems > 9 ? '9+' : totalItems}
         </span>
       )}
     </button>
+  )
+}
+
+// ─── Skeleton Card ────────────────────────────────────────────────────────────
+function SkeletonCard() {
+  return (
+    <div
+      style={{
+        backgroundColor: 'var(--el-bg-surface)',
+        border: 'var(--el-border-card)',
+        borderRadius: 'var(--el-radius-md)',
+        boxShadow: 'var(--el-shadow-card)',
+        overflow: 'hidden',
+      }}
+    >
+      <div className="el-skeleton" style={{ width: '100%', aspectRatio: '1/1' }} />
+      <div style={{ padding: '10px 12px 14px' }}>
+        <div className="el-skeleton" style={{ height: '16px', marginBottom: '8px', width: '72%', borderRadius: '4px' }} />
+        <div className="el-skeleton" style={{ height: '10px', marginBottom: '4px', width: '100%', borderRadius: '4px' }} />
+        <div className="el-skeleton" style={{ height: '10px', marginBottom: '14px', width: '55%', borderRadius: '4px' }} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div className="el-skeleton" style={{ height: '20px', width: '42%', borderRadius: '4px' }} />
+          <div className="el-skeleton" style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -211,125 +266,225 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
   }
 
   return (
-    <div className="product-card group relative rounded-xl overflow-hidden flex flex-col"
+    <div
       style={{
-        backgroundColor: 'var(--bg-card)',
-        border: `1px solid ${isCombo ? 'rgba(var(--gold-rgb),0.35)' : 'var(--bg-border)'}`,
-        transition: 'border-color 0.3s, box-shadow 0.3s, transform 0.2s',
-        boxShadow: isCombo ? '0 0 16px rgba(var(--gold-rgb),0.08)' : 'none',
+        backgroundColor: 'var(--el-bg-surface)',
+        border: 'var(--el-border-card)',
+        borderRadius: 'var(--el-radius-md)',
+        boxShadow: 'var(--el-shadow-card)',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
       }}
-      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 24px rgba(0,0,0,0.25)' }}
-      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLElement).style.boxShadow = isCombo ? '0 0 16px rgba(var(--gold-rgb),0.08)' : 'none' }}
+      onMouseEnter={e => {
+        e.currentTarget.style.transform = 'translateY(-3px)'
+        e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,0,0,0.12)'
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.transform = 'translateY(0)'
+        e.currentTarget.style.boxShadow = 'var(--el-shadow-card)'
+      }}
     >
       {/* Image */}
-      <div className="relative aspect-[4/5] overflow-hidden cursor-zoom-in"
-        style={{ backgroundColor: 'var(--bg-hover)' }}
-        onClick={onImageClick}>
+      <div
+        className="relative overflow-hidden"
+        style={{
+          width: '100%',
+          aspectRatio: '1/1',
+          backgroundColor: '#F5EFE0',
+          cursor: 'zoom-in',
+          borderRadius: '14px 14px 0 0',
+        }}
+        onClick={onImageClick}
+      >
         {product.imagem ? (
-          <Image src={product.imagem} alt={product.nome} fill
+          <Image
+            src={product.imagem}
+            alt={product.nome}
+            fill
             sizes="(max-width:640px) 50vw,(max-width:1024px) 33vw,20vw"
             style={{
               objectFit: 'cover',
               filter: product.ativo === false ? 'grayscale(100%) brightness(0.5)' : undefined,
+              transition: 'transform 0.4s ease',
             }}
-            className="transition-transform duration-500 group-hover:scale-105" />
+            className="group-hover:scale-105"
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <svg className="w-10 h-10 opacity-15" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--gold)' }}>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            {/* Tobacco book icon */}
+            <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              style={{ color: 'var(--el-gold-solid)', opacity: 0.5 }}>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
+                d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
             </svg>
           </div>
         )}
 
         {/* Indisponível overlay */}
         {product.ativo === false && (
-          <div className="absolute inset-0 flex items-end justify-center pb-3 pointer-events-none"
-            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 60%)' }}>
-            <span className="font-inter text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded"
-              style={{ backgroundColor: 'rgba(0,0,0,0.6)', color: '#aaa', border: '1px solid rgba(255,255,255,0.15)' }}>
+          <div
+            className="absolute inset-0 flex items-end justify-center pb-3 pointer-events-none"
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 60%)' }}
+          >
+            <span
+              style={{
+                fontFamily: 'var(--font-inter, sans-serif)',
+                fontSize: '10px',
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                padding: '3px 8px',
+                borderRadius: '4px',
+                backgroundColor: 'rgba(0,0,0,0.6)',
+                color: '#bbb',
+                border: '1px solid rgba(255,255,255,0.15)',
+              }}
+            >
               Indisponível
             </span>
           </div>
         )}
 
-        {/* Badges topo */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1">
-          {isCombo && (
-            <span className="text-[9px] font-inter font-bold tracking-widest uppercase px-2 py-0.5 rounded-full"
-              style={{ backgroundColor: 'rgba(var(--gold-rgb),0.9)', color: '#000' }}>
-              ✦ COMBO
-            </span>
-          )}
-          {product.categoria && !isCombo && (
-            <span className="text-[9px] font-inter font-semibold tracking-wider px-2 py-0.5 rounded-full uppercase"
-              style={{ backgroundColor: 'rgba(0,0,0,0.55)', color: 'rgba(var(--gold-rgb),0.9)', border: '1px solid rgba(var(--gold-rgb),0.3)', backdropFilter: 'blur(4px)' }}>
-              {product.categoria}
-            </span>
-          )}
-        </div>
+        {/* Category / Combo badge */}
+        {(product.categoria || isCombo) && (
+          <span
+            className="absolute top-2 left-2"
+            style={{
+              fontFamily: 'var(--font-inter, sans-serif)',
+              fontSize: '10px',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              backgroundColor: 'rgba(255,255,255,0.92)',
+              color: 'var(--el-gold-solid)',
+              border: '0.5px solid var(--el-gold-border)',
+              borderRadius: '6px',
+              padding: '3px 7px',
+              lineHeight: 1.4,
+            }}
+          >
+            {isCombo ? '✦ COMBO' : product.categoria}
+          </span>
+        )}
 
-        {/* Botão favorito */}
+        {/* Favorite button */}
         <button
           onClick={e => { e.stopPropagation(); onToggleFav() }}
-          className="absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center transition-all hover:scale-110"
-          style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
-          title={isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}>
-          <svg className="w-3.5 h-3.5" fill={isFav ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}
-            style={{ color: isFav ? '#ef4444' : 'rgba(255,255,255,0.7)' }}>
+          className="absolute top-2 right-2"
+          style={{
+            width: '28px',
+            height: '28px',
+            borderRadius: '50%',
+            backgroundColor: 'rgba(255,255,255,0.88)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'transform 0.15s ease',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.12)' }}
+          onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
+          title={isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+        >
+          <svg width="14" height="14" fill={isFav ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}
+            style={{ color: isFav ? '#ef4444' : 'rgba(0,0,0,0.45)' }}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
         </button>
-
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%)' }} />
       </div>
 
       {/* Body */}
-      <div className="p-3 sm:p-4 flex flex-col flex-1">
-        <h3 className="font-playfair text-base sm:text-lg font-semibold line-clamp-1 leading-snug" style={{ color: 'var(--text-primary)' }}>
+      <div style={{ padding: '10px 12px 12px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+        <h3
+          className="line-clamp-1"
+          style={{
+            fontFamily: 'var(--font-playfair, serif)',
+            fontSize: '14px',
+            fontWeight: 600,
+            color: 'var(--el-text-primary)',
+            lineHeight: 1.3,
+            marginBottom: '4px',
+          }}
+        >
           {product.nome}
         </h3>
-        {product.categoria && isCombo && (
-          <span className="text-[9px] font-inter tracking-widest uppercase mt-0.5" style={{ color: 'var(--gold)', opacity: 0.7 }}>
-            {product.categoria}
-          </span>
-        )}
+
         {product.descricao && (
-          <p className="text-xs mt-1.5 line-clamp-2 font-inter leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+          <p
+            className="line-clamp-2"
+            style={{
+              fontFamily: 'var(--font-inter, sans-serif)',
+              fontSize: '11px',
+              color: 'var(--el-text-hint)',
+              lineHeight: 1.4,
+              marginBottom: '8px',
+            }}
+          >
             {product.descricao}
           </p>
         )}
 
-        <div className="flex items-end justify-between mt-auto pt-3 gap-2">
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginTop: 'auto',
+            paddingTop: '6px',
+          }}
+        >
           {fmt(price) ? (
-            <p className="font-inter font-bold text-xl sm:text-2xl tracking-tight" style={{ color: 'var(--gold)' }}>
+            <p
+              className="el-gold-text"
+              style={{
+                fontFamily: 'var(--font-inter, sans-serif)',
+                fontSize: '17px',
+                fontWeight: 700,
+                lineHeight: 1.2,
+              }}
+            >
               {fmt(price)}
             </p>
           ) : <span />}
-          <button onClick={handleAdd}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-inter font-semibold transition-all duration-200 hover:scale-105 active:scale-95 flex-shrink-0"
+
+          <button
+            onClick={handleAdd}
             style={{
-              backgroundColor: justAdded ? 'rgba(var(--gold-rgb),0.2)' : 'rgba(var(--gold-rgb),0.12)',
-              color: 'var(--gold)',
-              border: '1px solid rgba(var(--gold-rgb),0.35)',
-            }}>
-            {justAdded ? (
-              <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg><span className="hidden sm:inline">Ok!</span></>
-            ) : (
-              <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg><span className="hidden sm:inline">Adicionar</span></>
-            )}
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              background: justAdded ? 'rgba(201,150,42,0.15)' : 'var(--el-gradient-gold)',
+              color: justAdded ? 'var(--el-gold-solid)' : '#3B1A08',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: justAdded ? '14px' : '22px',
+              fontWeight: 400,
+              lineHeight: 1,
+              border: 'none',
+              cursor: 'pointer',
+              flexShrink: 0,
+              transition: 'filter 0.15s ease, transform 0.15s ease',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.filter = 'brightness(1.1)'; e.currentTarget.style.transform = 'scale(1.07)' }}
+            onMouseLeave={e => { e.currentTarget.style.filter = ''; e.currentTarget.style.transform = '' }}
+            onMouseDown={e => { e.currentTarget.style.transform = 'scale(0.93)' }}
+            onMouseUp={e => { e.currentTarget.style.transform = 'scale(1.07)' }}
+            title={justAdded ? 'Adicionado!' : 'Adicionar ao carrinho'}
+          >
+            {justAdded ? '✓' : '+'}
           </button>
         </div>
       </div>
-
-      {/* Bottom accent */}
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"
-        style={{ background: 'linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent)' }} />
     </div>
   )
 }
 
-// ─── Inner grid (usa useCart, useFavorites) ──────────────────────────────────
+// ─── Inner grid ───────────────────────────────────────────────────────────────
 interface InnerProps {
   products: Product[]
   allProducts: Product[]
@@ -342,8 +497,14 @@ interface InnerProps {
 function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdded }: InnerProps) {
   const [filterCat, setFilterCat] = useState('todas')
   const [lightbox, setLightbox] = useState<Product | null>(null)
+  const [loading, setLoading] = useState(true)
   const closeLightbox = useCallback(() => setLightbox(null), [])
   const { isFavorite, toggle, count: favCount } = useFavorites()
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 300)
+    return () => clearTimeout(t)
+  }, [])
 
   const chanOk = (p: Product) => channel === 'varejo' ? p.visivelVarejo : p.visivelAtacado
 
@@ -354,12 +515,10 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
     return p.categoria === filterCat
   })
 
-  const combos = visible.filter(p => p.tipo === 'combo')
-  const regular = visible.filter(p => p.tipo !== 'combo')
+  const combos   = visible.filter(p => p.tipo === 'combo')
+  const regular  = visible.filter(p => p.tipo !== 'combo')
 
-  const usedCats = categorias.filter(c =>
-    products.some(p => p.categoria === c && chanOk(p))
-  )
+  const usedCats = categorias.filter(c => products.some(p => p.categoria === c && chanOk(p)))
   const cats = ['todas', ...(favCount > 0 ? ['favoritos'] : []), ...usedCats]
 
   const getRelated = (p: Product) =>
@@ -381,96 +540,233 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
 
       <CartDrawer whatsapp={whatsapp} channel={channel} />
 
-      {/* Botão Voltar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4">
-        <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-inter transition-opacity hover:opacity-60"
-          style={{ color: 'var(--text-muted)' }}>
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+      {/* Back link */}
+      <div style={{ padding: '12px 16px 0' }}>
+        <Link
+          href="/"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            fontFamily: 'var(--font-inter, sans-serif)',
+            fontSize: '12px',
+            color: 'var(--el-text-hint)',
+            textDecoration: 'none',
+            transition: 'opacity 0.2s',
+          }}
+        >
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
-          Voltar à página inicial
+          Início
         </Link>
       </div>
 
-      {/* Filter tabs */}
+      {/* Category chips */}
       {cats.length > 1 && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-5">
-          <div className="flex gap-1.5 flex-wrap">
-            {cats.map(c => {
-              const isActive = filterCat === c
-              const label = c === 'todas' ? 'Todas' : c === 'favoritos' ? `❤ Favoritos (${favCount})` : c
-              return (
-                <button key={c} onClick={() => setFilterCat(c)}
-                  className="px-3 py-1.5 rounded-full text-xs font-inter font-medium capitalize transition-all"
-                  style={{
-                    backgroundColor: isActive ? 'var(--gold)' : 'var(--bg-card)',
-                    color: isActive ? '#000' : 'var(--text-secondary)',
-                    border: `1px solid ${isActive ? 'var(--gold)' : 'var(--bg-border)'}`,
-                  }}>
-                  {label}
-                </button>
-              )
-            })}
-          </div>
+        <div className="el-chips-scroll" style={{ padding: '14px 16px 4px' }}>
+          {cats.map(c => {
+            const isActive = filterCat === c
+            const label = c === 'todas' ? 'Todas' : c === 'favoritos' ? `❤ Favoritos (${favCount})` : c
+            return (
+              <button
+                key={c}
+                onClick={() => setFilterCat(c)}
+                style={{
+                  background: isActive ? 'var(--el-gradient-gold)' : '#F0EAE0',
+                  border: isActive ? 'none' : '0.5px solid var(--el-gold-border)',
+                  borderRadius: '20px',
+                  padding: '0 16px',
+                  height: '36px',
+                  fontFamily: 'var(--font-inter, sans-serif)',
+                  fontSize: '13px',
+                  fontWeight: isActive ? 600 : 500,
+                  color: isActive ? '#3B1A08' : 'var(--el-text-secondary)',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
+                  lineHeight: '36px',
+                }}
+              >
+                {label}
+              </button>
+            )
+          })}
         </div>
       )}
 
-      <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10 w-full space-y-10">
+      {/* Content */}
+      <div style={{ flex: 1, padding: '0 16px 32px' }}>
 
-        {/* Seção de Combos */}
-        {combos.length > 0 && filterCat !== 'favoritos' && (
-          <section>
-            <div className="flex items-center gap-3 mb-5">
-              <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(var(--gold-rgb),0.4), transparent)' }} />
-              <h2 className="font-playfair font-bold text-lg tracking-wide" style={{ color: 'var(--gold)' }}>✦ Combos & Kits</h2>
-              <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, transparent, rgba(var(--gold-rgb),0.4))' }} />
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {combos.map(p => (
-                <ProductCard key={p.id} product={p} channel={channel}
-                  isFav={isFavorite(p.id)} onToggleFav={() => toggle(p.id)}
-                  onImageClick={() => setLightbox(p)} />
-              ))}
-            </div>
-          </section>
+        {/* Skeleton loading */}
+        {loading && (
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+              gap: '16px',
+              paddingTop: '16px',
+            }}
+          >
+            {[1, 2, 3, 4].map(i => <SkeletonCard key={i} />)}
+          </div>
         )}
 
-        {/* Grid principal */}
-        {regular.length === 0 && combos.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="w-14 h-14 border rounded-full flex items-center justify-center mb-4" style={{ borderColor: 'rgba(var(--gold-rgb),0.2)' }}>
-              <svg className="w-6 h-6 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--gold)' }}>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-              </svg>
-            </div>
-            <p className="font-inter text-sm" style={{ color: 'var(--text-secondary)' }}>
-              {filterCat === 'favoritos' ? 'Nenhum favorito ainda.' : 'Nenhum produto disponível no momento.'}
-            </p>
-            <p className="font-inter text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
-              {filterCat === 'favoritos' ? 'Toque no ♡ nos produtos para salvar.' : 'Em breve novos produtos serão adicionados.'}
-            </p>
-          </div>
-        ) : regular.length > 0 && (
-          <section>
-            {combos.length > 0 && filterCat === 'todas' && (
-              <div className="flex items-center gap-3 mb-5">
-                <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(var(--gold-rgb),0.2), transparent)' }} />
-                <h2 className="font-playfair font-bold text-base tracking-wide" style={{ color: 'var(--text-secondary)' }}>Produtos</h2>
-                <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, transparent, rgba(var(--gold-rgb),0.2))' }} />
+        {!loading && (
+          <>
+            {/* Combos section */}
+            {combos.length > 0 && filterCat !== 'favoritos' && (
+              <section style={{ paddingTop: '20px', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                  <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, var(--el-gold-border), transparent)' }} />
+                  <h2
+                    style={{
+                      fontFamily: 'var(--font-playfair, serif)',
+                      fontSize: '16px',
+                      fontWeight: 600,
+                      color: 'var(--el-gold-solid)',
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    ✦ Combos & Kits
+                  </h2>
+                  <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, transparent, var(--el-gold-border))' }} />
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                    gap: '16px',
+                  }}
+                >
+                  {combos.map(p => (
+                    <ProductCard
+                      key={p.id}
+                      product={p}
+                      channel={channel}
+                      isFav={isFavorite(p.id)}
+                      onToggleFav={() => toggle(p.id)}
+                      onImageClick={() => setLightbox(p)}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Empty state */}
+            {regular.length === 0 && combos.length === 0 && (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '48px 24px',
+                  textAlign: 'center',
+                }}
+              >
+                <div
+                  style={{
+                    width: '64px',
+                    height: '64px',
+                    borderRadius: '50%',
+                    backgroundColor: '#F0EAE0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '16px',
+                  }}
+                >
+                  <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    style={{ color: 'var(--el-gold-solid)', opacity: 0.5 }}>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
+                      d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                  </svg>
+                </div>
+                <h3
+                  style={{
+                    fontFamily: 'var(--font-playfair, serif)',
+                    fontSize: '16px',
+                    fontWeight: 600,
+                    color: 'var(--el-text-secondary)',
+                    marginBottom: '8px',
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {filterCat === 'favoritos' ? 'Nenhum favorito ainda' : 'Nenhum produto nesta categoria'}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-inter, sans-serif)',
+                    fontSize: '13px',
+                    color: 'var(--el-text-hint)',
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {filterCat === 'favoritos'
+                    ? 'Toque no ♡ nos produtos para salvar.'
+                    : 'Em breve novos produtos serão adicionados.'}
+                </p>
               </div>
             )}
-            <p className="text-xs font-inter mb-5 tracking-wide" style={{ color: 'var(--text-muted)' }}>
-              {regular.length} {regular.length === 1 ? 'produto' : 'produtos'}
-              {filterCat !== 'todas' && filterCat !== 'favoritos' ? ` em ${filterCat}` : ''}
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
-              {regular.map(p => (
-                <ProductCard key={p.id} product={p} channel={channel}
-                  isFav={isFavorite(p.id)} onToggleFav={() => toggle(p.id)}
-                  onImageClick={() => setLightbox(p)} />
-              ))}
-            </div>
-          </section>
+
+            {/* Main grid */}
+            {regular.length > 0 && (
+              <section style={{ paddingTop: combos.length > 0 ? '0' : '16px' }}>
+                {combos.length > 0 && filterCat === 'todas' && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                    <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, var(--el-gold-border), transparent)' }} />
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-playfair, serif)',
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        color: 'var(--el-text-secondary)',
+                        lineHeight: 1.3,
+                      }}
+                    >
+                      Produtos
+                    </span>
+                    <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, transparent, var(--el-gold-border))' }} />
+                  </div>
+                )}
+
+                {/* Count */}
+                <p
+                  style={{
+                    fontFamily: 'var(--font-inter, sans-serif)',
+                    fontSize: '12px',
+                    color: 'var(--el-text-hint)',
+                    lineHeight: 1.4,
+                    marginBottom: '12px',
+                  }}
+                >
+                  {regular.length} {regular.length === 1 ? 'produto' : 'produtos'}
+                  {filterCat !== 'todas' && filterCat !== 'favoritos' ? ` em ${filterCat}` : ''}
+                </p>
+
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                    gap: '16px',
+                  }}
+                >
+                  {regular.map(p => (
+                    <ProductCard
+                      key={p.id}
+                      product={p}
+                      channel={channel}
+                      isFav={isFavorite(p.id)}
+                      onToggleFav={() => toggle(p.id)}
+                      onImageClick={() => setLightbox(p)}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
         )}
       </div>
 
@@ -481,7 +777,7 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
   )
 }
 
-// ─── Public export (com CartProvider) ─────────────────────────────────────────
+// ─── Public export ────────────────────────────────────────────────────────────
 interface Props {
   initialProducts: Product[]
   categorias: string[]

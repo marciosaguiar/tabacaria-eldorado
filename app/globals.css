@@ -3,9 +3,61 @@
 @tailwind utilities;
 
 /* ============================================================
-   TEMA ESCURO — padrão
-   Degradê: preto quente → marrom profundo
+   DESIGN SYSTEM — Eldorado Premium
+   Variáveis --el-* são o novo sistema de design.
+   Variáveis --bg-*, --text-*, --gold-* são mantidas para
+   compatibilidade com as páginas de admin.
    ============================================================ */
+
+/* ── Novo sistema de design (modo claro como primário) ─────── */
+:root {
+  /* Fundos */
+  --el-bg-page:    #FAF8F3;
+  --el-bg-surface: #FFFFFF;
+  --el-bg-input:   #FAFAF7;
+
+  /* Gradiente de marca — headers, navbar, hero */
+  --el-gradient-dark: linear-gradient(160deg, #0A0A0A 0%, #3B1A08 100%);
+
+  /* Dourado */
+  --el-gradient-gold:     linear-gradient(135deg, #C9962A 0%, #FFD966 100%);
+  --el-gold-solid:        #C9962A;
+  --el-gold-light:        #FFD966;
+  --el-gold-border:       rgba(201, 150, 42, 0.3);
+  --el-gold-border-hover: rgba(201, 150, 42, 0.7);
+
+  /* Tipografia */
+  --el-text-primary:   #1A1108;
+  --el-text-secondary: #6B4F2A;
+  --el-text-hint:      #A0856A;
+
+  /* Bordas */
+  --el-border-card:  0.5px solid rgba(201, 150, 42, 0.25);
+  --el-border-input: 1px solid rgba(201, 150, 42, 0.4);
+
+  /* Sombras */
+  --el-shadow-card: 0 2px 12px rgba(0, 0, 0, 0.07);
+
+  /* Raios */
+  --el-radius-sm: 8px;
+  --el-radius-md: 14px;
+  --el-radius-lg: 20px;
+  --el-radius-xl: 24px;
+}
+
+/* Modo escuro — sobrescreve apenas as vars de cor */
+[data-theme="dark"] {
+  --el-bg-page:    #0D0B08;
+  --el-bg-surface: #1A1510;
+  --el-bg-input:   #221C14;
+  --el-text-primary:   #F5E6C8;
+  --el-text-secondary: #C4A882;
+  --el-text-hint:      #8A7060;
+  --el-border-card:    0.5px solid rgba(255, 215, 0, 0.15);
+  --el-border-input:   1px solid rgba(255, 215, 0, 0.25);
+}
+
+/* ── Variáveis legadas (compatibilidade com admin) ─────────── */
 :root,
 [data-theme="dark"] {
   --bg-base:    #0c0806;
@@ -31,63 +83,52 @@
   --scrollbar-bg: #0c0806;
 }
 
-/* ============================================================
-   TEMA CLARO — "Pergaminho & Ouro"
-   Fundo: marfim aquecido. Cards: branco puro. Texto: espresso.
-   ============================================================ */
 [data-theme="light"] {
-  --bg-base:    #F3EDE3;
-  --bg-end:     #E6DDD0;
+  --bg-base:    #FAF8F3;
+  --bg-end:     #F0EBE1;
   --bg-card:    #FFFFFF;
-  --bg-hover:   #EDE6DC;
-  --bg-border:  #D8CCBA;
+  --bg-hover:   #F5EFE5;
+  --bg-border:  #E0D5C5;
 
-  --text-primary:   #1C0D04;
-  --text-secondary: #7A5030;
-  --text-muted:     #B8A088;
+  --text-primary:   #1A1108;
+  --text-secondary: #6B4F2A;
+  --text-muted:     #A0856A;
 
-  --gold:        #9A7200;
-  --gold-light:  #B88C14;
-  --gold-bright: #CCA830;
-  --gold-dark:   #705200;
-  --gold-rgb:    154, 114, 0;
-  --shadow-gold: rgba(154, 114, 0, 0.12);
+  --gold:        #C9962A;
+  --gold-light:  #E0B040;
+  --gold-bright: #FFD966;
+  --gold-dark:   #96701A;
+  --gold-rgb:    201, 150, 42;
+  --shadow-gold: rgba(201, 150, 42, 0.15);
 
-  --header-bg:    rgba(243, 237, 227, 0.96);
-  --hero-overlay: linear-gradient(to bottom, rgba(243,237,227,0.6), rgba(230,221,208,0.3));
-  --hero-glow:    radial-gradient(ellipse at top, rgba(154,114,0,0.08), transparent 60%);
-  --scrollbar-bg: #F3EDE3;
+  --header-bg:    rgba(250, 248, 243, 0.96);
+  --hero-overlay: linear-gradient(to bottom, rgba(250,248,243,0.4), rgba(240,235,225,0.2));
+  --hero-glow:    radial-gradient(ellipse at top, rgba(201,150,42,0.06), transparent 60%);
+  --scrollbar-bg: #FAF8F3;
 }
 
 /* ============================================================
-   BASE
+   RESET & BASE
    ============================================================ */
-* { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 body {
-  background: linear-gradient(160deg, var(--bg-base) 0%, var(--bg-end) 50%, var(--bg-base) 100%);
-  background-attachment: fixed;
-  color: var(--text-primary);
+  background-color: var(--el-bg-page);
+  color: var(--el-text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.4s ease, color 0.4s ease;
   min-height: 100vh;
 }
 
 /* ============================================================
-   TEMA CLARO — overrides Tailwind
+   ADMIN PAGES — compatibilidade com classes Tailwind antigas
    ============================================================ */
-
-/* Página principal: bg-dark → transparente (deixa o gradiente do body aparecer) */
-[data-theme="light"] .bg-dark          { background-color: transparent !important; }
-
-/* Cards e superfícies elevadas → branco puro */
-[data-theme="light"] .bg-dark-card     { background-color: #FFFFFF !important; }
+[data-theme="light"] .bg-dark          { background-color: var(--bg-base) !important; }
+[data-theme="light"] .bg-dark-card     { background-color: var(--bg-card) !important; }
 [data-theme="light"] .bg-dark-hover    { background-color: var(--bg-hover) !important; }
 [data-theme="light"] .bg-\[\#0d0d0d\] { background-color: var(--bg-hover) !important; }
 
-/* Texto */
 [data-theme="light"] .text-white       { color: var(--text-primary) !important; }
 [data-theme="light"] .text-gray-300    { color: #5A3520 !important; }
 [data-theme="light"] .text-gray-400    { color: #6A4228 !important; }
@@ -96,16 +137,13 @@ body {
 [data-theme="light"] .text-gray-700    { color: var(--text-muted) !important; }
 [data-theme="light"] .text-gray-800    { color: #C8B090 !important; }
 
-/* Texto ouro com opacidade (era quase invisível no claro) */
 [data-theme="light"] [class*="text-gold-light/"] { color: rgba(var(--gold-rgb), 0.65) !important; }
 [data-theme="light"] [class*="text-gold/"]        { color: rgba(var(--gold-rgb), 0.65) !important; }
 
-/* Bordas */
 [data-theme="light"] .border-dark-border           { border-color: var(--bg-border) !important; }
 [data-theme="light"] [class*="border-gold/"]       { border-color: rgba(var(--gold-rgb), 0.3) !important; }
 [data-theme="light"] .border-gold                  { border-color: var(--gold) !important; }
 
-/* Hero overlays escuros → usa variável do tema */
 [data-theme="light"] .from-dark-card {
   --tw-gradient-from: transparent !important;
   --tw-gradient-stops: transparent, transparent !important;
@@ -113,51 +151,96 @@ body {
 [data-theme="light"] .via-dark { --tw-gradient-via: transparent !important; }
 [data-theme="light"] .to-dark  { --tw-gradient-to: transparent !important; }
 
-/* Cards de produto */
 [data-theme="light"] .product-card {
-  background-color: #FFFFFF !important;
+  background-color: var(--el-bg-surface) !important;
   border-color: var(--bg-border) !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
+  box-shadow: var(--el-shadow-card) !important;
 }
 [data-theme="light"] .product-card:hover {
   border-color: rgba(var(--gold-rgb), 0.45) !important;
-  box-shadow: 0 4px 20px var(--shadow-gold), 0 1px 4px rgba(0,0,0,0.06) !important;
+  box-shadow: 0 4px 20px var(--shadow-gold), var(--el-shadow-card) !important;
 }
 
-/* Footer */
-[data-theme="light"] footer { background-color: #FFFFFF !important; }
+[data-theme="light"] footer { background-color: var(--el-bg-surface) !important; }
 
-/* Inputs e formulários (admin) */
 [data-theme="light"] input:not([type="file"]):not([type="range"]):not([type="checkbox"]),
 [data-theme="light"] textarea,
 [data-theme="light"] select {
-  background-color: #FFFFFF !important;
-  color: var(--text-primary) !important;
+  background-color: var(--el-bg-input) !important;
+  color: var(--el-text-primary) !important;
   border-color: var(--bg-border) !important;
 }
 [data-theme="light"] input::placeholder,
 [data-theme="light"] textarea::placeholder {
-  color: var(--text-muted) !important;
+  color: var(--el-text-hint) !important;
 }
 
-/* Login page */
 [data-theme="light"] .bg-dark.min-h-screen {
   background-color: var(--bg-base) !important;
 }
 
-/* Animated fade-in */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-.animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
-
-/* Badges dos canais */
-[data-theme="light"] .bg-gold\/10    { background-color: rgba(var(--gold-rgb), 0.08) !important; }
+[data-theme="light"] .bg-gold\/10     { background-color: rgba(var(--gold-rgb), 0.08) !important; }
 [data-theme="light"] .bg-gold-light\/10 { background-color: rgba(var(--gold-rgb), 0.06) !important; }
 
 /* ============================================================
-   DOURADO METÁLICO ANIMADO
+   UTILITÁRIOS DO NOVO DESIGN SYSTEM
+   ============================================================ */
+
+/* Texto com gradiente dourado */
+.el-gold-text {
+  background: var(--el-gradient-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Skeleton loading */
+@keyframes elPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+.el-skeleton {
+  background: #EDE5D8;
+  animation: elPulse 1.4s ease-in-out infinite;
+  border-radius: 6px;
+}
+[data-theme="dark"] .el-skeleton { background: #2A201A; }
+
+/* Toast slide-down */
+@keyframes elToastIn {
+  from { transform: translateY(-16px) translateX(-50%); opacity: 0; }
+  to   { transform: translateY(0)     translateX(-50%); opacity: 1; }
+}
+@keyframes elFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+.el-toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  animation: elToastIn 0.25s ease forwards;
+  background: var(--el-gradient-dark);
+  color: #D4A84B;
+  font-family: var(--font-inter, sans-serif);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  padding: 12px 20px;
+  border-radius: var(--el-radius-sm);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  white-space: nowrap;
+}
+
+/* Microanimações globais */
+a, button { transition: opacity 0.2s ease, transform 0.1s ease; }
+button:active { transform: scale(0.97); }
+
+/* ============================================================
+   DOURADO METÁLICO ANIMADO (legado, usado em HomeProductSection)
    ============================================================ */
 .text-gold-shine {
   background: linear-gradient(
@@ -174,15 +257,15 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
   animation: goldShimmer 4s linear infinite;
 }
 
 @keyframes goldShimmer {
-  0%   { background-position: 0% center; }
+  0%   { background-position: 0%   center; }
   100% { background-position: 200% center; }
 }
 
-/* Sombra dourada brilhante */
 .shadow-gold-glow {
   box-shadow:
     0 0 15px rgba(var(--gold-rgb), 0.3),
@@ -191,23 +274,21 @@ body {
 }
 
 /* ============================================================
+   ANIMAÇÃO FADE-IN
+   ============================================================ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+/* ============================================================
    SCROLLBAR
    ============================================================ */
 ::-webkit-scrollbar        { width: 5px; height: 5px; }
-::-webkit-scrollbar-track  { background: var(--scrollbar-bg); }
-::-webkit-scrollbar-thumb  { background: var(--gold); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--gold-light); }
-
-/* ============================================================
-   TRANSIÇÕES
-   ============================================================ */
-input[type='file'] { cursor: pointer; }
-
-a, button, input, textarea, select {
-  transition-property: color, background-color, border-color, box-shadow;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-}
+::-webkit-scrollbar-track  { background: var(--scrollbar-bg, var(--el-bg-page)); }
+::-webkit-scrollbar-thumb  { background: var(--gold, var(--el-gold-solid)); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-light, var(--el-gold-light)); }
 
 /* ============================================================
    LINE CLAMP
@@ -223,4 +304,26 @@ a, button, input, textarea, select {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+
+/* ============================================================
+   CHIPS DE CATEGORIA — scroll horizontal sem barra visível
+   ============================================================ */
+.el-chips-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 0 16px 4px;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.el-chips-scroll::-webkit-scrollbar { display: none; }
+
+/* ============================================================
+   INPUT TRANSITIONS (admin compat)
+   ============================================================ */
+input[type='file'] { cursor: pointer; }
+input, textarea, select {
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
