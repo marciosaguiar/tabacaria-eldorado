@@ -498,11 +498,13 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
   const [filterCat, setFilterCat] = useState('todas')
   const [lightbox, setLightbox] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
+  const [isAdmin, setIsAdmin] = useState(false)
   const closeLightbox = useCallback(() => setLightbox(null), [])
   const { isFavorite, toggle, count: favCount } = useFavorites()
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 300)
+    setIsAdmin(!!localStorage.getItem('eldorado_admin_token'))
     return () => clearTimeout(t)
   }, [])
 
@@ -540,27 +542,29 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
 
       <CartDrawer whatsapp={whatsapp} channel={channel} />
 
-      {/* Back link */}
-      <div style={{ padding: '12px 16px 0' }}>
-        <Link
-          href="/"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            fontFamily: 'var(--font-inter, sans-serif)',
-            fontSize: '12px',
-            color: 'var(--el-text-hint)',
-            textDecoration: 'none',
-            transition: 'opacity 0.2s',
-          }}
-        >
-          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-          Início
-        </Link>
-      </div>
+      {/* Back link — admin only */}
+      {isAdmin && (
+        <div style={{ padding: '12px 16px 0' }}>
+          <Link
+            href="/"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontFamily: 'var(--font-inter, sans-serif)',
+              fontSize: '12px',
+              color: 'var(--el-text-hint)',
+              textDecoration: 'none',
+              transition: 'opacity 0.2s',
+            }}
+          >
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Início
+          </Link>
+        </div>
+      )}
 
       {/* Category chips */}
       {cats.length > 1 && (
