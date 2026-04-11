@@ -1,1 +1,6 @@
-{"pages":{},"products":{}}
+{
+  "pages": {
+    "home": 2
+  },
+  "products": {}
+}

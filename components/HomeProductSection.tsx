@@ -651,10 +651,10 @@ export default function HomeProductSection({ initialProducts, categorias = [] }:
       {/* Section header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
-          <h2 className="font-playfair font-bold text-2xl sm:text-3xl" style={{ color: 'var(--text-primary)' }}>
-            Nossos <span className="text-gold-shine">Produtos</span>
+          <h2 className="font-playfair font-bold text-2xl sm:text-3xl" style={{ color: 'var(--el-text-primary)' }}>
+            Nossos <span style={{ color: 'var(--el-gold-solid)' }}>Produtos</span>
           </h2>
-          <div className="h-px w-16 mt-2" style={{ background: 'linear-gradient(90deg, rgba(var(--gold-rgb),0.6), transparent)' }} />
+          <div className="h-px w-16 mt-2" style={{ background: 'linear-gradient(90deg, var(--el-gold-solid), transparent)' }} />
         </div>
 
         {/* Sync info + refresh */}

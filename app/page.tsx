@@ -135,7 +135,6 @@ export default async function HomePage() {
             width: '180px',
             height: '180px',
             marginBottom: '20px',
-            filter: 'drop-shadow(0 0 32px rgba(201,150,42,0.45))',
           }}
         >
           <Image
@@ -143,7 +142,10 @@ export default async function HomePage() {
             alt={settings.nome}
             fill
             sizes="180px"
-            style={{ objectFit: 'contain' }}
+            style={{
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 0 28px rgba(201,150,42,0.55)) drop-shadow(0 0 8px rgba(201,150,42,0.3))',
+            }}
             priority
           />
         </div>
