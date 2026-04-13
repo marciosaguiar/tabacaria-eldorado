@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import ThemeToggle from './ThemeToggle'
 import AdminHeaderLink from './AdminHeaderLink'
 import { getSettings } from '@/lib/settings'
 
@@ -12,15 +13,13 @@ export default async function Header({ channel }: HeaderProps) {
 
   return (
     <header
-      className="glass-nav"
+      className="sticky top-0 z-40"
       style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 40,
-        height: '64px',
+        background: 'var(--el-gradient-dark)',
+        height: '72px',
         display: 'flex',
         alignItems: 'center',
-        borderBottom: '1px solid rgba(233,193,118,0.08)',
+        boxShadow: '0 2px 16px rgba(0,0,0,0.4)',
       }}
     >
       <div
@@ -35,71 +34,48 @@ export default async function Header({ channel }: HeaderProps) {
           gap: '12px',
         }}
       >
-        {/* Logo + nome */}
-        <Link
-          href="/"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            textDecoration: 'none',
-            flexShrink: 0,
-          }}
-        >
-          <div style={{ position: 'relative', height: '36px', width: '36px', flexShrink: 0 }}>
+        {/* Logo */}
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+          <div style={{ position: 'relative', height: '52px', width: '160px' }}>
             <Image
               src={settings.logoUrl || '/images/logo.png'}
               alt={settings.nome}
               fill
-              sizes="36px"
-              style={{
-                objectFit: 'contain',
-                filter: 'drop-shadow(0 0 6px rgba(233,193,118,0.25))',
-              }}
+              sizes="160px"
+              style={{ objectFit: 'contain', objectPosition: 'left center', filter: 'drop-shadow(0 0 8px rgba(201,150,42,0.25))' }}
               priority
             />
           </div>
-          <span
-            style={{
-              fontFamily: 'var(--font-newsreader, serif)',
-              fontSize: '17px',
-              fontStyle: 'italic',
-              fontWeight: 400,
-              color: '#e9c176',
-              letterSpacing: '-0.01em',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {settings.nome || 'Tabacaria Eldorado'}
-          </span>
         </Link>
 
         {/* Right side */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
-          {/* Channel badge — tonal pill (The "Humidor Toggle" style) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {/* Channel badge */}
           {channel && (
             <span
               style={{
-                backgroundColor: 'rgba(233,193,118,0.12)',
-                border: '1px solid rgba(233,193,118,0.2)',
-                color: '#e9c176',
+                background: 'var(--el-gradient-gold)',
+                color: '#3B1A08',
                 fontFamily: 'var(--font-inter, sans-serif)',
-                fontSize: '10px',
+                fontSize: '11px',
                 fontWeight: 700,
                 textTransform: 'uppercase',
-                letterSpacing: '0.1em',
+                letterSpacing: '0.08em',
                 padding: '4px 12px',
-                borderRadius: '6px',
+                borderRadius: '12px',
                 lineHeight: 1.4,
                 whiteSpace: 'nowrap',
               }}
             >
-              {channel === 'atacado' ? 'Atacado' : 'Varejo'}
+              {channel === 'atacado' ? '◆ Atacado' : '◆ Varejo'}
             </span>
           )}
 
           {/* Admin link */}
           <AdminHeaderLink />
+
+          {/* Theme toggle */}
+          <ThemeToggle />
         </div>
       </div>
     </header>

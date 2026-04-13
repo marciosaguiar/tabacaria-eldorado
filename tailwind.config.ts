@@ -9,70 +9,39 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // ── Stitch "The Sommelier's Study" palette ──────────────
-        surface: {
-          DEFAULT:  '#200f0a',
-          lowest:   '#1a0a06',
-          low:      '#291712',
-          mid:      '#2e1b16',
-          high:     '#39251f',
-          highest:  '#45302a',
-          bright:   '#4a342e',
-          variant:  '#45302a',
-        },
-        primary: {
-          DEFAULT:    '#e9c176',
-          container:  '#c5a059',
-          fixed:      '#ffdea5',
-        },
-        'on-surface':         '#fedbd2',
-        'on-surface-variant': '#d1c5b4',
-        'on-primary':         '#412d00',
-        'outline':            '#9a8f80',
-        'outline-variant':    '#4e4639',
-        secondary: {
-          DEFAULT:   '#d9c4a0',
-          container: '#534529',
-        },
-
-        // ── Legado (compatibilidade admin) ──────────────────────
+        // Dourado brilhante/metálico
         gold: {
-          DEFAULT: '#e9c176',
-          light:   '#ffdea5',
-          bright:  '#fff3d6',
-          dark:    '#c5a059',
-          shine:   '#e9c176',
+          DEFAULT: '#D4A017',
+          light:   '#FFD060',
+          bright:  '#FFE080',
+          dark:    '#A07808',
+          shine:   '#FFD700',
         },
+        // Dark — tons marrom-escuro (preto quente → marrom profundo)
         dark: {
-          DEFAULT: '#200f0a',
-          card:    '#2e1b16',
-          hover:   '#39251f',
-          border:  '#45302a',
+          DEFAULT: '#0c0806',
+          card:    '#150d08',
+          hover:   '#201408',
+          border:  '#2e1a0c',
+        },
+        // Light — creme/marfim para o modo claro
+        light: {
+          DEFAULT: '#FAF5EE',
+          card:    '#FFFAF4',
+          hover:   '#EDE3D5',
+          border:  '#DDD0BC',
         },
       },
       fontFamily: {
-        newsreader: ['var(--font-newsreader)', 'Newsreader', 'Georgia', 'serif'],
-        playfair:   ['var(--font-newsreader)', 'Newsreader', 'Georgia', 'serif'], // alias
-        inter:      ['var(--font-inter)', 'Inter', 'sans-serif'],
-        headline:   ['var(--font-newsreader)', 'Newsreader', 'Georgia', 'serif'],
-        body:       ['var(--font-inter)', 'Inter', 'sans-serif'],
-      },
-      borderRadius: {
-        DEFAULT: '0.125rem',
-        sm:  '0.25rem',
-        md:  '0.5rem',
-        lg:  '0.75rem',
-        xl:  '1rem',
-        '2xl': '1.25rem',
-        full: '9999px',
+        playfair: ['var(--font-playfair)', 'serif'],
+        inter:    ['var(--font-inter)', 'sans-serif'],
       },
       backgroundImage: {
-        'gold-metallic':   'linear-gradient(90deg, #c5a059 0%, #e9c176 40%, #ffdea5 50%, #e9c176 60%, #c5a059 100%)',
-        'espresso-radial': 'radial-gradient(ellipse at top, rgba(233,193,118,0.07), transparent 60%)',
+        'gold-metallic': 'linear-gradient(90deg, #7A5A00 0%, #D4A017 20%, #FFD700 40%, #FFF4B0 50%, #FFD700 60%, #D4A017 80%, #7A5A00 100%)',
       },
       animation: {
-        'fade-in':      'fadeIn 0.4s ease-in-out',
-        'slide-up':     'slideUp 0.4s ease-out',
+        'fade-in':      'fadeIn 0.3s ease-in-out',
+        'slide-up':     'slideUp 0.3s ease-out',
         'gold-shimmer': 'goldShimmer 4s linear infinite',
       },
       keyframes: {

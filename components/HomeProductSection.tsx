@@ -63,16 +63,15 @@ function HomeCard({
 
   return (
     <div
-      className="product-card group relative overflow-hidden flex flex-col"
+      className="product-card group relative rounded-sm overflow-hidden flex flex-col"
       style={{
-        backgroundColor: '#39251f',
-        border: 'none',
-        borderRadius: '8px',
-        transition: 'background-color 0.3s ease',
+        backgroundColor: 'var(--bg-card)',
+        border: '1px solid var(--bg-border)',
+        transition: 'border-color 0.3s, box-shadow 0.3s',
       }}
     >
       {/* Image */}
-      <div className="relative aspect-square overflow-hidden flex-shrink-0" style={{ backgroundColor: '#291712' }}>
+      <div className="relative aspect-square overflow-hidden flex-shrink-0" style={{ backgroundColor: 'var(--bg-hover)' }}>
         {product.imagem ? (
           <Image
             src={product.imagem}
@@ -166,17 +165,11 @@ function HomeCard({
 
       {/* Content */}
       <div className="p-3 sm:p-4 flex flex-col flex-1">
-        <h3 className="font-newsreader line-clamp-1 leading-snug" style={{
-          fontFamily: 'var(--font-newsreader, serif)',
-          fontSize: '15px',
-          fontWeight: 400,
-          fontStyle: 'italic',
-          color: '#fedbd2',
-        }}>
+        <h3 className="font-playfair font-bold text-base sm:text-lg line-clamp-1 leading-snug" style={{ color: 'var(--text-primary)' }}>
           {product.nome}
         </h3>
         {product.descricao && (
-          <p className="text-xs mt-1 line-clamp-2 font-inter leading-relaxed" style={{ color: '#9a8f80' }}>
+          <p className="text-xs mt-1 line-clamp-2 font-inter leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
             {product.descricao}
           </p>
         )}
@@ -188,14 +181,14 @@ function HomeCard({
             <>
               {channel === 'varejo' && fmt(product.precoVarejo) && (
                 <div className="flex items-baseline gap-1">
-                  <span className="font-inter font-bold text-xl sm:text-2xl tracking-tight" style={{ color: '#e9c176' }}>
+                  <span className="font-inter font-bold text-xl sm:text-2xl tracking-tight" style={{ color: 'var(--gold)' }}>
                     {fmt(product.precoVarejo)}
                   </span>
                 </div>
               )}
               {channel === 'atacado' && fmt(product.precoAtacado) && (
                 <div className="flex items-baseline gap-1">
-                  <span className="font-inter font-bold text-xl sm:text-2xl tracking-tight" style={{ color: '#e9c176' }}>
+                  <span className="font-inter font-bold text-xl sm:text-2xl tracking-tight" style={{ color: 'var(--gold)' }}>
                     {fmt(product.precoAtacado)}
                   </span>
                 </div>
@@ -209,7 +202,7 @@ function HomeCard({
               {showVarejo && fmt(product.precoVarejo) && (
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-inter uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Varejo</span>
-                  <span className="font-inter font-bold text-base sm:text-lg" style={{ color: '#e9c176' }}>
+                  <span className="font-inter font-bold text-base sm:text-lg" style={{ color: 'var(--gold)' }}>
                     {fmt(product.precoVarejo)}
                   </span>
                 </div>
@@ -655,35 +648,20 @@ export default function HomeProductSection({ initialProducts, categorias = [] }:
   return (
     <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
-      {/* Section header — editorial "Sommelier's Study" style */}
-      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3 mb-8">
+      {/* Section header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
-          {/* Eyebrow label */}
-          <p className="font-inter text-[10px] font-bold uppercase tracking-[0.22em] mb-2"
-            style={{ color: '#c5a059' }}>
-            Seleção
-          </p>
-          <h2
-            className="font-newsreader"
-            style={{
-              fontFamily: 'var(--font-newsreader, serif)',
-              fontSize: 'clamp(24px, 5vw, 36px)',
-              fontWeight: 400,
-              fontStyle: 'italic',
-              color: '#fedbd2',
-              lineHeight: 1.2,
-              letterSpacing: '-0.02em',
-            }}
-          >
-            Nossos Produtos
+          <h2 className="font-playfair font-bold text-2xl sm:text-3xl" style={{ color: 'var(--el-text-primary)' }}>
+            Nossos <span style={{ color: 'var(--el-gold-solid)' }}>Produtos</span>
           </h2>
+          <div className="h-px w-16 mt-2" style={{ background: 'linear-gradient(90deg, var(--el-gold-solid), transparent)' }} />
         </div>
 
         {/* Sync info + refresh */}
         <div className="flex items-center gap-3">
           <button onClick={manualRefresh}
-            className="flex items-center gap-1.5 text-[11px] font-inter transition-opacity hover:opacity-100"
-            style={{ color: '#9a8f80', opacity: 0.7 }}
+            className="flex items-center gap-1.5 text-[11px] font-inter transition-colors hover:opacity-80"
+            style={{ color: 'var(--text-muted)' }}
             title="Atualizar catálogo">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -693,24 +671,22 @@ export default function HomeProductSection({ initialProducts, categorias = [] }:
         </div>
       </div>
 
-      {/* Filter tabs — "Humidor Toggle" style */}
-      <div className="flex gap-1 mb-7 p-1 w-fit"
-        style={{ backgroundColor: '#291712', borderRadius: '8px' }}>
+      {/* Filter tabs */}
+      <div className="flex gap-1 mb-7 p-1 rounded-sm w-fit" style={{ backgroundColor: 'var(--bg-hover)' }}>
         {(['todos', 'varejo', 'atacado'] as Channel[]).map(c => (
           <button key={c} onClick={() => setChannel(c)}
-            className="px-4 py-2 text-xs font-inter font-semibold uppercase tracking-wider transition-all duration-300"
+            className="px-4 py-2 rounded-sm text-xs font-inter font-medium uppercase tracking-wider transition-all duration-200"
             style={{
-              borderRadius: '6px',
-              backgroundColor: channel === c ? '#e9c176' : 'transparent',
-              color: channel === c ? '#412d00' : '#9a8f80',
+              backgroundColor: channel === c ? 'var(--gold)' : 'transparent',
+              color: channel === c ? '#000' : 'var(--text-secondary)',
             }}>
-            {c === 'todos' ? 'Todos' : c === 'varejo' ? 'Varejo' : 'Atacado'}
+            {c === 'todos' ? 'Todos' : c === 'varejo' ? '◆ Varejo' : '◆ Atacado'}
           </button>
         ))}
       </div>
 
       {/* Count */}
-      <p className="text-xs font-inter mb-5" style={{ color: '#9a8f80' }}>
+      <p className="text-xs font-inter mb-5" style={{ color: 'var(--text-muted)' }}>
         {visible.length} {visible.length === 1 ? 'produto' : 'produtos'}
         {channel !== 'todos' ? ` no catálogo ${channel}` : ' no total'}
       </p>

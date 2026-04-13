@@ -1,7 +1,5 @@
 import type { Metadata, Viewport } from 'next'
 import InstallBanner from '@/components/InstallBanner'
-import { Newsreader, Inter } from 'next/font/google'
-import './globals.css'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -9,13 +7,14 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
 }
+import { Playfair_Display, Inter } from 'next/font/google'
+import ThemeProvider from '@/components/ThemeProvider'
+import './globals.css'
 
-const newsreader = Newsreader({
+const playfair = Playfair_Display({
   subsets: ['latin'],
-  variable: '--font-newsreader',
+  variable: '--font-playfair',
   display: 'swap',
-  style: ['normal', 'italic'],
-  weight: ['400', '700'],
 })
 
 const inter = Inter({
@@ -56,9 +55,16 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${newsreader.variable} ${inter.variable}`}
+      className={`${playfair.variable} ${inter.variable}`}
+      data-theme="light"
     >
       <head>
+        {/* Script anti-flash: lê tema salvo antes do primeiro render */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('eldorado-theme');document.documentElement.setAttribute('data-theme',(t==='light'||t==='dark')?t:'light');}catch(e){}})();`,
+          }}
+        />
         {/* Service Worker registration for offline support */}
         <script
           dangerouslySetInnerHTML={{
@@ -66,9 +72,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen font-inter" style={{ backgroundColor: '#200f0a', color: '#fedbd2' }}>
-        {children}
-        <InstallBanner />
+      <body className="min-h-screen font-inter">
+        <ThemeProvider>
+          {children}
+          <InstallBanner />
+        </ThemeProvider>
       </body>
     </html>
   )
