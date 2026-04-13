@@ -268,22 +268,22 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
   return (
     <div
       style={{
-        backgroundColor: 'var(--el-bg-surface)',
-        border: 'var(--el-border-card)',
-        borderRadius: 'var(--el-radius-md)',
-        boxShadow: 'var(--el-shadow-card)',
+        backgroundColor: '#39251f',
+        border: 'none',
+        borderRadius: '8px',
+        boxShadow: '0 2px 16px rgba(0,0,0,0.3)',
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
-        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+        transition: 'transform 0.3s ease, background-color 0.3s ease',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.transform = 'translateY(-3px)'
-        e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,0,0,0.12)'
+        e.currentTarget.style.transform = 'translateY(-4px)'
+        e.currentTarget.style.backgroundColor = '#45302a'
       }}
       onMouseLeave={e => {
         e.currentTarget.style.transform = 'translateY(0)'
-        e.currentTarget.style.boxShadow = 'var(--el-shadow-card)'
+        e.currentTarget.style.backgroundColor = '#39251f'
       }}
     >
       {/* Image */}
@@ -292,9 +292,9 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
         style={{
           width: '100%',
           aspectRatio: '1/1',
-          backgroundColor: '#F5EFE0',
+          backgroundColor: '#291712',
           cursor: 'zoom-in',
-          borderRadius: '14px 14px 0 0',
+          borderRadius: '8px 8px 0 0',
         }}
         onClick={onImageClick}
       >
@@ -353,14 +353,14 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
             className="absolute top-2 left-2"
             style={{
               fontFamily: 'var(--font-inter, sans-serif)',
-              fontSize: '10px',
+              fontSize: '9px',
               fontWeight: 700,
               textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              backgroundColor: 'rgba(255,255,255,0.92)',
-              color: 'var(--el-gold-solid)',
-              border: '0.5px solid var(--el-gold-border)',
-              borderRadius: '6px',
+              letterSpacing: '0.1em',
+              backgroundColor: 'rgba(233,193,118,0.15)',
+              color: '#e9c176',
+              border: '1px solid rgba(233,193,118,0.25)',
+              borderRadius: '4px',
               padding: '3px 7px',
               lineHeight: 1.4,
             }}
@@ -402,10 +402,11 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
         <h3
           className="line-clamp-1"
           style={{
-            fontFamily: 'var(--font-playfair, serif)',
+            fontFamily: 'var(--font-newsreader, serif)',
             fontSize: '14px',
-            fontWeight: 600,
-            color: 'var(--el-text-primary)',
+            fontWeight: 400,
+            fontStyle: 'italic',
+            color: '#fedbd2',
             lineHeight: 1.3,
             marginBottom: '4px',
           }}
@@ -613,9 +614,9 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
               paddingLeft: '36px',
               paddingRight: search ? '36px' : '12px',
               borderRadius: '20px',
-              border: '1px solid var(--el-gold-border)',
-              backgroundColor: 'var(--el-bg-surface)',
-              color: 'var(--el-text-primary)',
+              border: '1px solid rgba(233,193,118,0.15)',
+              backgroundColor: '#291712',
+              color: '#fedbd2',
               fontFamily: 'var(--font-inter, sans-serif)',
               fontSize: '14px',
               outline: 'none',
@@ -648,15 +649,15 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
                 key={c}
                 onClick={() => setFilterCat(c)}
                 style={{
-                  background: isActive ? 'var(--el-gradient-gold)' : '#F0EAE0',
-                  border: isActive ? 'none' : '0.5px solid var(--el-gold-border)',
-                  borderRadius: '20px',
+                  background: isActive ? '#e9c176' : '#291712',
+                  border: isActive ? 'none' : '1px solid rgba(233,193,118,0.15)',
+                  borderRadius: '6px',
                   padding: '0 16px',
-                  height: '36px',
+                  height: '34px',
                   fontFamily: 'var(--font-inter, sans-serif)',
-                  fontSize: '13px',
-                  fontWeight: isActive ? 600 : 500,
-                  color: isActive ? '#3B1A08' : 'var(--el-text-secondary)',
+                  fontSize: '12px',
+                  fontWeight: isActive ? 700 : 500,
+                  color: isActive ? '#412d00' : '#9a8f80',
                   cursor: 'pointer',
                   transition: 'all 0.15s ease',
                   whiteSpace: 'nowrap',
@@ -691,9 +692,9 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
               fontSize: '11px',
               padding: '4px 10px',
               borderRadius: '12px',
-              border: sortOrder === opt.key ? 'none' : '0.5px solid var(--el-gold-border)',
-              background: sortOrder === opt.key ? 'var(--el-gradient-gold)' : 'transparent',
-              color: sortOrder === opt.key ? '#3B1A08' : 'var(--el-text-secondary)',
+              border: sortOrder === opt.key ? 'none' : '1px solid rgba(233,193,118,0.12)',
+              background: sortOrder === opt.key ? '#e9c176' : '#291712',
+              color: sortOrder === opt.key ? '#412d00' : '#9a8f80',
               fontWeight: sortOrder === opt.key ? 600 : 400,
               cursor: 'pointer',
               whiteSpace: 'nowrap',
@@ -725,10 +726,11 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
                   <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, var(--el-gold-border), transparent)' }} />
                   <h2
                     style={{
-                      fontFamily: 'var(--font-playfair, serif)',
+                      fontFamily: 'var(--font-newsreader, serif)',
                       fontSize: '16px',
-                      fontWeight: 600,
-                      color: 'var(--el-gold-solid)',
+                      fontWeight: 400,
+                      fontStyle: 'italic',
+                      color: '#e9c176',
                       lineHeight: 1.3,
                     }}
                   >
@@ -786,10 +788,11 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
                 </div>
                 <h3
                   style={{
-                    fontFamily: 'var(--font-playfair, serif)',
+                    fontFamily: 'var(--font-newsreader, serif)',
                     fontSize: '16px',
-                    fontWeight: 600,
-                    color: 'var(--el-text-secondary)',
+                    fontWeight: 400,
+                    fontStyle: 'italic',
+                    color: '#d1c5b4',
                     marginBottom: '8px',
                     lineHeight: 1.3,
                   }}
@@ -819,10 +822,11 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
                     <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, var(--el-gold-border), transparent)' }} />
                     <span
                       style={{
-                        fontFamily: 'var(--font-playfair, serif)',
+                        fontFamily: 'var(--font-newsreader, serif)',
                         fontSize: '14px',
-                        fontWeight: 600,
-                        color: 'var(--el-text-secondary)',
+                        fontWeight: 400,
+                        fontStyle: 'italic',
+                        color: '#d1c5b4',
                         lineHeight: 1.3,
                       }}
                     >
