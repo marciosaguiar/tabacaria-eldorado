@@ -222,10 +222,9 @@ function SkeletonCard() {
   return (
     <div
       style={{
-        backgroundColor: 'var(--el-bg-surface)',
-        border: 'var(--el-border-card)',
-        borderRadius: 'var(--el-radius-md)',
-        boxShadow: 'var(--el-shadow-card)',
+        backgroundColor: 'rgba(255,255,255,0.04)',
+        border: '1px solid rgba(255,255,255,0.07)',
+        borderRadius: '16px',
         overflow: 'hidden',
       }}
     >
@@ -266,35 +265,16 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
   }
 
   return (
-    <div
-      style={{
-        backgroundColor: 'var(--el-bg-surface)',
-        border: 'var(--el-border-card)',
-        borderRadius: 'var(--el-radius-md)',
-        boxShadow: 'var(--el-shadow-card)',
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.transform = 'translateY(-3px)'
-        e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,0,0,0.12)'
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.transform = 'translateY(0)'
-        e.currentTarget.style.boxShadow = 'var(--el-shadow-card)'
-      }}
-    >
+    <div className="product-card" style={{ display: 'flex', flexDirection: 'column' }}>
       {/* Image */}
       <div
         className="relative overflow-hidden"
         style={{
           width: '100%',
           aspectRatio: '1/1',
-          backgroundColor: '#F5EFE0',
+          backgroundColor: '#111',
           cursor: 'zoom-in',
-          borderRadius: '14px 14px 0 0',
+          borderRadius: '16px 16px 0 0',
         }}
         onClick={onImageClick}
       >
@@ -404,10 +384,11 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
           style={{
             fontFamily: 'var(--font-playfair, serif)',
             fontSize: '14px',
-            fontWeight: 600,
-            color: 'var(--el-text-primary)',
+            fontWeight: 700,
+            color: '#fff',
             lineHeight: 1.3,
             marginBottom: '4px',
+            letterSpacing: '-0.01em',
           }}
         >
           {product.nome}
@@ -419,7 +400,7 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
             style={{
               fontFamily: 'var(--font-inter, sans-serif)',
               fontSize: '11px',
-              color: 'var(--el-text-hint)',
+              color: 'rgba(255,255,255,0.35)',
               lineHeight: 1.4,
               marginBottom: '8px',
             }}
@@ -457,8 +438,9 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
               width: '32px',
               height: '32px',
               borderRadius: '50%',
-              background: justAdded ? 'rgba(201,150,42,0.15)' : 'var(--el-gradient-gold)',
-              color: justAdded ? 'var(--el-gold-solid)' : '#3B1A08',
+              background: justAdded ? 'rgba(240,160,48,0.15)' : 'linear-gradient(135deg, #C07820, #F0A030, #FFD060)',
+              color: justAdded ? '#F0A030' : '#1A0800',
+              boxShadow: justAdded ? 'none' : '0 2px 10px rgba(240,160,48,0.4)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -613,13 +595,13 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
               paddingLeft: '36px',
               paddingRight: search ? '36px' : '12px',
               borderRadius: '20px',
-              border: '1px solid var(--el-gold-border)',
-              backgroundColor: 'var(--el-bg-surface)',
-              color: 'var(--el-text-primary)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              backgroundColor: 'rgba(255,255,255,0.06)',
+              color: '#fff',
               fontFamily: 'var(--font-inter, sans-serif)',
               fontSize: '14px',
               outline: 'none',
-              transition: 'border-color 0.2s',
+              transition: 'border-color 0.2s, box-shadow 0.2s',
             }}
           />
           {search && (
@@ -648,15 +630,18 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
                 key={c}
                 onClick={() => setFilterCat(c)}
                 style={{
-                  background: isActive ? 'var(--el-gradient-gold)' : '#F0EAE0',
-                  border: isActive ? 'none' : '0.5px solid var(--el-gold-border)',
-                  borderRadius: '20px',
+                  background: isActive
+                    ? 'linear-gradient(135deg, #C07820, #F0A030, #FFD060)'
+                    : 'rgba(255,255,255,0.06)',
+                  border: isActive ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '50px',
                   padding: '0 16px',
-                  height: '36px',
+                  height: '34px',
                   fontFamily: 'var(--font-inter, sans-serif)',
-                  fontSize: '13px',
-                  fontWeight: isActive ? 600 : 500,
-                  color: isActive ? '#3B1A08' : 'var(--el-text-secondary)',
+                  fontSize: '12px',
+                  fontWeight: isActive ? 700 : 500,
+                  color: isActive ? '#1A0800' : 'rgba(255,255,255,0.55)',
+                  boxShadow: isActive ? '0 2px 12px rgba(240,160,48,0.4)' : 'none',
                   cursor: 'pointer',
                   transition: 'all 0.15s ease',
                   whiteSpace: 'nowrap',
@@ -691,9 +676,9 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
               fontSize: '11px',
               padding: '4px 10px',
               borderRadius: '12px',
-              border: sortOrder === opt.key ? 'none' : '0.5px solid var(--el-gold-border)',
-              background: sortOrder === opt.key ? 'var(--el-gradient-gold)' : 'transparent',
-              color: sortOrder === opt.key ? '#3B1A08' : 'var(--el-text-secondary)',
+              border: sortOrder === opt.key ? 'none' : '1px solid rgba(255,255,255,0.08)',
+              background: sortOrder === opt.key ? 'linear-gradient(135deg, #C07820, #F0A030)' : 'rgba(255,255,255,0.04)',
+              color: sortOrder === opt.key ? '#1A0800' : 'rgba(255,255,255,0.4)',
               fontWeight: sortOrder === opt.key ? 600 : 400,
               cursor: 'pointer',
               whiteSpace: 'nowrap',

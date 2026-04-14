@@ -3,108 +3,83 @@
 @tailwind utilities;
 
 /* ============================================================
-   DESIGN SYSTEM — Eldorado Premium
-   Variáveis --el-* são o novo sistema de design.
-   Variáveis --bg-*, --text-*, --gold-* são mantidas para
-   compatibilidade com as páginas de admin.
+   DESIGN SYSTEM — Tabacaria Eldorado
+   Inspirado em Apple Music: fundo quase preto, gradientes
+   âmbar/dourado ricos, glassmorfismo, tipografia bold.
    ============================================================ */
 
-/* ── Novo sistema de design (modo claro como primário) ─────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 :root {
-  /* Fundos */
-  --el-bg-page:    #FAF8F3;
-  --el-bg-surface: #FFFFFF;
-  --el-bg-input:   #FAFAF7;
+  /* ── Base ────────────────────────────────────────────────── */
+  --el-bg-page:        #080808;
+  --el-bg-surface:     #111111;
+  --el-bg-input:       #1a1a1a;
 
-  /* Gradiente de marca — headers, navbar, hero */
-  --el-gradient-dark: linear-gradient(160deg, #0A0A0A 0%, #3B1A08 100%);
+  /* Gradient de marca */
+  --el-gradient-dark:  linear-gradient(160deg, #1C0A00 0%, #0E0500 50%, #080808 100%);
 
-  /* Dourado */
-  --el-gradient-gold:     linear-gradient(135deg, #C9962A 0%, #FFD966 100%);
-  --el-gold-solid:        #C9962A;
-  --el-gold-light:        #FFD966;
-  --el-gold-border:       rgba(201, 150, 42, 0.3);
-  --el-gold-border-hover: rgba(201, 150, 42, 0.7);
+  /* ── Dourado — paleta principal ──────────────────────────── */
+  --el-gold-solid:        #F0A030;
+  --el-gold-bright:       #FFD060;
+  --el-gold-deep:         #C07820;
+  --el-gold-glow:         rgba(240, 160, 48, 0.5);
+  --el-gold-glow-soft:    rgba(240, 160, 48, 0.15);
+  --el-gold-border:       rgba(240, 160, 48, 0.18);
+  --el-gold-border-hover: rgba(240, 160, 48, 0.5);
+  --el-gradient-gold:     linear-gradient(135deg, #C07820 0%, #F0A030 45%, #FFD060 100%);
+  --el-gradient-gold-text: linear-gradient(100deg, #C8860A 0%, #F0A030 40%, #FFE080 70%, #F0A030 100%);
 
-  /* Tipografia */
-  --el-text-primary:   #1A1108;
-  --el-text-secondary: #6B4F2A;
-  --el-text-hint:      #A0856A;
+  /* ── Glass surfaces ──────────────────────────────────────── */
+  --el-glass-1:   rgba(255, 255, 255, 0.04);
+  --el-glass-2:   rgba(255, 255, 255, 0.08);
+  --el-glass-3:   rgba(255, 255, 255, 0.13);
+  --el-glass-border: rgba(255, 255, 255, 0.09);
+  --el-glass-border-gold: rgba(240, 160, 48, 0.2);
 
-  /* Bordas */
-  --el-border-card:  0.5px solid rgba(201, 150, 42, 0.25);
-  --el-border-input: 1px solid rgba(201, 150, 42, 0.4);
+  /* ── Tipografia ─────────────────────────────────────────── */
+  --el-text-primary:   #FFFFFF;
+  --el-text-secondary: rgba(255, 255, 255, 0.6);
+  --el-text-hint:      rgba(255, 255, 255, 0.35);
+  --el-on-primary:     #1A0800;
 
-  /* Sombras */
-  --el-shadow-card: 0 2px 12px rgba(0, 0, 0, 0.07);
+  /* ── Bordas / Raios ─────────────────────────────────────── */
+  --el-border-card:  none;
+  --el-border-input: 1px solid rgba(255, 255, 255, 0.1);
+  --el-radius-sm:    10px;
+  --el-radius-md:    16px;
+  --el-radius-lg:    22px;
+  --el-radius-xl:    28px;
 
-  /* Raios */
-  --el-radius-sm: 8px;
-  --el-radius-md: 14px;
-  --el-radius-lg: 20px;
-  --el-radius-xl: 24px;
-}
+  /* ── Sombras ────────────────────────────────────────────── */
+  --el-shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --el-shadow-gold: 0 0 40px rgba(240, 160, 48, 0.3), 0 0 80px rgba(240, 160, 48, 0.12);
 
-/* Modo escuro — sobrescreve apenas as vars de cor */
-[data-theme="dark"] {
-  --el-bg-page:    #0D0B08;
-  --el-bg-surface: #1A1510;
-  --el-bg-input:   #221C14;
-  --el-text-primary:   #F5E6C8;
-  --el-text-secondary: #C4A882;
-  --el-text-hint:      #8A7060;
-  --el-border-card:    0.5px solid rgba(255, 215, 0, 0.15);
-  --el-border-input:   1px solid rgba(255, 215, 0, 0.25);
-}
-
-/* ── Variáveis legadas (compatibilidade com admin) ─────────── */
-:root,
-[data-theme="dark"] {
-  --bg-base:    #0c0806;
-  --bg-end:     #1f1009;
-  --bg-card:    #150d08;
-  --bg-hover:   #201408;
-  --bg-border:  #2e1a0c;
+  /* ── Legado (compatibilidade admin) ─────────────────────── */
+  --bg-base:    #0a0a0a;
+  --bg-end:     #111111;
+  --bg-card:    #1a1a1a;
+  --bg-hover:   #222222;
+  --bg-border:  #2a2a2a;
 
   --text-primary:   #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.38);
-  --text-muted:     rgba(255, 255, 255, 0.15);
+  --text-secondary: rgba(255, 255, 255, 0.55);
+  --text-muted:     rgba(255, 255, 255, 0.30);
 
-  --gold:        #D4A017;
+  --gold:        #F0A030;
   --gold-light:  #FFD060;
-  --gold-bright: #FFE080;
-  --gold-dark:   #A07808;
-  --gold-rgb:    212, 160, 23;
-  --shadow-gold: rgba(212, 160, 23, 0.18);
+  --gold-bright: #FFE090;
+  --gold-dark:   #C07820;
+  --gold-rgb:    240, 160, 48;
+  --shadow-gold: rgba(240, 160, 48, 0.25);
 
-  --header-bg:    rgba(12, 8, 6, 0.88);
-  --hero-overlay: linear-gradient(to bottom, #150d08, #0c0806);
-  --hero-glow:    radial-gradient(ellipse at top, rgba(212,160,23,0.07), transparent 60%);
-  --scrollbar-bg: #0c0806;
-}
+  --header-bg:    rgba(8, 8, 8, 0.85);
+  --hero-overlay: linear-gradient(to bottom, rgba(28, 10, 0, 0.8), #080808);
+  --hero-glow:    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(200, 100, 0, 0.35), transparent 70%);
+  --scrollbar-bg: #080808;
 
-[data-theme="light"] {
-  --bg-base:    #FAF8F3;
-  --bg-end:     #F0EBE1;
-  --bg-card:    #FFFFFF;
-  --bg-hover:   #F5EFE5;
-  --bg-border:  #E0D5C5;
-
-  --text-primary:   #1A1108;
-  --text-secondary: #6B4F2A;
-  --text-muted:     #A0856A;
-
-  --gold:        #C9962A;
-  --gold-light:  #E0B040;
-  --gold-bright: #FFD966;
-  --gold-dark:   #96701A;
-  --gold-rgb:    201, 150, 42;
-  --shadow-gold: rgba(201, 150, 42, 0.15);
-
-  --header-bg:    rgba(250, 248, 243, 0.96);
-  --hero-overlay: linear-gradient(to bottom, rgba(250,248,243,0.4), rgba(240,235,225,0.2));
-  --hero-glow:    radial-gradient(ellipse at top, rgba(201,150,42,0.06), transparent 60%);
-  --scrollbar-bg: #FAF8F3;
+  /* ── el-text-secondary alias ──────────────────────────── */
+  --el-text-secondary-solid: #999;
 }
 
 /* ============================================================
@@ -116,105 +91,80 @@ html { scroll-behavior: smooth; }
 body {
   background-color: var(--el-bg-page);
   color: var(--el-text-primary);
+  font-family: 'Inter', var(--font-inter, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
 }
 
 /* ============================================================
-   ADMIN PAGES — compatibilidade com classes Tailwind antigas
+   GLASSMORFISMO
    ============================================================ */
-[data-theme="light"] .bg-dark          { background-color: var(--bg-base) !important; }
-[data-theme="light"] .bg-dark-card     { background-color: var(--bg-card) !important; }
-[data-theme="light"] .bg-dark-hover    { background-color: var(--bg-hover) !important; }
-[data-theme="light"] .bg-\[\#0d0d0d\] { background-color: var(--bg-hover) !important; }
-
-[data-theme="light"] .text-white       { color: var(--text-primary) !important; }
-[data-theme="light"] .text-gray-300    { color: #5A3520 !important; }
-[data-theme="light"] .text-gray-400    { color: #6A4228 !important; }
-[data-theme="light"] .text-gray-500    { color: var(--text-secondary) !important; }
-[data-theme="light"] .text-gray-600    { color: #8A6848 !important; }
-[data-theme="light"] .text-gray-700    { color: var(--text-muted) !important; }
-[data-theme="light"] .text-gray-800    { color: #C8B090 !important; }
-
-[data-theme="light"] [class*="text-gold-light/"] { color: rgba(var(--gold-rgb), 0.65) !important; }
-[data-theme="light"] [class*="text-gold/"]        { color: rgba(var(--gold-rgb), 0.65) !important; }
-
-[data-theme="light"] .border-dark-border           { border-color: var(--bg-border) !important; }
-[data-theme="light"] [class*="border-gold/"]       { border-color: rgba(var(--gold-rgb), 0.3) !important; }
-[data-theme="light"] .border-gold                  { border-color: var(--gold) !important; }
-
-[data-theme="light"] .from-dark-card {
-  --tw-gradient-from: transparent !important;
-  --tw-gradient-stops: transparent, transparent !important;
+.glass {
+  background: var(--el-glass-1);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--el-glass-border);
 }
-[data-theme="light"] .via-dark { --tw-gradient-via: transparent !important; }
-[data-theme="light"] .to-dark  { --tw-gradient-to: transparent !important; }
-
-[data-theme="light"] .product-card {
-  background-color: var(--el-bg-surface) !important;
-  border-color: var(--bg-border) !important;
-  box-shadow: var(--el-shadow-card) !important;
+.glass-gold {
+  background: var(--el-glass-1);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--el-glass-border-gold);
 }
-[data-theme="light"] .product-card:hover {
-  border-color: rgba(var(--gold-rgb), 0.45) !important;
-  box-shadow: 0 4px 20px var(--shadow-gold), var(--el-shadow-card) !important;
+.glass-heavy {
+  background: var(--el-glass-2);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid var(--el-glass-border);
 }
-
-[data-theme="light"] footer { background-color: var(--el-bg-surface) !important; }
-
-[data-theme="light"] input:not([type="file"]):not([type="range"]):not([type="checkbox"]),
-[data-theme="light"] textarea,
-[data-theme="light"] select {
-  background-color: var(--el-bg-input) !important;
-  color: var(--el-text-primary) !important;
-  border-color: var(--bg-border) !important;
-}
-[data-theme="light"] input::placeholder,
-[data-theme="light"] textarea::placeholder {
-  color: var(--el-text-hint) !important;
-}
-
-[data-theme="light"] .bg-dark.min-h-screen {
-  background-color: var(--bg-base) !important;
-}
-
-[data-theme="light"] .bg-gold\/10     { background-color: rgba(var(--gold-rgb), 0.08) !important; }
-[data-theme="light"] .bg-gold-light\/10 { background-color: rgba(var(--gold-rgb), 0.06) !important; }
 
 /* ============================================================
-   UTILITÁRIOS DO NOVO DESIGN SYSTEM
+   GRADIENTE DE TEXTO DOURADO
    ============================================================ */
-
-/* Texto com gradiente dourado */
 .el-gold-text {
-  background: var(--el-gradient-gold);
+  background: var(--el-gradient-gold-text);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
+/* Fallback seguro (sem clip) */
+.el-gold-solid-text { color: var(--el-gold-solid); }
 
-/* Skeleton loading */
-@keyframes elPulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.45; }
+/* ============================================================
+   AMBIENT GLOW — luz ambiente âmbar (como Apple Music)
+   ============================================================ */
+.ambient-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -10%, rgba(200, 120, 10, 0.45) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 30% at 20% 100%, rgba(180, 80, 0, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 20% at 80% 80%, rgba(240, 160, 48, 0.08) 0%, transparent 50%);
+}
+
+/* ============================================================
+   SKELETON LOADING
+   ============================================================ */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 .el-skeleton {
-  background: #EDE5D8;
-  animation: elPulse 1.4s ease-in-out infinite;
-  border-radius: 6px;
+  background: linear-gradient(90deg, #1a1a1a 25%, #242424 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease infinite;
+  border-radius: 8px;
 }
-[data-theme="dark"] .el-skeleton { background: #2A201A; }
 
-/* Toast slide-down */
+/* ============================================================
+   TOAST
+   ============================================================ */
 @keyframes elToastIn {
-  from { transform: translateY(-16px) translateX(-50%); opacity: 0; }
-  to   { transform: translateY(0)     translateX(-50%); opacity: 1; }
-}
-@keyframes elFadeOut {
-  from { opacity: 1; }
-  to   { opacity: 0; }
+  from { transform: translateY(-20px) translateX(-50%); opacity: 0; }
+  to   { transform: translateY(0) translateX(-50%); opacity: 1; }
 }
 .el-toast {
   position: fixed;
@@ -222,92 +172,108 @@ body {
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
-  animation: elToastIn 0.25s ease forwards;
-  background: var(--el-gradient-dark);
-  color: #D4A84B;
+  animation: elToastIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  background: rgba(30, 30, 30, 0.92);
+  backdrop-filter: blur(20px);
+  color: var(--el-gold-bright);
   font-family: var(--font-inter, sans-serif);
   font-size: 13px;
-  font-weight: 500;
-  line-height: 1.4;
-  padding: 12px 20px;
-  border-radius: var(--el-radius-sm);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  font-weight: 600;
+  padding: 12px 22px;
+  border-radius: 50px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
   white-space: nowrap;
 }
 
-/* Microanimações globais */
-a, button { transition: opacity 0.2s ease, transform 0.1s ease; }
-button:active { transform: scale(0.97); }
-
 /* ============================================================
-   DOURADO METÁLICO ANIMADO (legado, usado em HomeProductSection)
-   ============================================================ */
-.text-gold-shine {
-  background: linear-gradient(
-    90deg,
-    #7A5A00  0%,
-    #D4A017  15%,
-    #FFD700  35%,
-    #FFF4B0  50%,
-    #FFD700  65%,
-    #D4A017  85%,
-    #7A5A00  100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  animation: goldShimmer 4s linear infinite;
-}
-
-@keyframes goldShimmer {
-  0%   { background-position: 0%   center; }
-  100% { background-position: 200% center; }
-}
-
-.shadow-gold-glow {
-  box-shadow:
-    0 0 15px rgba(var(--gold-rgb), 0.3),
-    0 0 30px rgba(var(--gold-rgb), 0.15),
-    0 0 60px rgba(var(--gold-rgb), 0.05);
-}
-
-/* ============================================================
-   ANIMAÇÃO FADE-IN
+   MICROANIMAÇÕES
    ============================================================ */
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-.animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
-
-/* ============================================================
-   SCROLLBAR
-   ============================================================ */
-::-webkit-scrollbar        { width: 5px; height: 5px; }
-::-webkit-scrollbar-track  { background: var(--scrollbar-bg, var(--el-bg-page)); }
-::-webkit-scrollbar-thumb  { background: var(--gold, var(--el-gold-solid)); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--gold-light, var(--el-gold-light)); }
-
-/* ============================================================
-   LINE CLAMP
-   ============================================================ */
-.line-clamp-1 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.line-clamp-2 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.animate-fade-in   { animation: fadeIn 0.4s ease forwards; }
+.animate-slide-up  { animation: slideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-scale-in  { animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+/* Shimmer dourado no texto */
+@keyframes goldShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.text-gold-shine {
+  background: linear-gradient(
+    90deg,
+    #C07820 0%, #F0A030 20%, #FFD060 40%, #FFF0A0 50%,
+    #FFD060 60%, #F0A030 80%, #C07820 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: goldShimmer 4s linear infinite;
+}
+.shadow-gold-glow {
+  filter: drop-shadow(0 0 20px rgba(240,160,48,0.5));
 }
 
 /* ============================================================
-   CHIPS DE CATEGORIA — scroll horizontal sem barra visível
+   BOTÕES
+   ============================================================ */
+a, button { transition: opacity 0.2s ease, transform 0.15s ease; }
+button:active { transform: scale(0.96); }
+
+/* Botão primário dourado */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--el-gradient-gold);
+  color: var(--el-on-primary);
+  font-family: var(--font-inter, sans-serif);
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(240, 160, 48, 0.4);
+  transition: all 0.2s ease;
+}
+.btn-gold:hover { filter: brightness(1.1); box-shadow: 0 6px 28px rgba(240, 160, 48, 0.55); }
+
+/* Botão fantasma */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 28px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-family: var(--font-inter, sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: all 0.2s ease;
+}
+.btn-ghost:hover { background: rgba(255, 255, 255, 0.13); }
+
+/* ============================================================
+   CHIPS DE CATEGORIA — scroll horizontal
    ============================================================ */
 .el-chips-scroll {
   display: flex;
@@ -321,9 +287,118 @@ button:active { transform: scale(0.97); }
 .el-chips-scroll::-webkit-scrollbar { display: none; }
 
 /* ============================================================
-   INPUT TRANSITIONS (admin compat)
+   CARDS DE PRODUTO — glass style
+   ============================================================ */
+.product-card {
+  background: var(--el-glass-1);
+  border: 1px solid var(--el-glass-border);
+  border-radius: var(--el-radius-md);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease,
+              border-color 0.25s ease;
+}
+.product-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  border-color: var(--el-glass-border-gold);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6),
+              0 0 0 1px rgba(240, 160, 48, 0.2),
+              0 0 40px rgba(240, 160, 48, 0.08);
+}
+
+/* ============================================================
+   HERO CATALOG CARDS (home page)
+   ============================================================ */
+.catalog-hero-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--el-radius-xl);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+.catalog-hero-card:hover {
+  transform: scale(1.025) translateY(-4px);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.7), 0 0 0 1px rgba(240,160,48,0.25);
+}
+.catalog-hero-card .card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.55) 40%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  z-index: 1;
+}
+.catalog-hero-card .card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 28px;
+  z-index: 2;
+}
+
+/* ============================================================
+   ADMIN COMPAT (tudo dark agora)
+   ============================================================ */
+.bg-dark          { background-color: var(--bg-base); }
+.bg-dark-card     { background-color: var(--bg-card); }
+.bg-dark-hover    { background-color: var(--bg-hover); }
+.text-white       { color: var(--text-primary); }
+.text-gray-300    { color: var(--text-secondary); }
+.text-gray-400    { color: var(--text-secondary); }
+.text-gray-500    { color: var(--text-muted); }
+.border-dark-border { border-color: var(--bg-border); }
+footer { background-color: var(--bg-base); }
+
+input:not([type="file"]):not([type="range"]):not([type="checkbox"]),
+textarea,
+select {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--bg-border);
+}
+input::placeholder,
+textarea::placeholder { color: var(--text-muted); }
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar        { width: 4px; height: 4px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: rgba(240,160,48,0.3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(240,160,48,0.55); }
+
+/* ============================================================
+   LINE CLAMP
+   ============================================================ */
+.line-clamp-1 {
+  overflow: hidden; display: -webkit-box;
+  -webkit-box-orient: vertical; -webkit-line-clamp: 1;
+}
+.line-clamp-2 {
+  overflow: hidden; display: -webkit-box;
+  -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+}
+
+/* ============================================================
+   INPUT TRANSITIONS
    ============================================================ */
 input[type='file'] { cursor: pointer; }
-input, textarea, select {
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+input, textarea, select { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: rgba(240, 160, 48, 0.45) !important;
+  box-shadow: 0 0 0 3px rgba(240, 160, 48, 0.1);
+}
+
+/* ============================================================
+   SECTION DIVIDER (linha dourada tênue)
+   ============================================================ */
+.el-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(240,160,48,0.25), transparent);
+  margin: 0 20px;
 }

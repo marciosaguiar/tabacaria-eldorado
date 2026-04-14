@@ -63,15 +63,11 @@ function HomeCard({
 
   return (
     <div
-      className="product-card group relative rounded-sm overflow-hidden flex flex-col"
-      style={{
-        backgroundColor: 'var(--bg-card)',
-        border: '1px solid var(--bg-border)',
-        transition: 'border-color 0.3s, box-shadow 0.3s',
-      }}
+      className="product-card group relative overflow-hidden flex flex-col"
+      style={{ borderRadius: '16px' }}
     >
       {/* Image */}
-      <div className="relative aspect-square overflow-hidden flex-shrink-0" style={{ backgroundColor: 'var(--bg-hover)' }}>
+      <div className="relative aspect-square overflow-hidden flex-shrink-0" style={{ backgroundColor: '#111' }}>
         {product.imagem ? (
           <Image
             src={product.imagem}
@@ -86,7 +82,7 @@ function HomeCard({
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <svg className="w-10 h-10 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--gold)' }}>
+            <svg className="w-10 h-10 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#F0A030' }}>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
@@ -165,11 +161,13 @@ function HomeCard({
 
       {/* Content */}
       <div className="p-3 sm:p-4 flex flex-col flex-1">
-        <h3 className="font-playfair font-bold text-base sm:text-lg line-clamp-1 leading-snug" style={{ color: 'var(--text-primary)' }}>
+        <h3 className="font-playfair font-bold line-clamp-1 leading-snug" style={{
+          fontSize: '14px', color: '#fff', letterSpacing: '-0.01em',
+        }}>
           {product.nome}
         </h3>
         {product.descricao && (
-          <p className="text-xs mt-1 line-clamp-2 font-inter leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-xs mt-1 line-clamp-2 font-inter leading-relaxed" style={{ color: 'rgba(255,255,255,0.38)' }}>
             {product.descricao}
           </p>
         )}
@@ -181,14 +179,14 @@ function HomeCard({
             <>
               {channel === 'varejo' && fmt(product.precoVarejo) && (
                 <div className="flex items-baseline gap-1">
-                  <span className="font-inter font-bold text-xl sm:text-2xl tracking-tight" style={{ color: 'var(--gold)' }}>
+                  <span className="font-inter font-bold text-xl sm:text-2xl tracking-tight" style={{ color: '#F0A030' }}>
                     {fmt(product.precoVarejo)}
                   </span>
                 </div>
               )}
               {channel === 'atacado' && fmt(product.precoAtacado) && (
                 <div className="flex items-baseline gap-1">
-                  <span className="font-inter font-bold text-xl sm:text-2xl tracking-tight" style={{ color: 'var(--gold)' }}>
+                  <span className="font-inter font-bold text-xl sm:text-2xl tracking-tight" style={{ color: '#F0A030' }}>
                     {fmt(product.precoAtacado)}
                   </span>
                 </div>
@@ -201,8 +199,8 @@ function HomeCard({
             <div className="flex flex-col gap-0.5">
               {showVarejo && fmt(product.precoVarejo) && (
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-inter uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Varejo</span>
-                  <span className="font-inter font-bold text-base sm:text-lg" style={{ color: 'var(--gold)' }}>
+                  <span className="text-[10px] font-inter uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.28)' }}>Varejo</span>
+                  <span className="font-inter font-bold text-base sm:text-lg" style={{ color: '#F0A030' }}>
                     {fmt(product.precoVarejo)}
                   </span>
                 </div>
@@ -222,7 +220,7 @@ function HomeCard({
 
       {/* Gold accent */}
       <div className="absolute bottom-0 left-0 right-0 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"
-        style={{ background: 'linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent)' }} />
+        style={{ background: 'linear-gradient(90deg, transparent, #F0A030, #FFD060, #F0A030, transparent)' }} />
     </div>
   )
 }
@@ -347,7 +345,7 @@ function ProductModal({
                   <Image src={preview} alt="" fill style={{ objectFit: 'cover' }} />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center gap-1">
-                    <svg className="w-7 h-7 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--gold)' }}>
+                    <svg className="w-7 h-7 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#F0A030' }}>
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                     <span className="text-[9px] font-inter" style={{ color: 'var(--text-muted)' }}>clique</span>
@@ -648,45 +646,66 @@ export default function HomeProductSection({ initialProducts, categorias = [] }:
   return (
     <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
-      {/* Section header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+      {/* Section header — Apple Music "Listen Now" style */}
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
         <div>
-          <h2 className="font-playfair font-bold text-2xl sm:text-3xl" style={{ color: 'var(--el-text-primary)' }}>
-            Nossos <span style={{ color: 'var(--el-gold-solid)' }}>Produtos</span>
+          <p className="font-inter mb-2" style={{
+            fontSize: '11px', fontWeight: 700, textTransform: 'uppercase',
+            letterSpacing: '0.18em', color: 'rgba(240,160,48,0.65)',
+          }}>
+            Seleção Premium
+          </p>
+          <h2 className="font-playfair" style={{
+            fontSize: 'clamp(26px, 5vw, 38px)',
+            fontWeight: 900, color: '#fff',
+            letterSpacing: '-0.03em', lineHeight: 1.1,
+          }}>
+            Nossos <span className="el-gold-text">Produtos</span>
           </h2>
-          <div className="h-px w-16 mt-2" style={{ background: 'linear-gradient(90deg, var(--el-gold-solid), transparent)' }} />
         </div>
 
-        {/* Sync info + refresh */}
-        <div className="flex items-center gap-3">
-          <button onClick={manualRefresh}
-            className="flex items-center gap-1.5 text-[11px] font-inter transition-colors hover:opacity-80"
-            style={{ color: 'var(--text-muted)' }}
-            title="Atualizar catálogo">
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-            <span>Sincronizado {lastSync.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
-          </button>
-        </div>
+        {/* Refresh */}
+        <button onClick={manualRefresh}
+          className="flex items-center gap-1.5 font-inter transition-opacity hover:opacity-100"
+          style={{ fontSize: '11px', color: 'rgba(255,255,255,0.28)', opacity: 0.7 }}
+          title="Atualizar catálogo">
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          <span>{lastSync.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
+        </button>
       </div>
 
-      {/* Filter tabs */}
-      <div className="flex gap-1 mb-7 p-1 rounded-sm w-fit" style={{ backgroundColor: 'var(--bg-hover)' }}>
+      {/* Filter tabs — glass pill style */}
+      <div className="flex gap-1.5 mb-7 p-1.5 w-fit" style={{
+        background: 'rgba(255,255,255,0.05)',
+        borderRadius: '50px',
+        border: '1px solid rgba(255,255,255,0.08)',
+      }}>
         {(['todos', 'varejo', 'atacado'] as Channel[]).map(c => (
           <button key={c} onClick={() => setChannel(c)}
-            className="px-4 py-2 rounded-sm text-xs font-inter font-medium uppercase tracking-wider transition-all duration-200"
+            className="font-inter font-semibold transition-all duration-300"
             style={{
-              backgroundColor: channel === c ? 'var(--gold)' : 'transparent',
-              color: channel === c ? '#000' : 'var(--text-secondary)',
+              padding: '8px 18px',
+              borderRadius: '50px',
+              fontSize: '12px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.06em',
+              background: channel === c
+                ? 'linear-gradient(135deg, #C07820, #F0A030, #FFD060)'
+                : 'transparent',
+              color: channel === c ? '#1A0800' : 'rgba(255,255,255,0.45)',
+              boxShadow: channel === c ? '0 2px 12px rgba(240,160,48,0.4)' : 'none',
+              border: 'none',
+              cursor: 'pointer',
             }}>
-            {c === 'todos' ? 'Todos' : c === 'varejo' ? '◆ Varejo' : '◆ Atacado'}
+            {c === 'todos' ? 'Todos' : c === 'varejo' ? 'Varejo' : 'Atacado'}
           </button>
         ))}
       </div>
 
       {/* Count */}
-      <p className="text-xs font-inter mb-5" style={{ color: 'var(--text-muted)' }}>
+      <p className="font-inter mb-5" style={{ fontSize: '11px', color: 'rgba(255,255,255,0.25)' }}>
         {visible.length} {visible.length === 1 ? 'produto' : 'produtos'}
         {channel !== 'todos' ? ` no catálogo ${channel}` : ' no total'}
       </p>
@@ -695,7 +714,7 @@ export default function HomeProductSection({ initialProducts, categorias = [] }:
       {visible.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <div className="w-14 h-14 border rounded-full flex items-center justify-center mb-4" style={{ borderColor: 'rgba(var(--gold-rgb),0.2)' }}>
-            <svg className="w-6 h-6 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--gold)' }}>
+            <svg className="w-6 h-6 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#F0A030' }}>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
             </svg>
           </div>
@@ -723,7 +742,7 @@ export default function HomeProductSection({ initialProducts, categorias = [] }:
         <button
           onClick={() => { setEditing(null); setModal('add') }}
           className="fixed bottom-6 right-6 z-[100] w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110"
-          style={{ backgroundColor: 'var(--gold)', boxShadow: '0 0 24px rgba(var(--gold-rgb),0.5)' }}
+          style={{ background: 'linear-gradient(135deg, #C07820, #F0A030)', boxShadow: '0 0 28px rgba(240,160,48,0.55)' }}
           title="Adicionar produto"
         >
           <svg className="w-7 h-7 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>

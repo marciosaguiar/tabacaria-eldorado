@@ -46,4 +46,7 @@ export interface CompanySettings {
   bannerAtivo: boolean
   bannerTexto: string
   bannerCor: string            // hex, ex: '#C9A84C'
+
+  // Aviso de retirada no local
+  pickupNotice?: boolean
 }
