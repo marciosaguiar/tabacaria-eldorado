@@ -2,403 +2,361 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================================
-   DESIGN SYSTEM — Tabacaria Eldorado
-   Inspirado em Apple Music: fundo quase preto, gradientes
-   âmbar/dourado ricos, glassmorfismo, tipografia bold.
-   ============================================================ */
+/* ================================================================
+   TABACARIA ELDORADO — iOS Liquid Glass Design System
+   Modo claro como padrão. Superfícies translúcidas, gradientes
+   âmbar/dourado aquecidos, tipografia refinada.
+   ================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
-
+/* ── Tokens ─────────────────────────────────────────────────── */
 :root {
-  /* ── Base ────────────────────────────────────────────────── */
-  --el-bg-page:        #080808;
-  --el-bg-surface:     #111111;
-  --el-bg-input:       #1a1a1a;
+  /* Fundo geral — marfim quente */
+  --bg:            #FDF6EC;
+  --bg-alt:        #FBF0E2;
+  --bg-deep:       #F6E8D4;
 
-  /* Gradient de marca */
-  --el-gradient-dark:  linear-gradient(160deg, #1C0A00 0%, #0E0500 50%, #080808 100%);
+  /* Glass surfaces (Liquid Glass) */
+  --glass:         rgba(255, 255, 255, 0.72);
+  --glass-strong:  rgba(255, 255, 255, 0.88);
+  --glass-subtle:  rgba(255, 255, 255, 0.48);
+  --glass-border:  rgba(255, 255, 255, 0.9);
+  --glass-stroke:  rgba(200, 137, 26, 0.14);
+  --glass-shadow:  0 4px 24px rgba(168, 108, 32, 0.12),
+                   0 1px 4px  rgba(168, 108, 32, 0.06);
+  --glass-shadow-lg: 0 8px 40px rgba(168, 108, 32, 0.16),
+                     0 2px 8px  rgba(168, 108, 32, 0.08);
 
-  /* ── Dourado — paleta principal ──────────────────────────── */
-  --el-gold-solid:        #F0A030;
-  --el-gold-bright:       #FFD060;
-  --el-gold-deep:         #C07820;
-  --el-gold-glow:         rgba(240, 160, 48, 0.5);
-  --el-gold-glow-soft:    rgba(240, 160, 48, 0.15);
-  --el-gold-border:       rgba(240, 160, 48, 0.18);
-  --el-gold-border-hover: rgba(240, 160, 48, 0.5);
-  --el-gradient-gold:     linear-gradient(135deg, #C07820 0%, #F0A030 45%, #FFD060 100%);
-  --el-gradient-gold-text: linear-gradient(100deg, #C8860A 0%, #F0A030 40%, #FFE080 70%, #F0A030 100%);
+  /* Dourado âmbar */
+  --gold:          #C8891A;
+  --gold-light:    #E8A832;
+  --gold-bright:   #FFD060;
+  --gold-deep:     #A06810;
+  --gold-pale:     rgba(200, 137, 26, 0.10);
+  --gold-glow:     rgba(200, 137, 26, 0.35);
+  --gold-rgb:      200, 137, 26;
 
-  /* ── Glass surfaces ──────────────────────────────────────── */
-  --el-glass-1:   rgba(255, 255, 255, 0.04);
-  --el-glass-2:   rgba(255, 255, 255, 0.08);
-  --el-glass-3:   rgba(255, 255, 255, 0.13);
-  --el-glass-border: rgba(255, 255, 255, 0.09);
-  --el-glass-border-gold: rgba(240, 160, 48, 0.2);
+  /* Tipografia */
+  --text:          #1C1108;
+  --text-2:        #6B4C28;
+  --text-3:        #A8835A;
+  --text-4:        #C4A880;
+  --on-gold:       #FFF8EC;
 
-  /* ── Tipografia ─────────────────────────────────────────── */
-  --el-text-primary:   #FFFFFF;
-  --el-text-secondary: rgba(255, 255, 255, 0.6);
-  --el-text-hint:      rgba(255, 255, 255, 0.35);
-  --el-on-primary:     #1A0800;
+  /* Bordas */
+  --stroke:        rgba(168, 108, 32, 0.15);
+  --stroke-light:  rgba(168, 108, 32, 0.08);
 
-  /* ── Bordas / Raios ─────────────────────────────────────── */
-  --el-border-card:  none;
-  --el-border-input: 1px solid rgba(255, 255, 255, 0.1);
-  --el-radius-sm:    10px;
-  --el-radius-md:    16px;
-  --el-radius-lg:    22px;
-  --el-radius-xl:    28px;
+  /* Raios */
+  --r-sm:  10px;
+  --r-md:  16px;
+  --r-lg:  22px;
+  --r-xl:  28px;
+  --r-pill: 9999px;
 
-  /* ── Sombras ────────────────────────────────────────────── */
-  --el-shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --el-shadow-gold: 0 0 40px rgba(240, 160, 48, 0.3), 0 0 80px rgba(240, 160, 48, 0.12);
+  /* Variáveis de compatibilidade (admin + componentes legados) */
+  --el-bg-page:        var(--bg);
+  --el-bg-surface:     var(--glass-strong);
+  --el-bg-input:       rgba(255,255,255,0.8);
+  --el-gradient-dark:  linear-gradient(160deg, #2A1200 0%, #0E0500 100%);
+  --el-gradient-gold:  linear-gradient(135deg, #A06810 0%, #C8891A 45%, #E8A832 100%);
+  --el-gold-solid:     var(--gold);
+  --el-gold-light:     var(--gold-light);
+  --el-gold-border:    var(--stroke);
+  --el-text-primary:   var(--text);
+  --el-text-secondary: var(--text-2);
+  --el-text-hint:      var(--text-3);
+  --el-border-card:    1px solid var(--stroke);
+  --el-border-input:   1px solid var(--stroke);
+  --el-shadow-card:    var(--glass-shadow);
+  --el-radius-sm:      var(--r-sm);
+  --el-radius-md:      var(--r-md);
+  --el-radius-lg:      var(--r-lg);
+  --el-radius-xl:      var(--r-xl);
 
-  /* ── Legado (compatibilidade admin) ─────────────────────── */
-  --bg-base:    #0a0a0a;
-  --bg-end:     #111111;
-  --bg-card:    #1a1a1a;
-  --bg-hover:   #222222;
-  --bg-border:  #2a2a2a;
-
-  --text-primary:   #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.55);
-  --text-muted:     rgba(255, 255, 255, 0.30);
-
-  --gold:        #F0A030;
-  --gold-light:  #FFD060;
-  --gold-bright: #FFE090;
-  --gold-dark:   #C07820;
-  --gold-rgb:    240, 160, 48;
-  --shadow-gold: rgba(240, 160, 48, 0.25);
-
-  --header-bg:    rgba(8, 8, 8, 0.85);
-  --hero-overlay: linear-gradient(to bottom, rgba(28, 10, 0, 0.8), #080808);
-  --hero-glow:    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(200, 100, 0, 0.35), transparent 70%);
-  --scrollbar-bg: #080808;
-
-  /* ── el-text-secondary alias ──────────────────────────── */
-  --el-text-secondary-solid: #999;
+  /* Admin legado */
+  --bg-base:    #FDF6EC;
+  --bg-end:     #FBF0E2;
+  --bg-card:    rgba(255,255,255,0.82);
+  --bg-hover:   rgba(255,255,255,0.95);
+  --bg-border:  rgba(168,108,32,0.15);
+  --text-primary:   #1C1108;
+  --text-secondary: #6B4C28;
+  --text-muted:     #A8835A;
+  --shadow-gold: rgba(200,137,26,0.18);
+  --header-bg:   rgba(253,246,236,0.88);
+  --scrollbar-bg: var(--bg);
 }
 
-/* ============================================================
+/* ================================================================
    RESET & BASE
-   ============================================================ */
+   ================================================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 body {
-  background-color: var(--el-bg-page);
-  color: var(--el-text-primary);
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse 120% 50% at 50% -5%, rgba(200,137,26,0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 80% 30% at 0% 100%, rgba(200,137,26,0.05) 0%, transparent 55%);
+  background-attachment: fixed;
+  color: var(--text);
   font-family: 'Inter', var(--font-inter, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
 }
 
-/* ============================================================
-   GLASSMORFISMO
-   ============================================================ */
-.glass {
-  background: var(--el-glass-1);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid var(--el-glass-border);
-}
-.glass-gold {
-  background: var(--el-glass-1);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid var(--el-glass-border-gold);
-}
-.glass-heavy {
-  background: var(--el-glass-2);
-  backdrop-filter: blur(32px) saturate(200%);
-  -webkit-backdrop-filter: blur(32px) saturate(200%);
-  border: 1px solid var(--el-glass-border);
+/* ================================================================
+   LIQUID GLASS — sistema de superfícies
+   ================================================================ */
+
+/* Superfície glass base */
+.lg {
+  background: var(--glass);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
 }
 
-/* ============================================================
-   GRADIENTE DE TEXTO DOURADO
-   ============================================================ */
-.el-gold-text {
-  background: var(--el-gradient-gold-text);
+/* Glass mais forte */
+.lg-strong {
+  background: var(--glass-strong);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.95);
+  box-shadow: var(--glass-shadow);
+}
+
+/* Glass com toque dourado */
+.lg-gold {
+  background: var(--glass);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(200,137,26,0.22);
+  box-shadow: var(--glass-shadow), 0 0 0 0.5px rgba(200,137,26,0.1) inset;
+}
+
+/* Nav header */
+.lg-nav {
+  background: rgba(253, 246, 236, 0.82);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border-bottom: 1px solid rgba(200,137,26,0.12);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset,
+              0 2px 16px rgba(168,108,32,0.08);
+}
+
+/* ================================================================
+   TIPOGRAFIA UTILITÁRIA
+   ================================================================ */
+
+/* Gradiente dourado no texto */
+.gold-text {
+  background: linear-gradient(135deg, #A06810 0%, #C8891A 45%, #E8A832 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
-/* Fallback seguro (sem clip) */
-.el-gold-solid-text { color: var(--el-gold-solid); }
 
-/* ============================================================
-   AMBIENT GLOW — luz ambiente âmbar (como Apple Music)
-   ============================================================ */
-.ambient-glow {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 90% 55% at 50% -10%, rgba(200, 120, 10, 0.45) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 30% at 20% 100%, rgba(180, 80, 0, 0.15) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 20% at 80% 80%, rgba(240, 160, 48, 0.08) 0%, transparent 50%);
+/* Fallback seguro */
+.el-gold-text { color: var(--gold); }
+
+/* ================================================================
+   BOTÕES
+   ================================================================ */
+
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 26px;
+  background: linear-gradient(135deg, #A06810 0%, #C8891A 50%, #E8A832 100%);
+  color: #FFF8EC;
+  font-family: var(--font-inter, sans-serif);
+  font-size: 14px; font-weight: 700; letter-spacing: 0.01em;
+  border-radius: var(--r-pill); border: none; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(200,137,26,0.38),
+              0 1px 0 rgba(255,255,255,0.25) inset;
+  transition: filter 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+.btn-primary:hover { filter: brightness(1.07); box-shadow: 0 6px 24px rgba(200,137,26,0.48), 0 1px 0 rgba(255,255,255,0.25) inset; }
+.btn-primary:active { transform: scale(0.97); }
+
+.btn-glass {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 24px;
+  background: rgba(255,255,255,0.55);
+  color: var(--text);
+  font-family: var(--font-inter, sans-serif);
+  font-size: 14px; font-weight: 600;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(255,255,255,0.85);
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 2px 12px rgba(168,108,32,0.1),
+              0 1px 0 rgba(255,255,255,0.9) inset;
+  transition: all 0.2s ease;
+}
+.btn-glass:hover { background: rgba(255,255,255,0.75); box-shadow: 0 4px 20px rgba(168,108,32,0.14), 0 1px 0 rgba(255,255,255,0.9) inset; }
+.btn-glass:active { transform: scale(0.97); }
+
+/* ================================================================
+   PRODUCT CARDS
+   ================================================================ */
+.product-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.85);
+  border-radius: var(--r-md);
+  box-shadow: var(--glass-shadow);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
+              box-shadow 0.25s ease,
+              border-color 0.2s ease;
+}
+.product-card:hover {
+  transform: translateY(-5px) scale(1.012);
+  border-color: rgba(200,137,26,0.28);
+  box-shadow: var(--glass-shadow-lg), 0 0 0 1px rgba(200,137,26,0.12);
 }
 
-/* ============================================================
-   SKELETON LOADING
-   ============================================================ */
+/* ================================================================
+   CHIPS DE CATEGORIA
+   ================================================================ */
+.el-chips-scroll {
+  display: flex; gap: 8px; overflow-x: auto;
+  padding: 0 16px 4px; white-space: nowrap;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.el-chips-scroll::-webkit-scrollbar { display: none; }
+
+/* ================================================================
+   SKELETON
+   ================================================================ */
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
 }
 .el-skeleton {
-  background: linear-gradient(90deg, #1a1a1a 25%, #242424 50%, #1a1a1a 75%);
+  background: linear-gradient(90deg, rgba(200,137,26,0.08) 25%, rgba(200,137,26,0.14) 50%, rgba(200,137,26,0.08) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.6s ease infinite;
   border-radius: 8px;
 }
 
-/* ============================================================
+/* ================================================================
    TOAST
-   ============================================================ */
-@keyframes elToastIn {
+   ================================================================ */
+@keyframes toastIn {
   from { transform: translateY(-20px) translateX(-50%); opacity: 0; }
   to   { transform: translateY(0) translateX(-50%); opacity: 1; }
 }
 .el-toast {
-  position: fixed;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
   z-index: 9999;
-  animation: elToastIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  background: rgba(30, 30, 30, 0.92);
-  backdrop-filter: blur(20px);
-  color: var(--el-gold-bright);
+  animation: toastIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  background: rgba(253,246,236,0.94);
+  backdrop-filter: blur(24px);
+  color: var(--gold-deep);
   font-family: var(--font-inter, sans-serif);
-  font-size: 13px;
-  font-weight: 600;
-  padding: 12px 22px;
-  border-radius: 50px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+  font-size: 13px; font-weight: 700;
+  padding: 11px 22px; border-radius: var(--r-pill);
+  box-shadow: 0 8px 32px rgba(168,108,32,0.2), 0 1px 0 rgba(255,255,255,0.9) inset;
+  border: 1px solid rgba(200,137,26,0.2);
   white-space: nowrap;
 }
 
-/* ============================================================
-   MICROANIMAÇÕES
-   ============================================================ */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.92); }
-  to   { opacity: 1; transform: scale(1); }
-}
-.animate-fade-in   { animation: fadeIn 0.4s ease forwards; }
-.animate-slide-up  { animation: slideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.animate-scale-in  { animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-
-/* Shimmer dourado no texto */
-@keyframes goldShimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-.text-gold-shine {
-  background: linear-gradient(
-    90deg,
-    #C07820 0%, #F0A030 20%, #FFD060 40%, #FFF0A0 50%,
-    #FFD060 60%, #F0A030 80%, #C07820 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: goldShimmer 4s linear infinite;
-}
-.shadow-gold-glow {
-  filter: drop-shadow(0 0 20px rgba(240,160,48,0.5));
-}
-
-/* ============================================================
-   BOTÕES
-   ============================================================ */
-a, button { transition: opacity 0.2s ease, transform 0.15s ease; }
-button:active { transform: scale(0.96); }
-
-/* Botão primário dourado */
-.btn-gold {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 14px 28px;
-  background: var(--el-gradient-gold);
-  color: var(--el-on-primary);
-  font-family: var(--font-inter, sans-serif);
-  font-size: 15px;
-  font-weight: 700;
-  border-radius: 50px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(240, 160, 48, 0.4);
-  transition: all 0.2s ease;
-}
-.btn-gold:hover { filter: brightness(1.1); box-shadow: 0 6px 28px rgba(240, 160, 48, 0.55); }
-
-/* Botão fantasma */
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 13px 28px;
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  font-family: var(--font-inter, sans-serif);
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  cursor: pointer;
-  backdrop-filter: blur(12px);
-  transition: all 0.2s ease;
-}
-.btn-ghost:hover { background: rgba(255, 255, 255, 0.13); }
-
-/* ============================================================
-   CHIPS DE CATEGORIA — scroll horizontal
-   ============================================================ */
-.el-chips-scroll {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 0 16px 4px;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.el-chips-scroll::-webkit-scrollbar { display: none; }
-
-/* ============================================================
-   CARDS DE PRODUTO — glass style
-   ============================================================ */
-.product-card {
-  background: var(--el-glass-1);
-  border: 1px solid var(--el-glass-border);
-  border-radius: var(--el-radius-md);
-  overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-              box-shadow 0.3s ease,
-              border-color 0.25s ease;
-}
-.product-card:hover {
-  transform: translateY(-6px) scale(1.01);
-  border-color: var(--el-glass-border-gold);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6),
-              0 0 0 1px rgba(240, 160, 48, 0.2),
-              0 0 40px rgba(240, 160, 48, 0.08);
-}
-
-/* ============================================================
-   HERO CATALOG CARDS (home page)
-   ============================================================ */
+/* ================================================================
+   HERO CATALOG CARDS
+   ================================================================ */
 .catalog-hero-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--el-radius-xl);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  position: relative; overflow: hidden;
+  border-radius: var(--r-xl);
+  border: 1px solid rgba(255,255,255,0.75);
+  box-shadow: var(--glass-shadow-lg);
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
 }
 .catalog-hero-card:hover {
-  transform: scale(1.025) translateY(-4px);
-  box-shadow: 0 24px 64px rgba(0,0,0,0.7), 0 0 0 1px rgba(240,160,48,0.25);
-}
-.catalog-hero-card .card-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.92) 0%,
-    rgba(0, 0, 0, 0.55) 40%,
-    rgba(0, 0, 0, 0.1) 100%
-  );
-  z-index: 1;
+  transform: scale(1.025) translateY(-5px);
+  box-shadow: 0 24px 56px rgba(168,108,32,0.22), 0 4px 12px rgba(168,108,32,0.1);
 }
 .catalog-hero-card .card-content {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 28px;
-  z-index: 2;
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 28px; z-index: 2;
 }
 
-/* ============================================================
-   ADMIN COMPAT (tudo dark agora)
-   ============================================================ */
+/* ================================================================
+   ANIMAÇÕES
+   ================================================================ */
+@keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.animate-fade-in  { animation: fadeIn  0.4s ease forwards; }
+.animate-slide-up { animation: slideUp 0.45s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+/* Micro interactions */
+a, button { transition: opacity 0.2s ease, transform 0.15s ease; }
+button:active { transform: scale(0.97); }
+
+/* Shimmer no logo */
+.text-gold-shine {
+  background: linear-gradient(90deg,
+    #A06810 0%, #C8891A 20%, #E8A832 40%, #FFD880 50%,
+    #E8A832 60%, #C8891A 80%, #A06810 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  animation: goldShimmer 4s linear infinite;
+}
+@keyframes goldShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.shadow-gold-glow { filter: drop-shadow(0 0 16px rgba(200,137,26,0.4)); }
+
+/* ================================================================
+   ADMIN COMPAT
+   ================================================================ */
 .bg-dark          { background-color: var(--bg-base); }
 .bg-dark-card     { background-color: var(--bg-card); }
 .bg-dark-hover    { background-color: var(--bg-hover); }
-.text-white       { color: var(--text-primary); }
-.text-gray-300    { color: var(--text-secondary); }
-.text-gray-400    { color: var(--text-secondary); }
-.text-gray-500    { color: var(--text-muted); }
 .border-dark-border { border-color: var(--bg-border); }
-footer { background-color: var(--bg-base); }
+footer { background-color: transparent; }
 
 input:not([type="file"]):not([type="range"]):not([type="checkbox"]),
-textarea,
-select {
-  background-color: var(--bg-card);
-  color: var(--text-primary);
-  border-color: var(--bg-border);
+textarea, select {
+  background-color: rgba(255,255,255,0.8);
+  color: var(--text);
+  border-color: var(--stroke);
 }
-input::placeholder,
-textarea::placeholder { color: var(--text-muted); }
-
-/* ============================================================
-   SCROLLBAR
-   ============================================================ */
-::-webkit-scrollbar        { width: 4px; height: 4px; }
-::-webkit-scrollbar-track  { background: transparent; }
-::-webkit-scrollbar-thumb  { background: rgba(240,160,48,0.3); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(240,160,48,0.55); }
-
-/* ============================================================
-   LINE CLAMP
-   ============================================================ */
-.line-clamp-1 {
-  overflow: hidden; display: -webkit-box;
-  -webkit-box-orient: vertical; -webkit-line-clamp: 1;
-}
-.line-clamp-2 {
-  overflow: hidden; display: -webkit-box;
-  -webkit-box-orient: vertical; -webkit-line-clamp: 2;
-}
-
-/* ============================================================
-   INPUT TRANSITIONS
-   ============================================================ */
-input[type='file'] { cursor: pointer; }
-input, textarea, select { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+input::placeholder, textarea::placeholder { color: var(--text-3); }
 input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: rgba(240, 160, 48, 0.45) !important;
-  box-shadow: 0 0 0 3px rgba(240, 160, 48, 0.1);
+  border-color: rgba(200,137,26,0.4) !important;
+  box-shadow: 0 0 0 3px rgba(200,137,26,0.1);
 }
+input[type='file'] { cursor: pointer; }
+input, textarea, select { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
 
-/* ============================================================
-   SECTION DIVIDER (linha dourada tênue)
-   ============================================================ */
+/* ================================================================
+   SCROLLBAR
+   ================================================================ */
+::-webkit-scrollbar       { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(200,137,26,0.25); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(200,137,26,0.45); }
+
+/* ================================================================
+   LINE CLAMP
+   ================================================================ */
+.line-clamp-1 { overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:1; }
+.line-clamp-2 { overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; }
+
+/* ================================================================
+   DIVISOR
+   ================================================================ */
 .el-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(240,160,48,0.25), transparent);
-  margin: 0 20px;
+  background: linear-gradient(90deg, transparent, rgba(200,137,26,0.2), transparent);
+  margin: 0 24px;
 }

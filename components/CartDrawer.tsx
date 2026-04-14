@@ -51,8 +51,8 @@ export default function CartDrawer({ whatsapp, channel }: Props) {
       <div
         className="fixed inset-0 z-[300]"
         style={{
-          backgroundColor: 'rgba(0,0,0,0.7)',
-          backdropFilter: 'blur(4px)',
+          backgroundColor: 'rgba(28,17,8,0.35)',
+          backdropFilter: 'blur(8px)',
           opacity: isDrawerOpen ? 1 : 0,
           transition: 'opacity 350ms ease',
         }}
@@ -61,10 +61,13 @@ export default function CartDrawer({ whatsapp, channel }: Props) {
 
       {/* Drawer */}
       <div
-        className="fixed bottom-0 left-0 right-0 z-[310] flex flex-col rounded-t-2xl shadow-2xl"
+        className="fixed bottom-0 left-0 right-0 z-[310] flex flex-col rounded-t-2xl"
         style={{
-          backgroundColor: 'var(--bg-card)',
-          borderTop: '1px solid rgba(var(--gold-rgb),0.2)',
+          background: 'var(--glass-strong)',
+          backdropFilter: 'blur(40px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+          borderTop: '1px solid rgba(255,255,255,0.95)',
+          boxShadow: '0 -8px 40px rgba(168,108,32,0.16), 0 -1px 0 rgba(200,137,26,0.12)',
           maxHeight: '85dvh',
           transform: isDrawerOpen ? 'translateY(0)' : 'translateY(100%)',
           transition: 'transform 350ms cubic-bezier(0.32, 0.72, 0, 1)',
@@ -132,10 +135,10 @@ export default function CartDrawer({ whatsapp, channel }: Props) {
                   const subtotal = (price ?? 0) * item.quantity
                   return (
                     <div key={item.product.id} className="flex items-center gap-3 p-3 rounded-xl"
-                      style={{ backgroundColor: 'var(--bg-hover)', border: '1px solid var(--bg-border)' }}>
+                      style={{ backgroundColor: 'rgba(255,255,255,0.65)', border: '1px solid rgba(200,137,26,0.12)', backdropFilter: 'blur(8px)' }}>
                       {/* Imagem */}
                       <div className="relative w-14 h-14 rounded-lg overflow-hidden flex-shrink-0"
-                        style={{ backgroundColor: 'var(--bg-card)' }}>
+                        style={{ backgroundColor: 'rgba(248,236,210,0.8)' }}>
                         {item.product.imagem ? (
                           <Image src={item.product.imagem} alt={item.product.nome} fill style={{ objectFit: 'cover' }} sizes="56px" />
                         ) : (
@@ -169,15 +172,15 @@ export default function CartDrawer({ whatsapp, channel }: Props) {
                       <div className="flex items-center gap-1 flex-shrink-0">
                         <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
                           className="w-7 h-7 rounded-full flex items-center justify-center transition-colors text-lg leading-none font-medium"
-                          style={{ backgroundColor: 'var(--bg-card)', color: 'var(--text-primary)', border: '1px solid var(--bg-border)' }}>
+                          style={{ backgroundColor: 'rgba(255,255,255,0.8)', color: 'var(--text)', border: '1px solid rgba(200,137,26,0.18)' }}>
                           −
                         </button>
-                        <span className="w-6 text-center font-inter text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+                        <span className="w-6 text-center font-inter text-sm font-semibold" style={{ color: 'var(--text)' }}>
                           {item.quantity}
                         </span>
                         <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
                           className="w-7 h-7 rounded-full flex items-center justify-center transition-colors text-lg leading-none font-medium"
-                          style={{ backgroundColor: 'var(--bg-card)', color: 'var(--text-primary)', border: '1px solid var(--bg-border)' }}>
+                          style={{ backgroundColor: 'rgba(255,255,255,0.8)', color: 'var(--text)', border: '1px solid rgba(200,137,26,0.18)' }}>
                           +
                         </button>
                         <button onClick={() => removeItem(item.product.id)}
@@ -209,7 +212,7 @@ export default function CartDrawer({ whatsapp, channel }: Props) {
               <div className="p-4 space-y-3">
                 {orders.map(order => (
                   <div key={order.id} className="p-4 rounded-xl space-y-2"
-                    style={{ backgroundColor: 'var(--bg-hover)', border: '1px solid var(--bg-border)' }}>
+                    style={{ backgroundColor: 'rgba(255,255,255,0.65)', border: '1px solid rgba(200,137,26,0.12)', backdropFilter: 'blur(8px)' }}>
                     <div className="flex items-center justify-between">
                       <span className="font-inter text-xs font-semibold" style={{ color: 'var(--gold)' }}>
                         {fmt(order.total)}

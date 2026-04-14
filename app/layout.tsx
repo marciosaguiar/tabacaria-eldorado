@@ -1,20 +1,22 @@
 import type { Metadata, Viewport } from 'next'
 import InstallBanner from '@/components/InstallBanner'
+import { Playfair_Display, Inter } from 'next/font/google'
+import './globals.css'
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  themeColor: '#FDF6EC',
 }
-import { Playfair_Display, Inter } from 'next/font/google'
-import ThemeProvider from '@/components/ThemeProvider'
-import './globals.css'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
   display: 'swap',
+  style: ['normal', 'italic'],
+  weight: ['400', '700', '900'],
 })
 
 const inter = Inter({
@@ -25,7 +27,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Tabacaria Eldorado — Produtos Premium',
-  description: 'Catálogo de produtos premium da Tabacaria Eldorado. Charutos, cachimbos e acessórios selecionados para os mais exigentes apreciadores.',
+  description: 'Catálogo de produtos premium da Tabacaria Eldorado.',
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: '48x48' },
@@ -33,9 +35,7 @@ export const metadata: Metadata = {
       { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
       { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
     ],
-    apple: [
-      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
     shortcut: '/favicon.ico',
   },
   manifest: '/site.webmanifest',
@@ -47,36 +47,15 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${playfair.variable} ${inter.variable}`}
-      data-theme="light"
-    >
+    <html lang="pt-BR" className={`${playfair.variable} ${inter.variable}`}>
       <head>
-        {/* Script anti-flash: lê tema salvo antes do primeiro render */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('eldorado-theme');document.documentElement.setAttribute('data-theme',(t==='light'||t==='dark')?t:'light');}catch(e){}})();`,
-          }}
-        />
-        {/* Service Worker registration for offline support */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});})}`,
-          }}
-        />
+        <script dangerouslySetInnerHTML={{ __html: `if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});})}` }} />
       </head>
       <body className="min-h-screen font-inter">
-        <ThemeProvider>
-          {children}
-          <InstallBanner />
-        </ThemeProvider>
+        {children}
+        <InstallBanner />
       </body>
     </html>
   )

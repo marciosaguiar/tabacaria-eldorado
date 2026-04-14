@@ -67,7 +67,7 @@ function HomeCard({
       style={{ borderRadius: '16px' }}
     >
       {/* Image */}
-      <div className="relative aspect-square overflow-hidden flex-shrink-0" style={{ backgroundColor: '#111' }}>
+      <div className="relative aspect-square overflow-hidden flex-shrink-0" style={{ backgroundColor: 'rgba(248,236,210,0.6)' }}>
         {product.imagem ? (
           <Image
             src={product.imagem}
@@ -82,7 +82,7 @@ function HomeCard({
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <svg className="w-10 h-10 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#F0A030' }}>
+            <svg className="w-10 h-10 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--gold)' }}>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
@@ -91,9 +91,9 @@ function HomeCard({
         {/* Indisponível overlay (customers view) */}
         {product.ativo === false && !isAdmin && (
           <div className="absolute inset-0 flex items-end justify-center pb-3"
-            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%)' }}>
+            style={{ background: 'linear-gradient(to top, rgba(253,246,236,0.85) 0%, transparent 60%)' }}>
             <span className="font-inter text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded"
-              style={{ backgroundColor: 'rgba(0,0,0,0.6)', color: '#aaa', border: '1px solid rgba(255,255,255,0.15)' }}>
+              style={{ backgroundColor: 'rgba(168,108,32,0.15)', color: 'var(--text-3)', border: '1px solid rgba(200,137,26,0.2)' }}>
               Indisponível
             </span>
           </div>
@@ -156,18 +156,18 @@ function HomeCard({
 
         {/* Hover overlay */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, var(--bg-card) 0%, transparent 50%)' }} />
+          style={{ background: 'linear-gradient(to top, rgba(253,246,236,0.9) 0%, transparent 50%)' }} />
       </div>
 
       {/* Content */}
       <div className="p-3 sm:p-4 flex flex-col flex-1">
         <h3 className="font-playfair font-bold line-clamp-1 leading-snug" style={{
-          fontSize: '14px', color: '#fff', letterSpacing: '-0.01em',
+          fontSize: '14px', color: 'var(--text)', letterSpacing: '-0.01em',
         }}>
           {product.nome}
         </h3>
         {product.descricao && (
-          <p className="text-xs mt-1 line-clamp-2 font-inter leading-relaxed" style={{ color: 'rgba(255,255,255,0.38)' }}>
+          <p className="text-xs mt-1 line-clamp-2 font-inter leading-relaxed" style={{ color: 'var(--text-3)' }}>
             {product.descricao}
           </p>
         )}
@@ -179,14 +179,14 @@ function HomeCard({
             <>
               {channel === 'varejo' && fmt(product.precoVarejo) && (
                 <div className="flex items-baseline gap-1">
-                  <span className="font-inter font-bold text-xl sm:text-2xl tracking-tight" style={{ color: '#F0A030' }}>
+                  <span className="font-inter font-bold text-xl sm:text-2xl tracking-tight" style={{ color: 'var(--gold)' }}>
                     {fmt(product.precoVarejo)}
                   </span>
                 </div>
               )}
               {channel === 'atacado' && fmt(product.precoAtacado) && (
                 <div className="flex items-baseline gap-1">
-                  <span className="font-inter font-bold text-xl sm:text-2xl tracking-tight" style={{ color: '#F0A030' }}>
+                  <span className="font-inter font-bold text-xl sm:text-2xl tracking-tight" style={{ color: 'var(--gold)' }}>
                     {fmt(product.precoAtacado)}
                   </span>
                 </div>
@@ -199,15 +199,15 @@ function HomeCard({
             <div className="flex flex-col gap-0.5">
               {showVarejo && fmt(product.precoVarejo) && (
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-inter uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.28)' }}>Varejo</span>
-                  <span className="font-inter font-bold text-base sm:text-lg" style={{ color: '#F0A030' }}>
+                  <span className="text-[10px] font-inter uppercase tracking-wider" style={{ color: 'var(--text-4)' }}>Varejo</span>
+                  <span className="font-inter font-bold text-base sm:text-lg" style={{ color: 'var(--gold)' }}>
                     {fmt(product.precoVarejo)}
                   </span>
                 </div>
               )}
               {showAtacado && fmt(product.precoAtacado) && (
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-inter uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Atacado</span>
+                  <span className="text-[10px] font-inter uppercase tracking-wider" style={{ color: 'var(--text-3)' }}>Atacado</span>
                   <span className="font-inter font-semibold text-sm sm:text-base" style={{ color: 'var(--gold-light)' }}>
                     {fmt(product.precoAtacado)}
                   </span>
@@ -313,8 +313,8 @@ function ProductModal({
     <div ref={backdrop} onClick={handleBd}
       className="fixed inset-0 z-[150] flex items-end sm:items-center justify-center p-0 sm:p-4"
       style={{ backgroundColor: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)' }}>
-      <div className="w-full sm:max-w-lg max-h-[92vh] overflow-y-auto rounded-t-2xl sm:rounded-sm shadow-2xl"
-        style={{ backgroundColor: 'var(--bg-card)', border: '1px solid rgba(var(--gold-rgb),0.2)' }}>
+      <div className="w-full sm:max-w-lg max-h-[92vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl shadow-2xl"
+        style={{ background: 'var(--glass-strong)', backdropFilter: 'blur(40px) saturate(180%)', WebkitBackdropFilter: 'blur(40px) saturate(180%)', border: '1px solid rgba(255,255,255,0.95)', boxShadow: 'var(--glass-shadow-lg)' }}>
 
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: 'rgba(var(--gold-rgb),0.15)' }}>
@@ -545,7 +545,7 @@ function ProductModal({
 function DeleteModal({ name, onConfirm, onCancel, deleting }: { name: string; onConfirm: () => void; onCancel: () => void; deleting: boolean }) {
   return (
     <div className="fixed inset-0 z-[150] flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}>
-      <div className="w-full max-w-sm rounded-sm shadow-2xl p-7 text-center" style={{ backgroundColor: 'var(--bg-card)', border: '1px solid rgba(220,38,38,0.2)' }}>
+      <div className="w-full max-w-sm rounded-2xl shadow-2xl p-7 text-center" style={{ background: 'var(--glass-strong)', backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.95)', boxShadow: 'var(--glass-shadow-lg)' }}>
         <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: 'rgba(220,38,38,0.1)' }}>
           <svg className="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -651,23 +651,23 @@ export default function HomeProductSection({ initialProducts, categorias = [] }:
         <div>
           <p className="font-inter mb-2" style={{
             fontSize: '11px', fontWeight: 700, textTransform: 'uppercase',
-            letterSpacing: '0.18em', color: 'rgba(240,160,48,0.65)',
+            letterSpacing: '0.18em', color: 'var(--gold)',
           }}>
             Seleção Premium
           </p>
           <h2 className="font-playfair" style={{
             fontSize: 'clamp(26px, 5vw, 38px)',
-            fontWeight: 900, color: '#fff',
+            fontWeight: 900, color: 'var(--text)',
             letterSpacing: '-0.03em', lineHeight: 1.1,
           }}>
-            Nossos <span className="el-gold-text">Produtos</span>
+            Nossos <span className="gold-text">Produtos</span>
           </h2>
         </div>
 
         {/* Refresh */}
         <button onClick={manualRefresh}
           className="flex items-center gap-1.5 font-inter transition-opacity hover:opacity-100"
-          style={{ fontSize: '11px', color: 'rgba(255,255,255,0.28)', opacity: 0.7 }}
+          style={{ fontSize: '11px', color: 'var(--text-3)', opacity: 0.8 }}
           title="Atualizar catálogo">
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -678,9 +678,11 @@ export default function HomeProductSection({ initialProducts, categorias = [] }:
 
       {/* Filter tabs — glass pill style */}
       <div className="flex gap-1.5 mb-7 p-1.5 w-fit" style={{
-        background: 'rgba(255,255,255,0.05)',
+        background: 'rgba(255,255,255,0.55)',
+        backdropFilter: 'blur(16px)',
         borderRadius: '50px',
-        border: '1px solid rgba(255,255,255,0.08)',
+        border: '1px solid rgba(200,137,26,0.16)',
+        boxShadow: '0 2px 12px rgba(168,108,32,0.08)',
       }}>
         {(['todos', 'varejo', 'atacado'] as Channel[]).map(c => (
           <button key={c} onClick={() => setChannel(c)}
@@ -692,10 +694,10 @@ export default function HomeProductSection({ initialProducts, categorias = [] }:
               textTransform: 'uppercase',
               letterSpacing: '0.06em',
               background: channel === c
-                ? 'linear-gradient(135deg, #C07820, #F0A030, #FFD060)'
+                ? 'linear-gradient(135deg, #A06810, #C8891A, #E8A832)'
                 : 'transparent',
-              color: channel === c ? '#1A0800' : 'rgba(255,255,255,0.45)',
-              boxShadow: channel === c ? '0 2px 12px rgba(240,160,48,0.4)' : 'none',
+              color: channel === c ? '#FFF8EC' : 'var(--text-2)',
+              boxShadow: channel === c ? '0 2px 12px rgba(200,137,26,0.38)' : 'none',
               border: 'none',
               cursor: 'pointer',
             }}>
@@ -705,7 +707,7 @@ export default function HomeProductSection({ initialProducts, categorias = [] }:
       </div>
 
       {/* Count */}
-      <p className="font-inter mb-5" style={{ fontSize: '11px', color: 'rgba(255,255,255,0.25)' }}>
+      <p className="font-inter mb-5" style={{ fontSize: '11px', color: 'var(--text-3)' }}>
         {visible.length} {visible.length === 1 ? 'produto' : 'produtos'}
         {channel !== 'todos' ? ` no catálogo ${channel}` : ' no total'}
       </p>
@@ -713,8 +715,8 @@ export default function HomeProductSection({ initialProducts, categorias = [] }:
       {/* Grid */}
       {visible.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="w-14 h-14 border rounded-full flex items-center justify-center mb-4" style={{ borderColor: 'rgba(var(--gold-rgb),0.2)' }}>
-            <svg className="w-6 h-6 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#F0A030' }}>
+          <div className="w-14 h-14 border rounded-full flex items-center justify-center mb-4" style={{ borderColor: 'rgba(200,137,26,0.2)', backgroundColor: 'rgba(255,255,255,0.6)' }}>
+            <svg className="w-6 h-6 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--gold)' }}>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
             </svg>
           </div>
@@ -755,7 +757,7 @@ export default function HomeProductSection({ initialProducts, categorias = [] }:
       {isAdmin && (
         <div className="fixed bottom-6 right-24 z-[100] flex items-center">
           <span className="font-inter text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-full"
-            style={{ backgroundColor: 'var(--bg-card)', color: 'var(--text-muted)', border: '1px solid rgba(var(--gold-rgb),0.15)' }}>
+            style={{ backgroundColor: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(8px)', color: 'var(--text-3)', border: '1px solid rgba(200,137,26,0.18)' }}>
             Modo Admin
           </span>
         </div>

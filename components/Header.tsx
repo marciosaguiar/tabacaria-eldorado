@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import ThemeToggle from './ThemeToggle'
 import AdminHeaderLink from './AdminHeaderLink'
 import { getSettings } from '@/lib/settings'
 
@@ -12,26 +11,20 @@ export default async function Header({ channel }: HeaderProps) {
   const settings = await getSettings()
 
   return (
-    <header
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 50,
-        background: 'rgba(8, 8, 8, 0.82)',
-        backdropFilter: 'blur(28px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
-        height: '64px',
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-      {/* Ambient gold hint at top of header */}
+    <header className="lg-nav" style={{
+      position: 'sticky',
+      top: 0,
+      zIndex: 50,
+      height: '60px',
+      display: 'flex',
+      alignItems: 'center',
+    }}>
+      {/* Subtle gold shimmer line at top */}
       <div style={{
         position: 'absolute',
         top: 0, left: '50%', transform: 'translateX(-50%)',
-        width: '60%', height: '1px',
-        background: 'linear-gradient(90deg, transparent, rgba(240,160,48,0.4), transparent)',
+        width: '50%', height: '1px',
+        background: 'linear-gradient(90deg, transparent, rgba(200,137,26,0.35), transparent)',
         pointerEvents: 'none',
       }} />
 
@@ -43,13 +36,13 @@ export default async function Header({ channel }: HeaderProps) {
       }}>
         {/* Logo + nome */}
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', flexShrink: 0 }}>
-          <div style={{ position: 'relative', height: '34px', width: '34px' }}>
+          <div style={{ position: 'relative', height: '32px', width: '32px' }}>
             <Image
               src={settings.logoUrl || '/images/logo.png'}
-              alt={settings.nome} fill sizes="34px"
+              alt={settings.nome} fill sizes="32px"
               style={{
                 objectFit: 'contain',
-                filter: 'drop-shadow(0 0 8px rgba(240,160,48,0.4))',
+                filter: 'drop-shadow(0 1px 8px rgba(200,137,26,0.32))',
               }}
               priority
             />
@@ -57,7 +50,7 @@ export default async function Header({ channel }: HeaderProps) {
           <span style={{
             fontFamily: 'var(--font-playfair, serif)',
             fontSize: '17px', fontWeight: 700,
-            color: '#fff', letterSpacing: '-0.02em',
+            color: 'var(--text)', letterSpacing: '-0.02em',
             whiteSpace: 'nowrap',
           }}>
             {settings.nome || 'Tabacaria Eldorado'}
@@ -68,20 +61,20 @@ export default async function Header({ channel }: HeaderProps) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
           {channel && (
             <span style={{
-              background: 'rgba(240,160,48,0.12)',
-              border: '1px solid rgba(240,160,48,0.25)',
-              color: '#F0A030',
+              background: 'rgba(200,137,26,0.10)',
+              border: '1px solid rgba(200,137,26,0.22)',
+              color: 'var(--gold-deep)',
               fontFamily: 'var(--font-inter, sans-serif)',
               fontSize: '10px', fontWeight: 800,
               textTransform: 'uppercase', letterSpacing: '0.1em',
               padding: '5px 13px', borderRadius: '50px',
               whiteSpace: 'nowrap',
+              backdropFilter: 'blur(8px)',
             }}>
               {channel === 'atacado' ? 'Atacado' : 'Varejo'}
             </span>
           )}
           <AdminHeaderLink />
-          <ThemeToggle />
         </div>
       </div>
     </header>
