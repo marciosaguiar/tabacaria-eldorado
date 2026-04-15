@@ -39,27 +39,39 @@ function fmt(v: number) {
   return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
 
-export function CartProvider({ children }: { children: ReactNode }) {
+interface CartProviderProps {
+  children: ReactNode
+  /** Canal do catálogo — isola o carrinho e histórico por canal */
+  channel: 'varejo' | 'atacado'
+}
+
+export function CartProvider({ children, channel }: CartProviderProps) {
+  // Chaves únicas por canal: evita cruzamento de itens/preços entre catálogos
+  const cartKey   = `eldorado-cart-${channel}`
+  const ordersKey = `eldorado-orders-${channel}`
+
   const [items, setItems] = useState<CartItem[]>([])
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [orders, setOrders] = useState<StoredOrder[]>([])
 
-  // Hidratação do localStorage
+  // Hidratação do localStorage (por canal)
   useEffect(() => {
     try {
-      const stored = localStorage.getItem('eldorado-cart')
+      const stored = localStorage.getItem(cartKey)
       if (stored) setItems(JSON.parse(stored))
-    } catch {}
+      else setItems([]) // garante estado limpo ao trocar canal
+    } catch { setItems([]) }
     try {
-      const storedOrders = localStorage.getItem('eldorado-orders')
+      const storedOrders = localStorage.getItem(ordersKey)
       if (storedOrders) setOrders(JSON.parse(storedOrders))
-    } catch {}
-  }, [])
+      else setOrders([])
+    } catch { setOrders([]) }
+  }, [cartKey, ordersKey])
 
-  // Persiste carrinho
+  // Persiste carrinho por canal
   useEffect(() => {
-    try { localStorage.setItem('eldorado-cart', JSON.stringify(items)) } catch {}
-  }, [items])
+    try { localStorage.setItem(cartKey, JSON.stringify(items)) } catch {}
+  }, [items, cartKey])
 
   const addItem = useCallback((product: Product) => {
     setItems(prev => {
@@ -85,11 +97,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = useCallback(() => setItems([]), [])
 
+  const openDrawer  = useCallback(() => setIsDrawerOpen(true),  [])
+  const closeDrawer = useCallback(() => setIsDrawerOpen(false), [])
+
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0)
 
-  const totalPrice = useCallback((channel: 'varejo' | 'atacado') => {
+  const totalPrice = useCallback((ch: 'varejo' | 'atacado') => {
     return items.reduce((sum, i) => {
-      const price = channel === 'varejo' ? i.product.precoVarejo : i.product.precoAtacado
+      const price = ch === 'varejo' ? i.product.precoVarejo : i.product.precoAtacado
       return sum + (price ?? 0) * i.quantity
     }, 0)
   }, [items])
@@ -97,18 +112,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const saveOrder = useCallback((order: StoredOrder) => {
     setOrders(prev => {
       const next = [order, ...prev].slice(0, 5)
-      try { localStorage.setItem('eldorado-orders', JSON.stringify(next)) } catch {}
+      try { localStorage.setItem(ordersKey, JSON.stringify(next)) } catch {}
       return next
     })
-  }, [])
+  }, [ordersKey])
 
-  const buildAndSendOrder = useCallback((whatsapp: string, channel: 'varejo' | 'atacado') => {
+  const buildAndSendOrder = useCallback((whatsapp: string, ch: 'varejo' | 'atacado') => {
     if (!whatsapp || items.length === 0) return
     const num = whatsapp.replace(/\D/g, '')
-    const total = totalPrice(channel)
+    const total = totalPrice(ch)
 
     const linhas = items.map(i => {
-      const price = channel === 'varejo' ? i.product.precoVarejo : i.product.precoAtacado
+      const price = ch === 'varejo' ? i.product.precoVarejo : i.product.precoAtacado
       const subtotal = (price ?? 0) * i.quantity
       const priceStr = price ? ` — ${fmt(price)} cada` : ''
       const subtotalStr = i.quantity > 1 ? ` → ${fmt(subtotal)}` : ''
@@ -126,13 +141,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
       'Poderia confirmar disponibilidade?',
     ].join('\n')
 
-    // Salva no histórico
     saveOrder({
       id: Date.now().toString(),
       timestamp: Date.now(),
       items: [...items],
       total,
-      channel,
+      channel: ch,
     })
 
     clearCart()
@@ -140,15 +154,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
     window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank')
   }, [items, totalPrice, saveOrder, clearCart])
 
+  // Fix BP1: reorderItems sem setItems em loop — processa tudo de uma vez
   const reorderItems = useCallback((order: StoredOrder) => {
-    order.items.forEach(i => {
-      setItems(prev => {
-        const existing = prev.find(x => x.product.id === i.product.id)
-        if (existing) {
-          return prev.map(x => x.product.id === i.product.id ? { ...x, quantity: x.quantity + i.quantity } : x)
+    setItems(prev => {
+      const next = [...prev]
+      for (const i of order.items) {
+        const idx = next.findIndex(x => x.product.id === i.product.id)
+        if (idx >= 0) {
+          next[idx] = { ...next[idx], quantity: next[idx].quantity + i.quantity }
+        } else {
+          next.push({ ...i })
         }
-        return [...prev, { ...i }]
-      })
+      }
+      return next
     })
     setIsDrawerOpen(true)
   }, [])
@@ -157,7 +175,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     <CartContext.Provider value={{
       items, addItem, removeItem, updateQuantity, clearCart,
       totalItems, totalPrice,
-      isDrawerOpen, openDrawer: () => setIsDrawerOpen(true), closeDrawer: () => setIsDrawerOpen(false),
+      isDrawerOpen, openDrawer, closeDrawer,
       buildAndSendOrder, orders, reorderItems,
     }}>
       {children}

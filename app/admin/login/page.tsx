@@ -12,33 +12,37 @@ export default function LoginPage() {
   const router = useRouter()
 
   useEffect(() => {
-    const token = localStorage.getItem('eldorado_admin_token')
-    if (token === 'authenticated') {
-      router.replace('/admin')
-    }
+    // Verifica cookie de sessão via rota protegida; se já autenticado, redireciona
+    fetch('/api/admin/credentials', { method: 'HEAD' }).then(r => {
+      if (r.status !== 401) router.replace('/admin')
+    }).catch(() => {})
   }, [router])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
 
-    setTimeout(() => {
-      const stored = localStorage.getItem('eldorado_admin_credentials')
-      const creds = stored
-        ? (() => { try { return JSON.parse(stored) } catch { return null } })()
-        : null
-      const validUser = creds?.username || 'admin'
-      const validPass = creds?.password || 'eldorado2024'
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      })
 
-      if (username === validUser && password === validPass) {
+      if (res.ok) {
+        // Sinaliza para o AdminHeaderLink que o admin está logado (apenas UX)
         localStorage.setItem('eldorado_admin_token', 'authenticated')
         router.replace('/admin')
       } else {
-        setError('Usuário ou senha incorretos.')
+        const data = await res.json().catch(() => ({}))
+        setError(data.error ?? 'Usuário ou senha incorretos.')
         setIsLoading(false)
       }
-    }, 400)
+    } catch {
+      setError('Erro de conexão. Tente novamente.')
+      setIsLoading(false)
+    }
   }
 
   return (
