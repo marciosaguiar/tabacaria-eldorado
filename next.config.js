@@ -8,6 +8,8 @@ const nextConfig = {
       },
     ],
   },
+    // Impede que @vercel/kv seja incluído no bundle do Edge Runtime (middleware)
+    serverExternalPackages: ['@vercel/kv'],
 }
 
 module.exports = nextConfig
