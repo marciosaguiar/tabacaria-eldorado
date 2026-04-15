@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getProducts, saveProducts } from '@/lib/db'
+import { isAdminRequest } from '@/lib/auth'
 
 export const dynamic = 'force-dynamic'
 
@@ -7,6 +8,9 @@ export async function PUT(
   request: Request,
   { params }: { params: { id: string } }
 ) {
+  if (!(await isAdminRequest(request))) {
+    return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
+  }
   try {
     const body = await request.json()
     const products = await getProducts()
@@ -46,9 +50,12 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _request: Request,
+  request: Request,
   { params }: { params: { id: string } }
 ) {
+  if (!(await isAdminRequest(request))) {
+    return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
+  }
   try {
     const products = await getProducts()
     const index = products.findIndex((p) => p.id === params.id)

@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server'
 import { uploadImage } from '@/lib/storage'
+import { isAdminRequest } from '@/lib/auth'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: Request) {
+  if (!(await isAdminRequest(request))) {
+    return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
+  }
   try {
     const formData = await request.formData()
     const file = formData.get('file') as File | null

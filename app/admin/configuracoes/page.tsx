@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { CompanySettings } from '@/types'
@@ -59,7 +58,6 @@ function Section({ title, icon, children }: { title: string; icon: React.ReactNo
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function ConfiguracoesPage() {
-  const router = useRouter()
   const [settings, setSettings] = useState<CompanySettings>(DEFAULT)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -76,41 +74,36 @@ export default function ConfiguracoesPage() {
   const [credError, setCredError] = useState('')
 
   useEffect(() => {
-    if (!localStorage.getItem('eldorado_admin_token')) { router.replace('/admin/login'); return }
     fetch('/api/settings').then(r => r.json()).then(data => {
       setSettings({ ...DEFAULT, ...data })
       setPreview(data.logoUrl || '/images/logo.png')
       setLoading(false)
     })
-    const stored = localStorage.getItem('eldorado_admin_credentials')
-    if (stored) {
-      try {
-        const { username } = JSON.parse(stored)
-        setCredUser(username || '')
-      } catch { /* ignore */ }
-    } else {
-      setCredUser('admin')
-    }
-  }, [router])
+  }, [])
 
-  const handleSaveCreds = () => {
+  const handleSaveCreds = async () => {
     setCredError('')
     if (!credUser.trim()) { setCredError('Usuário não pode ser vazio.'); return }
-    if (credPass && credPass.length < 6) { setCredError('A senha deve ter no mínimo 6 caracteres.'); return }
-    if (credPass && credPass !== credConfirm) { setCredError('As senhas não coincidem.'); return }
-    const current = (() => {
-      try {
-        const s = localStorage.getItem('eldorado_admin_credentials')
-        return s ? JSON.parse(s) : { username: 'admin', password: 'eldorado2024' }
-      } catch { return { username: 'admin', password: 'eldorado2024' } }
-    })()
-    localStorage.setItem('eldorado_admin_credentials', JSON.stringify({
-      username: credUser.trim(),
-      password: credPass || current.password,
-    }))
-    setCredPass('')
-    setCredConfirm('')
-    setToast({ msg: 'Credenciais atualizadas!', ok: true })
+    if (!credPass) { setCredError('Informe a nova senha.'); return }
+    if (credPass.length < 6) { setCredError('A senha deve ter no mínimo 6 caracteres.'); return }
+    if (credPass !== credConfirm) { setCredError('As senhas não coincidem.'); return }
+    try {
+      const res = await fetch('/api/admin/credentials', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: credUser.trim(), password: credPass }),
+      })
+      if (res.ok) {
+        setCredPass('')
+        setCredConfirm('')
+        setToast({ msg: 'Credenciais atualizadas!', ok: true })
+      } else {
+        const data = await res.json().catch(() => ({}))
+        setCredError(data.error ?? 'Erro ao salvar credenciais.')
+      }
+    } catch {
+      setCredError('Erro de conexão.')
+    }
   }
 
   const set = (key: keyof CompanySettings, value: unknown) =>

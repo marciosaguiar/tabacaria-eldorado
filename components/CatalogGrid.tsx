@@ -875,7 +875,7 @@ export default function CatalogGrid({ initialProducts, categorias, channel, what
   const [products, setProducts] = useState<Product[]>(initialProducts)
 
   return (
-    <CartProvider>
+    <CartProvider channel={channel}>
       <InnerGrid
         products={products}
         allProducts={products}

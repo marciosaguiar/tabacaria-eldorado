@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getProducts, saveProducts } from '@/lib/db'
+import { isAdminRequest } from '@/lib/auth'
 
 export const dynamic = 'force-dynamic'
 
@@ -9,6 +10,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  if (!(await isAdminRequest(request))) {
+    return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
+  }
   try {
     const body = await request.json()
 
