@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { COOKIE_NAME, verifySessionToken } from '@/lib/auth-edge'
+import { COOKIE_NAME, verifySessionToken } from './lib/auth-edge'
 
 export const config = {
   matcher: ['/admin/:path*'],
