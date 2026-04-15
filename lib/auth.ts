@@ -10,27 +10,73 @@
  *   ADMIN_PASSWORD — senha padrão inicial (padrão: 'eldorado2024')
  *
  * Para uso no middleware (Edge Runtime), importe de @/lib/auth-edge.
+ *
+ * IMPORTANTE: este arquivo NÃO importa de @/lib/auth-edge para evitar que o
+ * bundler do Edge Runtime inclua código Node.js no bundle do middleware.
+ * As funções de sessão são duplicadas intencionalmente aqui.
  */
 
-// Importa as funções edge-safe para uso local e re-exporta para consumidores
-import {
-  COOKIE_NAME,
-  createSessionToken,
-  verifySessionToken,
-  buildSessionCookie,
-  clearSessionCookie,
-} from '@/lib/auth-edge'
+// ─── Constantes (duplicadas de auth-edge — manter em sincronia) ──────────────
 
-export {
-  COOKIE_NAME,
-  createSessionToken,
-  verifySessionToken,
-  buildSessionCookie,
-  clearSessionCookie,
-}
+export const COOKIE_NAME = 'eldorado_session'
+const SESSION_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000 // 7 dias
 
 function getSecret(): string {
   return process.env.ADMIN_SECRET ?? 'eldorado-secret-dev-MUDE-EM-PRODUCAO'
+}
+
+// ─── HMAC session token (duplicado de auth-edge) ─────────────────────────────
+
+export async function createSessionToken(): Promise<string> {
+  const timestamp = Date.now().toString()
+  const encoder = new TextEncoder()
+  const key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(getSecret()),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  )
+  const sig = await crypto.subtle.sign('HMAC', key, encoder.encode(timestamp))
+  const hex = Array.from(new Uint8Array(sig))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('')
+  return `${timestamp}.${hex}`
+}
+
+export async function verifySessionToken(token: string): Promise<boolean> {
+  try {
+    const dot = token.indexOf('.')
+    if (dot === -1) return false
+    const timestamp = token.slice(0, dot)
+    const hex = token.slice(dot + 1)
+    const age = Date.now() - parseInt(timestamp, 10)
+    if (age > SESSION_MAX_AGE_MS || age < 0) return false
+    const encoder = new TextEncoder()
+    const key = await crypto.subtle.importKey(
+      'raw',
+      encoder.encode(getSecret()),
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['verify'],
+    )
+    const sigBytes = new Uint8Array(
+      (hex.match(/.{2}/g) ?? []).map(b => parseInt(b, 16)),
+    )
+    return await crypto.subtle.verify('HMAC', key, sigBytes, encoder.encode(timestamp))
+  } catch {
+    return false
+  }
+}
+
+export function buildSessionCookie(token: string): string {
+  const secure = process.env.NODE_ENV === 'production' ? '; Secure' : ''
+  const maxAge = Math.floor(SESSION_MAX_AGE_MS / 1000)
+  return `${COOKIE_NAME}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${maxAge}${secure}`
+}
+
+export function clearSessionCookie(): string {
+  return `${COOKIE_NAME}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0`
 }
 
 // ─── Password hashing (SHA-256 + segredo como salt) ──────────────────────────
@@ -58,18 +104,16 @@ async function getAdminCreds(): Promise<AdminCredentials> {
       const stored = await kv.get<AdminCredentials>('admin:credentials')
       if (stored) return stored
     } else {
-      const fs   = require('fs')   as typeof import('fs')
-      const path = require('path') as typeof import('path')
-      const p = path.join(process.cwd(), 'data', 'admin.json')
-      if (fs.existsSync(p)) {
-        return JSON.parse(fs.readFileSync(p, 'utf-8')) as AdminCredentials
+      const { existsSync, readFileSync } = await import('fs')
+      const { join } = await import('path')
+      const p = join(process.cwd(), 'data', 'admin.json')
+      if (existsSync(p)) {
+        return JSON.parse(readFileSync(p, 'utf-8')) as AdminCredentials
       }
     }
   } catch {
     // cai no fallback abaixo
   }
-
-  // Credenciais padrão — do env ou hardcoded
   const defaultUser = process.env.ADMIN_USERNAME ?? 'admin'
   const defaultPass = process.env.ADMIN_PASSWORD ?? 'eldorado2024'
   return {
@@ -84,11 +128,11 @@ export async function saveAdminCreds(username: string, passwordHash: string): Pr
     const { kv } = await import('@vercel/kv')
     await kv.set('admin:credentials', creds)
   } else {
-    const fs   = require('fs')   as typeof import('fs')
-    const path = require('path') as typeof import('path')
-    const p = path.join(process.cwd(), 'data', 'admin.json')
-    fs.mkdirSync(path.dirname(p), { recursive: true })
-    fs.writeFileSync(p, JSON.stringify(creds, null, 2), 'utf-8')
+    const { mkdirSync, writeFileSync } = await import('fs')
+    const { join, dirname } = await import('path')
+    const p = join(process.cwd(), 'data', 'admin.json')
+    mkdirSync(dirname(p), { recursive: true })
+    writeFileSync(p, JSON.stringify(creds, null, 2), 'utf-8')
   }
 }
 
