@@ -130,7 +130,7 @@ function BottomSheet({
         style={{
           position: 'fixed', bottom: 0, left: 0, right: 0,
           zIndex: 1001,
-          backgroundColor: 'var(--bg)',
+          backgroundColor: '#fff',
           borderRadius: '20px 20px 0 0',
           padding: '0 0 max(24px, env(safe-area-inset-bottom)) 0',
           boxShadow: '0 -8px 40px rgba(0,0,0,0.18)',
@@ -275,8 +275,8 @@ function ProductRow({ product, onSelect }: { product: Product; onSelect: (p: Pro
         display: 'flex', alignItems: 'center', gap: '12px',
         padding: '10px 14px',
         borderRadius: '12px',
-        backgroundColor: 'rgba(255,255,255,0.72)',
-        border: '1px solid rgba(200,137,26,0.12)',
+        backgroundColor: '#fafafa',
+        border: '1px solid rgba(0,0,0,0.07)',
         cursor: 'pointer', width: '100%', textAlign: 'left',
         transition: 'background-color 0.15s',
       }}
@@ -376,7 +376,7 @@ export default function CockpitClient({ settings, products }: Props) {
   return (
     <div style={{
       minHeight: '100svh',
-      backgroundColor: 'var(--bg)',
+      backgroundColor: '#fff',
       fontFamily: 'var(--font-inter, sans-serif)',
     }}>
       {/* CSS animations */}
@@ -404,10 +404,10 @@ export default function CockpitClient({ settings, products }: Props) {
         position: 'sticky', top: 0, zIndex: 100,
         display: 'flex', alignItems: 'center',
         padding: '0 20px', height: '56px',
-        backgroundColor: 'rgba(253,246,236,0.88)',
+        backgroundColor: 'rgba(255,255,255,0.92)',
         backdropFilter: 'blur(20px) saturate(180%)',
         WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-        borderBottom: '0.5px solid rgba(200,137,26,0.1)',
+        borderBottom: '0.5px solid rgba(0,0,0,0.07)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
           {settings.logoUrl && (
@@ -468,24 +468,24 @@ export default function CockpitClient({ settings, products }: Props) {
               onClick={() => copyToClipboard(`${getBaseUrl()}/varejo`, 'Link varejo copiado')}
               style={{
                 display: 'flex', alignItems: 'center',
-                minHeight: '88px', padding: '16px 18px',
-                borderRadius: '16px', border: 'none', cursor: 'pointer',
+                padding: '14px 16px',
+                borderRadius: '14px', border: 'none', cursor: 'pointer',
                 background: 'linear-gradient(135deg, #A06810 0%, #C8891A 50%, #E8A832 100%)',
                 color: '#fff',
-                boxShadow: '0 4px 20px rgba(200,137,26,0.35)',
+                boxShadow: '0 3px 14px rgba(200,137,26,0.32)',
                 transition: 'transform 0.15s, box-shadow 0.15s',
                 textAlign: 'left',
               }}
             >
               <div style={{ flex: 1 }}>
                 <p style={{
-                  fontSize: '18px', fontWeight: 800,
-                  fontFamily: 'var(--font-playfair, serif)',
-                  lineHeight: 1.2, marginBottom: '3px',
+                  fontSize: '15px', fontWeight: 700,
+                  fontFamily: 'var(--font-inter, sans-serif)',
+                  lineHeight: 1.2, marginBottom: '2px',
                 }}>
                   Copiar link Varejo
                 </p>
-                <p style={{ fontSize: '12px', opacity: 0.85, fontWeight: 400 }}>
+                <p style={{ fontSize: '12px', opacity: 0.8, fontWeight: 400 }}>
                   Para consumidor final
                 </p>
               </div>
@@ -500,28 +500,28 @@ export default function CockpitClient({ settings, products }: Props) {
               onClick={() => copyToClipboard(`${getBaseUrl()}/atacado`, 'Link atacado copiado')}
               style={{
                 display: 'flex', alignItems: 'center',
-                minHeight: '88px', padding: '16px 18px',
-                borderRadius: '16px', border: '1.5px solid rgba(200,137,26,0.25)', cursor: 'pointer',
-                background: 'var(--text)',
+                padding: '14px 16px',
+                borderRadius: '14px', border: '1.5px solid rgba(200,137,26,0.2)', cursor: 'pointer',
+                background: '#1C1108',
                 color: 'var(--gold-light)',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.18)',
+                boxShadow: '0 3px 14px rgba(0,0,0,0.15)',
                 transition: 'transform 0.15s, box-shadow 0.15s',
                 textAlign: 'left',
               }}
             >
               <div style={{ flex: 1 }}>
                 <p style={{
-                  fontSize: '18px', fontWeight: 800,
-                  fontFamily: 'var(--font-playfair, serif)',
-                  lineHeight: 1.2, marginBottom: '3px',
+                  fontSize: '15px', fontWeight: 700,
+                  fontFamily: 'var(--font-inter, sans-serif)',
+                  lineHeight: 1.2, marginBottom: '2px',
                 }}>
                   Copiar link Atacado
                 </p>
-                <p style={{ fontSize: '12px', opacity: 0.65, fontWeight: 400, color: '#fff' }}>
+                <p style={{ fontSize: '12px', opacity: 0.55, fontWeight: 400, color: '#fff' }}>
                   Para revendedor
                 </p>
               </div>
-              <span style={{ opacity: 0.7, flexShrink: 0, marginLeft: '10px' }}>
+              <span style={{ opacity: 0.65, flexShrink: 0, marginLeft: '10px' }}>
                 <CopyIcon />
               </span>
             </button>
@@ -544,9 +544,9 @@ export default function CockpitClient({ settings, products }: Props) {
             padding: '0 14px',
             height: '48px',
             borderRadius: '14px',
-            backgroundColor: 'rgba(255,255,255,0.82)',
-            border: '1.5px solid rgba(200,137,26,0.18)',
-            boxShadow: '0 2px 10px rgba(200,137,26,0.06)',
+            backgroundColor: '#f5f5f5',
+            border: '1.5px solid rgba(0,0,0,0.07)',
+            boxShadow: 'none',
             marginBottom: '10px',
           }}>
             <span style={{ color: 'var(--text-4)', flexShrink: 0 }}><SearchIcon /></span>
@@ -620,8 +620,8 @@ export default function CockpitClient({ settings, products }: Props) {
           <div style={{
             display: 'flex', flexDirection: 'column', gap: '2px',
             borderRadius: '14px', overflow: 'hidden',
-            border: '1px solid rgba(200,137,26,0.12)',
-            backgroundColor: 'rgba(255,255,255,0.72)',
+            border: '1px solid rgba(0,0,0,0.07)',
+            backgroundColor: '#fafafa',
           }}>
             <Link href="/admin" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
