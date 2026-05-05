@@ -611,6 +611,8 @@ export default function AdminPage() {
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
   const [copyLabel, setCopyLabel] = useState<'atacado' | 'varejo' | null>(null)
   const [analytics, setAnalytics] = useState<AnalyticsResult | null>(null)
+  const [migrating, setMigrating] = useState(false)
+  const [migrateStatus, setMigrateStatus] = useState<{ pending: number; done: number } | null>(null)
 
   const showToast = useCallback((message: string, type: 'success' | 'error') => {
     setToast({ message, type })
@@ -761,6 +763,36 @@ export default function AdminPage() {
     }
   }
 
+  const runMigration = async () => {
+    if (migrating) return
+    setMigrating(true)
+    // Busca quantos estão pendentes
+    const info = await fetch('/api/admin/migrate-images').then(r => r.json()).catch(() => null)
+    if (!info || info.pending === 0) {
+      showToast('Todas as imagens já estão otimizadas!', 'success')
+      setMigrating(false)
+      return
+    }
+    setMigrateStatus({ pending: info.pending, done: 0 })
+    let done = 0
+    const total = info.pending
+    // Processa um produto por vez até acabar
+    while (true) {
+      const res = await fetch('/api/admin/migrate-images', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) }).then(r => r.json()).catch(() => ({ error: 'Falha na rede' }))
+      if (res.done) break
+      if (res.error) {
+        showToast(`Erro em "${res.productName}": ${res.error}`, 'error')
+        break
+      }
+      done++
+      setMigrateStatus({ pending: total - done, done })
+    }
+    setMigrating(false)
+    setMigrateStatus(null)
+    showToast(`${done} imagens convertidas para WebP!`, 'success')
+    fetchProducts()
+  }
+
   const copyLink = async (channel: 'atacado' | 'varejo') => {
     const url = `${window.location.origin}/${channel}`
     try {
@@ -873,6 +905,42 @@ export default function AdminPage() {
                 {copyLabel === 'varejo' ? '✓ Copiado' : 'Copiar'}
               </span>
             </button>
+          </div>
+
+          {/* Otimização de imagens */}
+          <div className="mt-4 pt-4 border-t border-gold/10">
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div>
+                <p className="text-[10px] text-gold/40 font-inter uppercase tracking-widest mb-0.5">
+                  Otimização de Imagens
+                </p>
+                <p className="text-[11px] text-gray-600 font-inter">
+                  {migrating && migrateStatus
+                    ? `Convertendo… ${migrateStatus.done} feito(s), ${migrateStatus.pending} restante(s)`
+                    : 'Converte imagens PNG existentes para WebP ≤ 300 KB'}
+                </p>
+              </div>
+              <button
+                onClick={runMigration}
+                disabled={migrating}
+                className="flex items-center gap-2 px-4 py-2 border border-gold/20 hover:border-gold/40 rounded-sm transition-all duration-300 text-xs font-inter disabled:opacity-40"
+                style={{ color: 'var(--gold)' }}
+              >
+                {migrating ? (
+                  <>
+                    <span className="w-3 h-3 border border-gold/40 border-t-gold rounded-full animate-spin" />
+                    Otimizando…
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Otimizar imagens
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
 
