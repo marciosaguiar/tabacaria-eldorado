@@ -67,7 +67,7 @@ export default function CartDrawer({ whatsapp, channel }: Props) {
           backdropFilter: 'blur(40px) saturate(180%)',
           WebkitBackdropFilter: 'blur(40px) saturate(180%)',
           borderTop: '1px solid rgba(255,255,255,0.95)',
-          boxShadow: '0 -8px 40px rgba(168,108,32,0.16), 0 -1px 0 rgba(200,137,26,0.12)',
+          boxShadow: '0 -8px 40px rgba(0,0,0,0.10), 0 -1px 0 rgba(0,0,0,0.07)',
           maxHeight: '85dvh',
           transform: isDrawerOpen ? 'translateY(0)' : 'translateY(100%)',
           transition: 'transform 350ms cubic-bezier(0.32, 0.72, 0, 1)',
@@ -135,10 +135,10 @@ export default function CartDrawer({ whatsapp, channel }: Props) {
                   const subtotal = (price ?? 0) * item.quantity
                   return (
                     <div key={item.product.id} className="flex items-center gap-3 p-3 rounded-xl"
-                      style={{ backgroundColor: 'rgba(255,255,255,0.65)', border: '1px solid rgba(200,137,26,0.12)', backdropFilter: 'blur(8px)' }}>
+                      style={{ backgroundColor: '#f8f8f8', border: '1px solid rgba(0,0,0,0.07)' }}>
                       {/* Imagem */}
                       <div className="relative w-14 h-14 rounded-lg overflow-hidden flex-shrink-0"
-                        style={{ backgroundColor: 'rgba(248,236,210,0.8)' }}>
+                        style={{ backgroundColor: '#f5f5f5' }}>
                         {item.product.imagem ? (
                           <Image src={item.product.imagem} alt={item.product.nome} fill style={{ objectFit: 'cover' }} sizes="56px" />
                         ) : (

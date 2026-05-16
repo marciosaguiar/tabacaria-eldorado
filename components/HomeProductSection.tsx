@@ -67,7 +67,7 @@ function HomeCard({
       style={{ borderRadius: '16px' }}
     >
       {/* Image */}
-      <div className="relative aspect-square overflow-hidden flex-shrink-0" style={{ backgroundColor: 'rgba(248,236,210,0.6)' }}>
+      <div className="relative aspect-square overflow-hidden flex-shrink-0" style={{ backgroundColor: '#f7f7f7' }}>
         {product.imagem ? (
           <Image
             src={product.imagem}
@@ -91,9 +91,9 @@ function HomeCard({
         {/* Indisponível overlay (customers view) */}
         {product.ativo === false && !isAdmin && (
           <div className="absolute inset-0 flex items-end justify-center pb-3"
-            style={{ background: 'linear-gradient(to top, rgba(253,246,236,0.85) 0%, transparent 60%)' }}>
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 60%)' }}>
             <span className="font-inter text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded"
-              style={{ backgroundColor: 'rgba(168,108,32,0.15)', color: 'var(--text-3)', border: '1px solid rgba(200,137,26,0.2)' }}>
+              style={{ backgroundColor: 'rgba(0,0,0,0.55)', color: '#bbb', border: '1px solid rgba(255,255,255,0.15)' }}>
               Indisponível
             </span>
           </div>
@@ -156,7 +156,7 @@ function HomeCard({
 
         {/* Hover overlay */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, rgba(253,246,236,0.9) 0%, transparent 50%)' }} />
+          style={{ background: 'linear-gradient(to top, rgba(255,255,255,0.12) 0%, transparent 50%)' }} />
       </div>
 
       {/* Content */}
@@ -682,7 +682,7 @@ export default function HomeProductSection({ initialProducts, categorias = [] }:
         backdropFilter: 'blur(16px)',
         borderRadius: '50px',
         border: '1px solid rgba(200,137,26,0.16)',
-        boxShadow: '0 2px 12px rgba(168,108,32,0.08)',
+        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
       }}>
         {(['todos', 'varejo', 'atacado'] as Channel[]).map(c => (
           <button key={c} onClick={() => setChannel(c)}

@@ -6,7 +6,7 @@ import './globals.css'
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#FDF6EC',
+  themeColor: '#ffffff',
 }
 
 const playfair = Playfair_Display({

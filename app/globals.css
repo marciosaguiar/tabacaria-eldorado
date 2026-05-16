@@ -3,88 +3,87 @@
 @tailwind utilities;
 
 /* ================================================================
-   TABACARIA ELDORADO — iOS Liquid Glass Design System
-   Modo claro como padrão. Superfícies translúcidas, gradientes
-   âmbar/dourado aquecidos, tipografia refinada.
+   TABACARIA ELDORADO — Design System v3
+   Light moderno: branco puro, sombras neutras, dourado como acento.
    ================================================================ */
 
 /* ── Tokens ─────────────────────────────────────────────────── */
 :root {
-  /* Fundo geral — marfim quente */
-  --bg:            #FDF6EC;
-  --bg-alt:        #FBF0E2;
-  --bg-deep:       #F6E8D4;
+  /* Fundo — branco puro */
+  --bg:            #ffffff;
+  --bg-alt:        #f8f8f8;
+  --bg-deep:       #f2f2f2;
 
-  /* Glass surfaces (Liquid Glass) */
-  --glass:         rgba(255, 255, 255, 0.72);
-  --glass-strong:  rgba(255, 255, 255, 0.88);
-  --glass-subtle:  rgba(255, 255, 255, 0.48);
-  --glass-border:  rgba(255, 255, 255, 0.9);
-  --glass-stroke:  rgba(200, 137, 26, 0.14);
-  --glass-shadow:  0 4px 24px rgba(168, 108, 32, 0.12),
-                   0 1px 4px  rgba(168, 108, 32, 0.06);
-  --glass-shadow-lg: 0 8px 40px rgba(168, 108, 32, 0.16),
-                     0 2px 8px  rgba(168, 108, 32, 0.08);
+  /* Superfícies de card */
+  --glass:         #ffffff;
+  --glass-strong:  #ffffff;
+  --glass-subtle:  rgba(255,255,255,0.8);
+  --glass-border:  rgba(0,0,0,0.06);
+  --glass-stroke:  rgba(0,0,0,0.08);
+  --glass-shadow:  0 1px 3px rgba(0,0,0,0.07),
+                   0 4px 16px rgba(0,0,0,0.05);
+  --glass-shadow-lg: 0 4px 24px rgba(0,0,0,0.10),
+                     0 1px 4px  rgba(0,0,0,0.06);
 
-  /* Dourado âmbar */
+  /* Dourado âmbar — mantido como acento de marca */
   --gold:          #C8891A;
   --gold-light:    #E8A832;
   --gold-bright:   #FFD060;
   --gold-deep:     #A06810;
-  --gold-pale:     rgba(200, 137, 26, 0.10);
-  --gold-glow:     rgba(200, 137, 26, 0.35);
+  --gold-pale:     rgba(200,137,26,0.08);
+  --gold-glow:     rgba(200,137,26,0.30);
   --gold-rgb:      200, 137, 26;
 
-  /* Tipografia */
-  --text:          #1C1108;
-  --text-2:        #6B4C28;
-  --text-3:        #A8835A;
-  --text-4:        #C4A880;
-  --on-gold:       #FFF8EC;
+  /* Tipografia — cinza neutro */
+  --text:          #111111;
+  --text-2:        #555555;
+  --text-3:        #888888;
+  --text-4:        #bbbbbb;
+  --on-gold:       #ffffff;
 
-  /* Bordas */
-  --stroke:        rgba(168, 108, 32, 0.15);
-  --stroke-light:  rgba(168, 108, 32, 0.08);
+  /* Bordas neutras */
+  --stroke:        rgba(0,0,0,0.08);
+  --stroke-light:  rgba(0,0,0,0.05);
 
   /* Raios */
-  --r-sm:  10px;
-  --r-md:  16px;
-  --r-lg:  22px;
-  --r-xl:  28px;
+  --r-sm:   8px;
+  --r-md:   12px;
+  --r-lg:   18px;
+  --r-xl:   24px;
   --r-pill: 9999px;
 
-  /* Variáveis de compatibilidade (admin + componentes legados) */
+  /* Compatibilidade com admin + componentes existentes */
   --el-bg-page:        var(--bg);
-  --el-bg-surface:     var(--glass-strong);
-  --el-bg-input:       rgba(255,255,255,0.8);
-  --el-gradient-dark:  linear-gradient(160deg, #2A1200 0%, #0E0500 100%);
+  --el-bg-surface:     var(--glass);
+  --el-bg-input:       #f5f5f5;
+  --el-gradient-dark:  linear-gradient(160deg, #1C0A04 0%, #0A0200 100%);
   --el-gradient-gold:  linear-gradient(135deg, #A06810 0%, #C8891A 45%, #E8A832 100%);
   --el-gold-solid:     var(--gold);
   --el-gold-light:     var(--gold-light);
-  --el-gold-border:    var(--stroke);
+  --el-gold-border:    rgba(0,0,0,0.08);
   --el-text-primary:   var(--text);
   --el-text-secondary: var(--text-2);
   --el-text-hint:      var(--text-3);
-  --el-border-card:    1px solid var(--stroke);
-  --el-border-input:   1px solid var(--stroke);
+  --el-border-card:    1px solid rgba(0,0,0,0.07);
+  --el-border-input:   1px solid rgba(0,0,0,0.10);
   --el-shadow-card:    var(--glass-shadow);
   --el-radius-sm:      var(--r-sm);
   --el-radius-md:      var(--r-md);
   --el-radius-lg:      var(--r-lg);
   --el-radius-xl:      var(--r-xl);
 
-  /* Admin legado */
-  --bg-base:    #FDF6EC;
-  --bg-end:     #FBF0E2;
-  --bg-card:    rgba(255,255,255,0.82);
-  --bg-hover:   rgba(255,255,255,0.95);
-  --bg-border:  rgba(168,108,32,0.15);
-  --text-primary:   #1C1108;
-  --text-secondary: #6B4C28;
-  --text-muted:     #A8835A;
-  --shadow-gold: rgba(200,137,26,0.18);
-  --header-bg:   rgba(253,246,236,0.88);
-  --scrollbar-bg: var(--bg);
+  /* Admin legado — dark theme no painel admin */
+  --bg-base:    #0e0e0e;
+  --bg-end:     #1a1a1a;
+  --bg-card:    #1c1c1c;
+  --bg-hover:   #262626;
+  --bg-border:  rgba(255,255,255,0.08);
+  --text-primary:   #f5f5f5;
+  --text-secondary: #a0a0a0;
+  --text-muted:     #666666;
+  --shadow-gold:    rgba(200,137,26,0.20);
+  --header-bg:      rgba(255,255,255,0.95);
+  --scrollbar-bg:   var(--bg);
 }
 
 /* ================================================================
@@ -95,10 +94,6 @@ html { scroll-behavior: smooth; }
 
 body {
   background: var(--bg);
-  background-image:
-    radial-gradient(ellipse 120% 50% at 50% -5%, rgba(200,137,26,0.12) 0%, transparent 65%),
-    radial-gradient(ellipse 80% 30% at 0% 100%, rgba(200,137,26,0.05) 0%, transparent 55%);
-  background-attachment: fixed;
   color: var(--text);
   font-family: 'Inter', var(--font-inter, sans-serif);
   -webkit-font-smoothing: antialiased;
@@ -107,51 +102,38 @@ body {
 }
 
 /* ================================================================
-   LIQUID GLASS — sistema de superfícies
+   SUPERFÍCIES DE CARD
    ================================================================ */
-
-/* Superfície glass base */
 .lg {
   background: var(--glass);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid var(--glass-border);
+  border: 1px solid rgba(0,0,0,0.07);
   box-shadow: var(--glass-shadow);
 }
 
-/* Glass mais forte */
 .lg-strong {
-  background: var(--glass-strong);
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.95);
+  background: var(--glass);
+  border: 1px solid rgba(0,0,0,0.06);
   box-shadow: var(--glass-shadow);
 }
 
-/* Glass com toque dourado */
 .lg-gold {
   background: var(--glass);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(200,137,26,0.22);
-  box-shadow: var(--glass-shadow), 0 0 0 0.5px rgba(200,137,26,0.1) inset;
+  border: 1px solid rgba(200,137,26,0.20);
+  box-shadow: var(--glass-shadow);
 }
 
 /* Nav header */
 .lg-nav {
-  background: rgba(253, 246, 236, 0.82);
-  backdrop-filter: blur(32px) saturate(200%);
-  -webkit-backdrop-filter: blur(32px) saturate(200%);
-  border-bottom: 1px solid rgba(200,137,26,0.12);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset,
-              0 2px 16px rgba(168,108,32,0.08);
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
 }
 
 /* ================================================================
-   TIPOGRAFIA UTILITÁRIA
+   TIPOGRAFIA
    ================================================================ */
-
-/* Gradiente dourado no texto */
 .gold-text {
   background: linear-gradient(135deg, #A06810 0%, #C8891A 45%, #E8A832 100%);
   -webkit-background-clip: text;
@@ -160,65 +142,56 @@ body {
   color: transparent;
 }
 
-/* Fallback seguro */
 .el-gold-text { color: var(--gold); }
 
 /* ================================================================
    BOTÕES
    ================================================================ */
-
 .btn-primary {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   padding: 13px 26px;
   background: linear-gradient(135deg, #A06810 0%, #C8891A 50%, #E8A832 100%);
-  color: #FFF8EC;
+  color: #ffffff;
   font-family: var(--font-inter, sans-serif);
   font-size: 14px; font-weight: 700; letter-spacing: 0.01em;
   border-radius: var(--r-pill); border: none; cursor: pointer;
-  box-shadow: 0 4px 16px rgba(200,137,26,0.38),
-              0 1px 0 rgba(255,255,255,0.25) inset;
+  box-shadow: 0 4px 16px rgba(200,137,26,0.35);
   transition: filter 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
-.btn-primary:hover { filter: brightness(1.07); box-shadow: 0 6px 24px rgba(200,137,26,0.48), 0 1px 0 rgba(255,255,255,0.25) inset; }
+.btn-primary:hover { filter: brightness(1.06); box-shadow: 0 6px 24px rgba(200,137,26,0.45); }
 .btn-primary:active { transform: scale(0.97); }
 
 .btn-glass {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   padding: 12px 24px;
-  background: rgba(255,255,255,0.55);
+  background: var(--bg-alt);
   color: var(--text);
   font-family: var(--font-inter, sans-serif);
   font-size: 14px; font-weight: 600;
   border-radius: var(--r-pill);
-  border: 1px solid rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,0,0,0.08);
   cursor: pointer;
-  backdrop-filter: blur(16px);
-  box-shadow: 0 2px 12px rgba(168,108,32,0.1),
-              0 1px 0 rgba(255,255,255,0.9) inset;
-  transition: all 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  transition: all 0.15s ease;
 }
-.btn-glass:hover { background: rgba(255,255,255,0.75); box-shadow: 0 4px 20px rgba(168,108,32,0.14), 0 1px 0 rgba(255,255,255,0.9) inset; }
+.btn-glass:hover { background: var(--bg-deep); }
 .btn-glass:active { transform: scale(0.97); }
 
 /* ================================================================
-   PRODUCT CARDS
+   PRODUCT CARDS — clean white com sombra sutil
    ================================================================ */
 .product-card {
-  background: var(--glass);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid rgba(255,255,255,0.85);
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.07);
   border-radius: var(--r-md);
-  box-shadow: var(--glass-shadow);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
   overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
-              box-shadow 0.25s ease,
-              border-color 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.15s ease;
 }
 .product-card:hover {
-  transform: translateY(-5px) scale(1.012);
-  border-color: rgba(200,137,26,0.28);
-  box-shadow: var(--glass-shadow-lg), 0 0 0 1px rgba(200,137,26,0.12);
+  transform: translateY(-3px);
+  border-color: rgba(200,137,26,0.22);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06);
 }
 
 /* ================================================================
@@ -239,10 +212,10 @@ body {
   100% { background-position:  200% 0; }
 }
 .el-skeleton {
-  background: linear-gradient(90deg, rgba(200,137,26,0.08) 25%, rgba(200,137,26,0.14) 50%, rgba(200,137,26,0.08) 75%);
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
   background-size: 200% 100%;
-  animation: shimmer 1.6s ease infinite;
-  border-radius: 8px;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 6px;
 }
 
 /* ================================================================
@@ -256,14 +229,12 @@ body {
   position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
   z-index: 9999;
   animation: toastIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards;
-  background: rgba(253,246,236,0.94);
-  backdrop-filter: blur(24px);
-  color: var(--gold-deep);
+  background: #111111;
+  color: #ffffff;
   font-family: var(--font-inter, sans-serif);
-  font-size: 13px; font-weight: 700;
+  font-size: 13px; font-weight: 600;
   padding: 11px 22px; border-radius: var(--r-pill);
-  box-shadow: 0 8px 32px rgba(168,108,32,0.2), 0 1px 0 rgba(255,255,255,0.9) inset;
-  border: 1px solid rgba(200,137,26,0.2);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
   white-space: nowrap;
 }
 
@@ -273,13 +244,13 @@ body {
 .catalog-hero-card {
   position: relative; overflow: hidden;
   border-radius: var(--r-xl);
-  border: 1px solid rgba(255,255,255,0.75);
+  border: 1px solid rgba(0,0,0,0.07);
   box-shadow: var(--glass-shadow-lg);
-  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .catalog-hero-card:hover {
-  transform: scale(1.025) translateY(-5px);
-  box-shadow: 0 24px 56px rgba(168,108,32,0.22), 0 4px 12px rgba(168,108,32,0.1);
+  transform: scale(1.02) translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.12);
 }
 .catalog-hero-card .card-content {
   position: absolute; bottom: 0; left: 0; right: 0;
@@ -290,15 +261,13 @@ body {
    ANIMAÇÕES
    ================================================================ */
 @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-.animate-fade-in  { animation: fadeIn  0.4s ease forwards; }
-.animate-slide-up { animation: slideUp 0.45s cubic-bezier(0.16,1,0.3,1) forwards; }
+@keyframes slideUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.animate-fade-in  { animation: fadeIn  0.3s ease forwards; }
+.animate-slide-up { animation: slideUp 0.35s cubic-bezier(0.16,1,0.3,1) forwards; }
 
-/* Micro interactions */
-a, button { transition: opacity 0.2s ease, transform 0.15s ease; }
+a, button { transition: opacity 0.15s ease, transform 0.12s ease; }
 button:active { transform: scale(0.97); }
 
-/* Shimmer no logo */
 .text-gold-shine {
   background: linear-gradient(90deg,
     #A06810 0%, #C8891A 20%, #E8A832 40%, #FFD880 50%,
@@ -312,51 +281,48 @@ button:active { transform: scale(0.97); }
   0%   { background-position: -200% center; }
   100% { background-position:  200% center; }
 }
-.shadow-gold-glow { filter: drop-shadow(0 0 16px rgba(200,137,26,0.4)); }
+.shadow-gold-glow { filter: drop-shadow(0 0 12px rgba(200,137,26,0.35)); }
 
 /* ================================================================
-   ADMIN COMPAT
+   ADMIN — painel usa dark theme separado
    ================================================================ */
-.bg-dark          { background-color: var(--bg-base); }
-.bg-dark-card     { background-color: var(--bg-card); }
-.bg-dark-hover    { background-color: var(--bg-hover); }
-.border-dark-border { border-color: var(--bg-border); }
+.bg-dark          { background-color: #0e0e0e; }
+.bg-dark-card     { background-color: #1c1c1c; }
+.bg-dark-hover    { background-color: #262626; }
+.border-dark-border { border-color: rgba(255,255,255,0.08); }
 footer { background-color: transparent; }
 
 input:not([type="file"]):not([type="range"]):not([type="checkbox"]),
 textarea, select {
-  background-color: rgba(255,255,255,0.8);
+  background-color: #f5f5f5;
   color: var(--text);
-  border-color: var(--stroke);
+  border-color: rgba(0,0,0,0.10);
 }
 input::placeholder, textarea::placeholder { color: var(--text-3); }
 input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: rgba(200,137,26,0.4) !important;
-  box-shadow: 0 0 0 3px rgba(200,137,26,0.1);
+  border-color: rgba(200,137,26,0.5) !important;
+  box-shadow: 0 0 0 3px rgba(200,137,26,0.12);
 }
 input[type='file'] { cursor: pointer; }
-input, textarea, select { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+input, textarea, select { transition: border-color 0.15s ease, box-shadow 0.15s ease; }
 
 /* ================================================================
    SCROLLBAR
    ================================================================ */
 ::-webkit-scrollbar       { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(200,137,26,0.25); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(200,137,26,0.45); }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.28); }
 
 /* ================================================================
-   LINE CLAMP
+   UTILITÁRIOS
    ================================================================ */
 .line-clamp-1 { overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:1; }
 .line-clamp-2 { overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; }
 
-/* ================================================================
-   DIVISOR
-   ================================================================ */
 .el-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(200,137,26,0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
   margin: 0 24px;
 }
