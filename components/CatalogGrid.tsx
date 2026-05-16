@@ -224,18 +224,16 @@ function SkeletonCard() {
       style={{
         backgroundColor: 'var(--glass)',
         border: '1px solid rgba(0,0,0,0.07)',
-        borderRadius: '16px',
+        borderRadius: '12px',
         overflow: 'hidden',
       }}
     >
       <div className="el-skeleton" style={{ width: '100%', aspectRatio: '1/1' }} />
-      <div style={{ padding: '10px 12px 14px' }}>
-        <div className="el-skeleton" style={{ height: '16px', marginBottom: '8px', width: '72%', borderRadius: '4px' }} />
-        <div className="el-skeleton" style={{ height: '10px', marginBottom: '4px', width: '100%', borderRadius: '4px' }} />
-        <div className="el-skeleton" style={{ height: '10px', marginBottom: '14px', width: '55%', borderRadius: '4px' }} />
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div className="el-skeleton" style={{ height: '20px', width: '42%', borderRadius: '4px' }} />
-          <div className="el-skeleton" style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
+      <div style={{ padding: '8px 10px 10px' }}>
+        <div className="el-skeleton" style={{ height: '13px', marginBottom: '6px', width: '72%', borderRadius: '4px' }} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px' }}>
+          <div className="el-skeleton" style={{ height: '16px', width: '42%', borderRadius: '4px' }} />
+          <div className="el-skeleton" style={{ width: '26px', height: '26px', borderRadius: '50%' }} />
         </div>
       </div>
     </div>
@@ -274,7 +272,7 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
           aspectRatio: '1/1',
           backgroundColor: '#f7f7f7',
           cursor: 'zoom-in',
-          borderRadius: '16px 16px 0 0',
+          borderRadius: '12px 12px 0 0',
         }}
         onClick={onImageClick}
       >
@@ -283,7 +281,7 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
             src={product.imagem}
             alt={product.nome}
             fill
-            sizes="(max-width:640px) 50vw,(max-width:1024px) 33vw,20vw"
+            sizes="(max-width:640px) 33vw,(max-width:1024px) 25vw,20vw"
             style={{
               objectFit: 'cover',
               filter: product.ativo === false ? 'grayscale(100%) brightness(0.5)' : undefined,
@@ -330,18 +328,18 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
         {/* Category / Combo badge */}
         {(product.categoria || isCombo) && (
           <span
-            className="absolute top-2 left-2"
+            className="absolute top-1.5 left-1.5"
             style={{
               fontFamily: 'var(--font-inter, sans-serif)',
-              fontSize: '10px',
+              fontSize: '9px',
               fontWeight: 700,
               textTransform: 'uppercase',
-              letterSpacing: '0.05em',
+              letterSpacing: '0.04em',
               backgroundColor: 'rgba(255,255,255,0.92)',
               color: 'var(--el-gold-solid)',
               border: '0.5px solid var(--el-gold-border)',
-              borderRadius: '6px',
-              padding: '3px 7px',
+              borderRadius: '5px',
+              padding: '2px 5px',
               lineHeight: 1.4,
             }}
           >
@@ -352,10 +350,10 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
         {/* Favorite button */}
         <button
           onClick={e => { e.stopPropagation(); onToggleFav() }}
-          className="absolute top-2 right-2"
+          className="absolute top-1.5 right-1.5"
           style={{
-            width: '28px',
-            height: '28px',
+            width: '24px',
+            height: '24px',
             borderRadius: '50%',
             backgroundColor: 'rgba(255,255,255,0.88)',
             backdropFilter: 'blur(4px)',
@@ -370,7 +368,7 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
           onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
           title={isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
         >
-          <svg width="14" height="14" fill={isFav ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}
+          <svg width="11" height="11" fill={isFav ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}
             style={{ color: isFav ? '#ef4444' : 'rgba(0,0,0,0.45)' }}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
@@ -378,36 +376,20 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
       </div>
 
       {/* Body */}
-      <div style={{ padding: '10px 12px 12px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <div style={{ padding: '8px 10px 10px', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <h3
           className="line-clamp-1"
           style={{
-            fontFamily: 'var(--font-playfair, serif)',
-            fontSize: '14px',
-            fontWeight: 700,
+            fontFamily: 'var(--font-inter, sans-serif)',
+            fontSize: '12px',
+            fontWeight: 600,
             color: 'var(--text)',
             lineHeight: 1.3,
             marginBottom: '4px',
-            letterSpacing: '-0.01em',
           }}
         >
           {product.nome}
         </h3>
-
-        {product.descricao && (
-          <p
-            className="line-clamp-2"
-            style={{
-              fontFamily: 'var(--font-inter, sans-serif)',
-              fontSize: '11px',
-              color: 'var(--text-3)',
-              lineHeight: 1.4,
-              marginBottom: '8px',
-            }}
-          >
-            {product.descricao}
-          </p>
-        )}
 
         <div
           style={{
@@ -415,7 +397,7 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
             alignItems: 'center',
             justifyContent: 'space-between',
             marginTop: 'auto',
-            paddingTop: '6px',
+            paddingTop: '4px',
           }}
         >
           {fmt(price) ? (
@@ -423,7 +405,7 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
               className="el-gold-text"
               style={{
                 fontFamily: 'var(--font-inter, sans-serif)',
-                fontSize: '17px',
+                fontSize: '14px',
                 fontWeight: 700,
                 lineHeight: 1.2,
               }}
@@ -435,16 +417,16 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
           <button
             onClick={handleAdd}
             style={{
-              width: '32px',
-              height: '32px',
+              width: '26px',
+              height: '26px',
               borderRadius: '50%',
               background: justAdded ? 'rgba(240,160,48,0.15)' : 'linear-gradient(135deg, #C07820, #F0A030, #FFD060)',
               color: justAdded ? '#F0A030' : '#1A0800',
-              boxShadow: justAdded ? 'none' : '0 2px 10px rgba(240,160,48,0.4)',
+              boxShadow: justAdded ? 'none' : '0 2px 8px rgba(240,160,48,0.35)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: justAdded ? '14px' : '22px',
+              fontSize: justAdded ? '12px' : '18px',
               fontWeight: 400,
               lineHeight: 1,
               border: 'none',
@@ -692,11 +674,11 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
       </div>
 
       {/* Content */}
-      <div style={{ flex: 1, padding: '0 16px 32px' }}>
+      <div style={{ flex: 1, padding: '0 12px 32px' }}>
 
         {/* Skeleton loading */}
         {loading && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" style={{ gap: '16px', paddingTop: '16px' }}>
+          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5" style={{ gap: '10px', paddingTop: '12px' }}>
             {[1, 2, 3, 4, 5, 6].map(i => <SkeletonCard key={i} />)}
           </div>
         )}
@@ -722,8 +704,8 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
                   <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, transparent, var(--el-gold-border))' }} />
                 </div>
                 <div
-                  className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
-                  style={{ gap: '16px' }}
+                  className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5"
+                  style={{ gap: '10px' }}
                 >
                   {combos.map(p => (
                     <ProductCard
@@ -832,8 +814,8 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
                 </p>
 
                 <div
-                  className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
-                  style={{ gap: '16px' }}
+                  className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5"
+                  style={{ gap: '10px' }}
                 >
                   {regular.map(p => (
                     <ProductCard
