@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, type CSSProperties } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import AdminProductFAB from '@/components/AdminProductFAB'
@@ -9,7 +9,6 @@ import { CartProvider, useCart } from '@/contexts/CartContext'
 import { useFavorites } from '@/hooks/useFavorites'
 import { Product } from '@/types'
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
 function fmt(v: number | null) {
   if (v === null || v === undefined) return null
   return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -21,7 +20,7 @@ const WaIcon = () => (
   </svg>
 )
 
-// ─── Lightbox ─────────────────────────────────────────────────────────────────
+// ─── Lightbox ──────────────────────────────────────────────────────────────────
 function Lightbox({ product, channel, whatsapp, related, onClose, onSelectProduct }: {
   product: Product
   channel: 'varejo' | 'atacado'
@@ -45,31 +44,20 @@ function Lightbox({ product, channel, whatsapp, related, onClose, onSelectProduc
     return () => { document.body.style.overflow = '' }
   }, [])
 
-  const handleAddToCart = () => {
-    addItem(product)
-    setAdded(true)
-    setTimeout(() => setAdded(false), 1500)
-  }
-
-  const handleAddAndOrder = () => {
-    addItem(product)
-    onClose()
-    openDrawer()
-  }
+  const handleAddToCart = () => { addItem(product); setAdded(true); setTimeout(() => setAdded(false), 1500) }
+  const handleAddAndOrder = () => { addItem(product); onClose(); openDrawer() }
 
   return (
-    <div
-      className="fixed inset-0 z-[200] flex flex-col"
+    <div className="fixed inset-0 z-[200] flex flex-col"
       style={{ backgroundColor: 'rgba(0,0,0,0.96)', backdropFilter: 'blur(10px)' }}
-      onClick={onClose}
-    >
+      onClick={onClose}>
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 flex-shrink-0" onClick={e => e.stopPropagation()}>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             {product.tipo === 'combo' && (
               <span className="text-[9px] font-inter font-bold tracking-widest uppercase px-2 py-0.5 rounded-full"
-                style={{ backgroundColor: 'rgba(201,150,42,0.25)', color: 'var(--el-gold-light)', border: '1px solid rgba(201,150,42,0.4)' }}>
+                style={{ backgroundColor: 'rgba(201,150,42,0.25)', color: 'var(--gold-light)', border: '1px solid rgba(201,150,42,0.4)' }}>
                 ✦ COMBO
               </span>
             )}
@@ -84,11 +72,9 @@ function Lightbox({ product, channel, whatsapp, related, onClose, onSelectProduc
             {product.nome}
           </h2>
         </div>
-        <button
-          onClick={onClose}
+        <button onClick={onClose}
           className="ml-3 flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-full transition-colors hover:bg-white/10"
-          style={{ color: 'rgba(255,255,255,0.6)' }}
-        >
+          style={{ color: 'rgba(255,255,255,0.6)' }}>
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -96,18 +82,13 @@ function Lightbox({ product, channel, whatsapp, related, onClose, onSelectProduc
       </div>
 
       {/* Image */}
-      <div
-        className="flex-1 relative mx-4 rounded-xl overflow-hidden"
-        style={{ minHeight: 0 }}
-        onClick={e => e.stopPropagation()}
-      >
+      <div className="flex-1 relative mx-4 rounded-xl overflow-hidden" style={{ minHeight: 0 }} onClick={e => e.stopPropagation()}>
         {product.imagem ? (
           <Image src={product.imagem} alt={product.nome} fill style={{ objectFit: 'contain' }} sizes="100vw" priority />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <svg className="w-20 h-20 opacity-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              style={{ color: 'var(--el-gold-solid)' }}>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+            <svg className="w-20 h-20 opacity-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--gold)' }}>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
         )}
@@ -122,36 +103,26 @@ function Lightbox({ product, channel, whatsapp, related, onClose, onSelectProduc
         )}
         <div className="flex items-center justify-between gap-3 mb-3">
           {fmt(price) ? (
-            <p className="font-playfair font-bold text-2xl sm:text-3xl tracking-tight el-gold-text">
-              {fmt(price)}
-            </p>
+            <p className="font-playfair font-bold text-2xl sm:text-3xl tracking-tight el-gold-text">{fmt(price)}</p>
           ) : <span />}
           <div className="flex gap-2">
-            <button
-              onClick={handleAddToCart}
+            <button onClick={handleAddToCart}
               className="flex items-center gap-1.5 px-4 py-2.5 rounded-full font-inter font-semibold text-sm transition-all hover:scale-105 active:scale-95"
               style={{
                 backgroundColor: added ? 'rgba(201,150,42,0.2)' : 'rgba(201,150,42,0.15)',
-                color: 'var(--el-gold-light)',
-                border: '1px solid rgba(201,150,42,0.4)',
-              }}
-            >
+                color: 'var(--gold-light)', border: '1px solid rgba(201,150,42,0.4)',
+              }}>
               {added ? '✓ Adicionado' : '+ Carrinho'}
             </button>
             {whatsapp && (
-              <button
-                onClick={handleAddAndOrder}
+              <button onClick={handleAddAndOrder}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-full font-inter font-semibold text-sm transition-all hover:scale-105 active:scale-95"
-                style={{ backgroundColor: '#25D366', color: '#fff' }}
-              >
-                <WaIcon />
-                Pedir
+                style={{ backgroundColor: '#25D366', color: '#fff' }}>
+                <WaIcon /> Pedir
               </button>
             )}
           </div>
         </div>
-
-        {/* Produtos relacionados */}
         {related.length > 0 && (
           <div>
             <p className="font-inter text-[10px] tracking-widest uppercase mb-2" style={{ color: 'rgba(255,255,255,0.35)' }}>
@@ -159,18 +130,16 @@ function Lightbox({ product, channel, whatsapp, related, onClose, onSelectProduc
             </p>
             <div className="flex gap-2 overflow-x-auto pb-1">
               {related.map(r => (
-                <button
-                  key={r.id}
-                  onClick={() => onSelectProduct(r)}
+                <button key={r.id} onClick={() => onSelectProduct(r)}
                   className="flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-xl transition-colors"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
-                >
+                  style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
                   {r.imagem && (
                     <div className="relative w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
                       <Image src={r.imagem} alt={r.nome} fill style={{ objectFit: 'cover' }} sizes="32px" />
                     </div>
                   )}
-                  <span className="font-inter text-xs max-w-[90px] text-left line-clamp-2 leading-snug" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                  <span className="font-inter text-xs max-w-[90px] text-left line-clamp-2 leading-snug"
+                    style={{ color: 'rgba(255,255,255,0.7)' }}>
                     {r.nome}
                   </span>
                 </button>
@@ -188,59 +157,41 @@ function CartFAB() {
   const { totalItems, openDrawer } = useCart()
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
-  if (!mounted) return null
+  if (!mounted || totalItems === 0) return null
 
   return (
-    <button
-      onClick={openDrawer}
-      className="fixed bottom-6 left-6 z-[100] w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 active:scale-95"
+    <button onClick={openDrawer}
+      className="fixed bottom-6 left-6 z-[100] rounded-full flex items-center gap-2 px-4 shadow-2xl transition-all hover:scale-105 active:scale-95"
       style={{
+        height: '48px',
         background: 'linear-gradient(135deg, #A06810 0%, #C8891A 50%, #E8A832 100%)',
-        border: 'none',
-        boxShadow: '0 4px 20px rgba(200,137,26,0.38)',
+        boxShadow: '0 4px 20px rgba(200,137,26,0.40)',
       }}
-      title="Carrinho de compras"
-    >
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}
-        style={{ color: 'var(--el-gold-light)' }}>
+      title="Carrinho de compras">
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}
+        style={{ color: '#fff' }}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
       </svg>
-      {totalItems > 0 && (
-        <span
-          className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center font-inter text-[10px] font-bold"
-          style={{ background: 'var(--el-gradient-gold)', color: '#3B1A08' }}
-        >
-          {totalItems > 9 ? '9+' : totalItems}
-        </span>
-      )}
+      <span style={{
+        fontFamily: 'var(--font-inter, sans-serif)',
+        fontSize: '13px', fontWeight: 700, color: '#fff',
+      }}>
+        {totalItems} {totalItems === 1 ? 'item' : 'itens'}
+      </span>
     </button>
   )
 }
 
-// ─── Skeleton Card ────────────────────────────────────────────────────────────
+// ─── Skeleton Card ─────────────────────────────────────────────────────────────
 function SkeletonCard() {
   return (
-    <div
-      style={{
-        backgroundColor: 'var(--glass)',
-        border: '1px solid rgba(0,0,0,0.07)',
-        borderRadius: '12px',
-        overflow: 'hidden',
-      }}
-    >
-      <div className="el-skeleton" style={{ width: '100%', aspectRatio: '1/1' }} />
-      <div style={{ padding: '8px 10px 10px' }}>
-        <div className="el-skeleton" style={{ height: '13px', marginBottom: '6px', width: '72%', borderRadius: '4px' }} />
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px' }}>
-          <div className="el-skeleton" style={{ height: '16px', width: '42%', borderRadius: '4px' }} />
-          <div className="el-skeleton" style={{ width: '26px', height: '26px', borderRadius: '50%' }} />
-        </div>
-      </div>
+    <div style={{ borderRadius: '12px', overflow: 'hidden', aspectRatio: '3/4' }}>
+      <div className="el-skeleton" style={{ width: '100%', height: '100%' }} />
     </div>
   )
 }
 
-// ─── Product Card ─────────────────────────────────────────────────────────────
+// ─── Product Card ──────────────────────────────────────────────────────────────
 interface CardProps {
   product: Product
   channel: 'varejo' | 'atacado'
@@ -253,9 +204,10 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
   const { addItem } = useCart()
   const price = channel === 'varejo' ? product.precoVarejo : product.precoAtacado
   const isCombo = product.tipo === 'combo'
+  const isInactive = product.ativo === false
   const [justAdded, setJustAdded] = useState(false)
 
-  const handleAdd = (e: React.MouseEvent) => {
+  const handleAdd = (e: { stopPropagation: () => void }) => {
     e.stopPropagation()
     addItem(product)
     setJustAdded(true)
@@ -263,192 +215,152 @@ function ProductCard({ product, channel, isFav, onToggleFav, onImageClick }: Car
   }
 
   return (
-    <div className="product-card" style={{ display: 'flex', flexDirection: 'column' }}>
-      {/* Image */}
-      <div
-        className="relative overflow-hidden"
-        style={{
-          width: '100%',
-          aspectRatio: '1/1',
-          backgroundColor: '#f7f7f7',
-          cursor: 'zoom-in',
-          borderRadius: '12px 12px 0 0',
-        }}
-        onClick={onImageClick}
-      >
-        {product.imagem ? (
-          <Image
-            src={product.imagem}
-            alt={product.nome}
-            fill
-            sizes="(max-width:640px) 33vw,(max-width:1024px) 25vw,20vw"
-            style={{
-              objectFit: 'cover',
-              filter: product.ativo === false ? 'grayscale(100%) brightness(0.5)' : undefined,
-              transition: 'transform 0.4s ease',
-            }}
-            className="group-hover:scale-105"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            {/* Tobacco book icon */}
-            <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              style={{ color: 'var(--el-gold-solid)', opacity: 0.5 }}>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
-                d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-            </svg>
-          </div>
-        )}
+    <div
+      onClick={onImageClick}
+      style={{
+        position: 'relative',
+        borderRadius: '12px',
+        overflow: 'hidden',
+        aspectRatio: '3/4',
+        cursor: 'pointer',
+        backgroundColor: '#f0f0f0',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06)',
+      }}
+    >
+      {/* Imagem */}
+      {product.imagem ? (
+        <Image
+          src={product.imagem}
+          alt={product.nome}
+          fill
+          sizes="(max-width:640px) 50vw,(max-width:1024px) 33vw,25vw"
+          style={{
+            objectFit: 'cover',
+            filter: isInactive ? 'grayscale(100%) brightness(0.55)' : undefined,
+          }}
+        />
+      ) : (
+        <div style={{
+          position: 'absolute', inset: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: 'linear-gradient(160deg, #f5f5f5 0%, #ebebeb 100%)',
+        }}>
+          <svg width="36" height="36" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            style={{ color: 'var(--gold)', opacity: 0.25 }}>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
+              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+      )}
 
-        {/* Indisponível overlay */}
-        {product.ativo === false && (
-          <div
-            className="absolute inset-0 flex items-end justify-center pb-3 pointer-events-none"
-            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 60%)' }}
-          >
-            <span
-              style={{
-                fontFamily: 'var(--font-inter, sans-serif)',
-                fontSize: '10px',
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                padding: '3px 8px',
-                borderRadius: '4px',
-                backgroundColor: 'rgba(0,0,0,0.6)',
-                color: '#bbb',
-                border: '1px solid rgba(255,255,255,0.15)',
-              }}
-            >
-              Indisponível
-            </span>
-          </div>
-        )}
-
-        {/* Category / Combo badge */}
-        {(product.categoria || isCombo) && (
-          <span
-            className="absolute top-1.5 left-1.5"
-            style={{
-              fontFamily: 'var(--font-inter, sans-serif)',
-              fontSize: '9px',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em',
-              backgroundColor: 'rgba(255,255,255,0.92)',
-              color: 'var(--el-gold-solid)',
-              border: '0.5px solid var(--el-gold-border)',
-              borderRadius: '5px',
-              padding: '2px 5px',
-              lineHeight: 1.4,
-            }}
-          >
-            {isCombo ? '✦ COMBO' : product.categoria}
+      {/* Top row: badge + favorito */}
+      <div style={{
+        position: 'absolute', top: 8, left: 8, right: 8,
+        display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
+      }}>
+        {(isCombo || product.categoria) && (
+          <span style={{
+            fontFamily: 'var(--font-inter, sans-serif)',
+            fontSize: '9px', fontWeight: 700,
+            textTransform: 'uppercase', letterSpacing: '0.05em',
+            background: 'rgba(255,255,255,0.94)',
+            color: 'var(--gold)',
+            borderRadius: '5px', padding: '2px 6px',
+          }}>
+            {isCombo ? '✦ Combo' : product.categoria}
           </span>
         )}
-
-        {/* Favorite button */}
         <button
           onClick={e => { e.stopPropagation(); onToggleFav() }}
-          className="absolute top-1.5 right-1.5"
           style={{
-            width: '24px',
-            height: '24px',
-            borderRadius: '50%',
-            backgroundColor: 'rgba(255,255,255,0.88)',
+            width: '26px', height: '26px', borderRadius: '50%',
+            background: 'rgba(255,255,255,0.88)',
             backdropFilter: 'blur(4px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: 'none',
-            cursor: 'pointer',
-            transition: 'transform 0.15s ease',
+            border: 'none', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            marginLeft: 'auto',
+            flexShrink: 0,
           }}
-          onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.12)' }}
-          onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
-          title={isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+          title={isFav ? 'Remover favorito' : 'Favoritar'}
         >
-          <svg width="11" height="11" fill={isFav ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}
+          <svg width="12" height="12" fill={isFav ? 'currentColor' : 'none'}
+            stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}
             style={{ color: isFav ? '#ef4444' : 'rgba(0,0,0,0.45)' }}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round"
+              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
         </button>
       </div>
 
-      {/* Body */}
-      <div style={{ padding: '8px 10px 10px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-        <h3
-          className="line-clamp-1"
-          style={{
-            fontFamily: 'var(--font-inter, sans-serif)',
-            fontSize: '12px',
-            fontWeight: 600,
-            color: 'var(--text)',
-            lineHeight: 1.3,
-            marginBottom: '4px',
-          }}
-        >
-          {product.nome}
-        </h3>
-
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginTop: 'auto',
-            paddingTop: '4px',
-          }}
-        >
-          {fmt(price) ? (
-            <p
-              className="el-gold-text"
-              style={{
-                fontFamily: 'var(--font-inter, sans-serif)',
-                fontSize: '14px',
-                fontWeight: 700,
-                lineHeight: 1.2,
-              }}
-            >
-              {fmt(price)}
+      {/* Gradiente + info na base */}
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0,
+        background: 'linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.45) 55%, transparent 100%)',
+        padding: '36px 10px 10px',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '6px' }}>
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <p className="line-clamp-2" style={{
+              fontFamily: 'var(--font-inter, sans-serif)',
+              fontSize: '12px', fontWeight: 600, lineHeight: 1.3,
+              color: '#fff', marginBottom: fmt(price) ? '2px' : 0,
+            }}>
+              {product.nome}
             </p>
-          ) : <span />}
-
+            {fmt(price) && (
+              <p style={{
+                fontFamily: 'var(--font-inter, sans-serif)',
+                fontSize: '13px', fontWeight: 700, lineHeight: 1,
+                color: '#FFD060',
+              }}>
+                {fmt(price)}
+              </p>
+            )}
+          </div>
           <button
             onClick={handleAdd}
             style={{
-              width: '26px',
-              height: '26px',
-              borderRadius: '50%',
-              background: justAdded ? 'rgba(240,160,48,0.15)' : 'linear-gradient(135deg, #C07820, #F0A030, #FFD060)',
-              color: justAdded ? '#F0A030' : '#1A0800',
-              boxShadow: justAdded ? 'none' : '0 2px 8px rgba(240,160,48,0.35)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: justAdded ? '12px' : '18px',
-              fontWeight: 400,
-              lineHeight: 1,
-              border: 'none',
-              cursor: 'pointer',
-              flexShrink: 0,
-              transition: 'filter 0.15s ease, transform 0.15s ease',
+              width: '30px', height: '30px', borderRadius: '50%', flexShrink: 0,
+              background: justAdded
+                ? 'rgba(255,255,255,0.22)'
+                : 'linear-gradient(135deg, #B07020, #E09030)',
+              color: '#fff', border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: justAdded ? '13px' : '20px',
+              boxShadow: justAdded ? 'none' : '0 2px 8px rgba(0,0,0,0.30)',
+              transition: 'all 0.15s ease',
             }}
-            onMouseEnter={e => { e.currentTarget.style.filter = 'brightness(1.1)'; e.currentTarget.style.transform = 'scale(1.07)' }}
-            onMouseLeave={e => { e.currentTarget.style.filter = ''; e.currentTarget.style.transform = '' }}
-            onMouseDown={e => { e.currentTarget.style.transform = 'scale(0.93)' }}
-            onMouseUp={e => { e.currentTarget.style.transform = 'scale(1.07)' }}
             title={justAdded ? 'Adicionado!' : 'Adicionar ao carrinho'}
           >
             {justAdded ? '✓' : '+'}
           </button>
         </div>
       </div>
+
+      {/* Overlay indisponível */}
+      {isInactive && (
+        <div style={{
+          position: 'absolute', inset: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: 'rgba(0,0,0,0.42)',
+        }}>
+          <span style={{
+            fontFamily: 'var(--font-inter, sans-serif)',
+            fontSize: '10px', fontWeight: 700,
+            textTransform: 'uppercase', letterSpacing: '0.1em',
+            color: 'rgba(255,255,255,0.9)',
+            background: 'rgba(0,0,0,0.55)',
+            padding: '4px 10px', borderRadius: '4px',
+          }}>
+            Indisponível
+          </span>
+        </div>
+      )}
     </div>
   )
 }
 
-// ─── Inner grid ───────────────────────────────────────────────────────────────
+// ─── Inner grid ────────────────────────────────────────────────────────────────
 interface InnerProps {
   products: Product[]
   allProducts: Product[]
@@ -484,8 +396,8 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
   }, [])
 
   const chanOk = (p: Product) => channel === 'varejo' ? p.visivelVarejo : p.visivelAtacado
-
   const sq = search.trim().toLowerCase()
+
   const visibleRaw = products.filter(p => {
     if (!chanOk(p)) return false
     if (filterCat === 'favoritos' && !isFavorite(p.id)) return false
@@ -501,11 +413,11 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
     if (sortOrder === 'nome-za') return b.nome.localeCompare(a.nome, 'pt-BR')
     if (sortOrder === 'preco-asc') return getPrice(a) - getPrice(b)
     if (sortOrder === 'preco-desc') return getPrice(b) - getPrice(a)
-    return 0 // 'cadastro' - keep original order
+    return 0
   })
 
-  const combos   = visible.filter(p => p.tipo === 'combo')
-  const regular  = visible.filter(p => p.tipo !== 'combo')
+  const combos  = visible.filter(p => p.tipo === 'combo')
+  const regular = visible.filter(p => p.tipo !== 'combo')
 
   const usedCats = categorias.filter(c => products.some(p => p.categoria === c && chanOk(p)))
   const cats = ['todas', ...(favCount > 0 ? ['favoritos'] : []), ...usedCats]
@@ -513,39 +425,134 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
   const getRelated = (p: Product) =>
     allProducts.filter(r => r.id !== p.id && r.categoria === p.categoria && chanOk(r)).slice(0, 5)
 
+  // Estilo base do select de ordenação
+  const selectStyle: CSSProperties = {
+    height: '38px',
+    padding: '0 28px 0 10px',
+    borderRadius: '10px',
+    border: 'none',
+    background: '#f2f2f2',
+    color: 'var(--text)',
+    fontFamily: 'var(--font-inter, sans-serif)',
+    fontSize: '13px', fontWeight: 500,
+    appearance: 'none',
+    WebkitAppearance: 'none',
+    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'right 8px center',
+    cursor: 'pointer',
+    outline: 'none',
+    flexShrink: 0,
+  }
+
   return (
     <>
-      {/* Lightbox */}
       {lightbox && (
         <Lightbox
-          product={lightbox}
-          channel={channel}
-          whatsapp={whatsapp}
-          related={getRelated(lightbox)}
-          onClose={closeLightbox}
-          onSelectProduct={openLightbox}
+          product={lightbox} channel={channel} whatsapp={whatsapp}
+          related={getRelated(lightbox)} onClose={closeLightbox} onSelectProduct={openLightbox}
         />
       )}
-
       <CartDrawer whatsapp={whatsapp} channel={channel} />
 
-      {/* Back link — admin only */}
+      {/* ── TOOLBAR STICKY ─────────────────────────────────────────── */}
+      <div style={{
+        position: 'sticky', top: '60px', zIndex: 40,
+        background: 'rgba(255,255,255,0.97)',
+        backdropFilter: 'blur(16px) saturate(140%)',
+        WebkitBackdropFilter: 'blur(16px) saturate(140%)',
+        borderBottom: '1px solid rgba(0,0,0,0.07)',
+        paddingTop: '10px',
+      }}>
+        {/* Linha 1: search + sort */}
+        <div style={{ padding: '0 12px', display: 'flex', gap: '8px', marginBottom: '10px' }}>
+          {/* Search */}
+          <div style={{ position: 'relative', flex: 1 }}>
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}
+              style={{
+                position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)',
+                color: 'var(--text-3)', pointerEvents: 'none',
+              }}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              type="search"
+              placeholder="Buscar produto..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              style={{
+                width: '100%', height: '38px',
+                paddingLeft: '32px', paddingRight: search ? '32px' : '12px',
+                borderRadius: '10px', border: 'none',
+                background: '#f2f2f2',
+                color: 'var(--text)',
+                fontFamily: 'var(--font-inter, sans-serif)',
+                fontSize: '14px', outline: 'none',
+              }}
+            />
+            {search && (
+              <button onClick={() => setSearch('')} style={{
+                position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)',
+                background: 'none', border: 'none', cursor: 'pointer',
+                color: 'var(--text-3)', fontSize: '18px', lineHeight: 1, padding: '2px',
+              }}>×</button>
+            )}
+          </div>
+
+          {/* Sort */}
+          <select value={sortOrder} onChange={e => setSortOrder(e.target.value as typeof sortOrder)}
+            style={selectStyle}>
+            <option value="cadastro">Padrão</option>
+            <option value="nome-az">A → Z</option>
+            <option value="nome-za">Z → A</option>
+            <option value="preco-asc">Menor ↑</option>
+            <option value="preco-desc">Maior ↓</option>
+          </select>
+        </div>
+
+        {/* Linha 2: chips de categoria */}
+        {cats.length > 1 && (
+          <div style={{
+            display: 'flex', gap: '6px',
+            overflowX: 'auto', padding: '0 12px 10px',
+            scrollbarWidth: 'none',
+          }}>
+            {cats.map(c => {
+              const isActive = filterCat === c
+              const label = c === 'todas' ? 'Todas'
+                : c === 'favoritos' ? `♡ ${favCount}`
+                : c
+              return (
+                <button key={c} onClick={() => setFilterCat(c)} style={{
+                  padding: '5px 14px', borderRadius: '50px',
+                  border: isActive ? 'none' : '1px solid rgba(0,0,0,0.10)',
+                  background: isActive
+                    ? 'linear-gradient(135deg, #A06810, #C8891A 60%, #E8A832)'
+                    : '#f5f5f5',
+                  color: isActive ? '#fff' : 'var(--text-2)',
+                  fontFamily: 'var(--font-inter, sans-serif)',
+                  fontSize: '12px', fontWeight: isActive ? 700 : 500,
+                  whiteSpace: 'nowrap', flexShrink: 0, cursor: 'pointer',
+                  boxShadow: isActive ? '0 2px 10px rgba(200,137,26,0.35)' : 'none',
+                  transition: 'all 0.15s ease',
+                }}>
+                  {label}
+                </button>
+              )
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* ── CONTEÚDO ──────────────────────────────────────────────── */}
       {isAdmin && (
-        <div style={{ padding: '12px 16px 0' }}>
-          <Link
-            href="/"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontFamily: 'var(--font-inter, sans-serif)',
-              fontSize: '12px',
-              color: 'var(--el-text-hint)',
-              textDecoration: 'none',
-              transition: 'opacity 0.2s',
-            }}
-          >
-            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+        <div style={{ padding: '10px 12px 0' }}>
+          <Link href="/" style={{
+            display: 'inline-flex', alignItems: 'center', gap: '4px',
+            fontFamily: 'var(--font-inter, sans-serif)',
+            fontSize: '12px', color: 'var(--text-3)', textDecoration: 'none',
+          }}>
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
             Início
@@ -553,279 +560,115 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
         </div>
       )}
 
-      {/* Search bar */}
-      <div style={{ padding: '14px 16px 0' }}>
-        <div style={{ position: 'relative', maxWidth: '100%' }}>
-          <svg
-            width="15" height="15"
-            fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}
-            style={{
-              position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)',
-              color: 'var(--el-text-hint)', pointerEvents: 'none',
-            }}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <input
-            type="search"
-            placeholder="Buscar produto..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            style={{
-              width: '100%',
-              height: '40px',
-              paddingLeft: '36px',
-              paddingRight: search ? '36px' : '12px',
-              borderRadius: '20px',
-              border: '1px solid rgba(0,0,0,0.10)',
-              backgroundColor: '#f5f5f5',
-              color: 'var(--text)',
-              fontFamily: 'var(--font-inter, sans-serif)',
-              fontSize: '14px',
-              outline: 'none',
-              transition: 'border-color 0.2s, box-shadow 0.2s',
-            }}
-          />
-          {search && (
-            <button
-              onClick={() => setSearch('')}
-              style={{
-                position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)',
-                background: 'none', border: 'none', cursor: 'pointer', padding: '4px',
-                color: 'var(--el-text-hint)', fontSize: '16px', lineHeight: 1,
-              }}
-            >
-              ×
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Category chips */}
-      {cats.length > 1 && (
-        <div className="el-chips-scroll" style={{ padding: '14px 16px 4px' }}>
-          {cats.map(c => {
-            const isActive = filterCat === c
-            const label = c === 'todas' ? 'Todas' : c === 'favoritos' ? `❤ Favoritos (${favCount})` : c
-            return (
-              <button
-                key={c}
-                onClick={() => setFilterCat(c)}
-                style={{
-                  background: isActive
-                    ? 'linear-gradient(135deg, #A06810, #C8891A, #E8A832)'
-                    : '#f2f2f2',
-                  border: isActive ? 'none' : '1px solid rgba(0,0,0,0.08)',
-                  borderRadius: '50px',
-                  padding: '0 16px',
-                  height: '34px',
-                  fontFamily: 'var(--font-inter, sans-serif)',
-                  fontSize: '12px',
-                  fontWeight: isActive ? 700 : 500,
-                  color: isActive ? '#ffffff' : 'var(--text-2)',
-                  boxShadow: isActive ? '0 2px 12px rgba(200,137,26,0.38)' : '0 1px 3px rgba(0,0,0,0.06)',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                  whiteSpace: 'nowrap',
-                  flexShrink: 0,
-                  lineHeight: '36px',
-                }}
-              >
-                {label}
-              </button>
-            )
-          })}
-        </div>
-      )}
-
-      {/* Sort bar */}
-      <div style={{ padding: '8px 16px 0', display: 'flex', alignItems: 'center', gap: '8px', overflowX: 'auto' }}>
-        <span style={{ fontFamily: 'var(--font-inter, sans-serif)', fontSize: '11px', color: 'var(--el-text-hint)', whiteSpace: 'nowrap', flexShrink: 0 }}>
-          Ordenar:
-        </span>
-        {([
-          { key: 'cadastro', label: 'Padrão' },
-          { key: 'nome-az', label: 'A → Z' },
-          { key: 'nome-za', label: 'Z → A' },
-          { key: 'preco-asc', label: 'Menor preço' },
-          { key: 'preco-desc', label: 'Maior preço' },
-        ] as const).map(opt => (
-          <button
-            key={opt.key}
-            onClick={() => setSortOrder(opt.key)}
-            style={{
-              fontFamily: 'var(--font-inter, sans-serif)',
-              fontSize: '11px',
-              padding: '4px 10px',
-              borderRadius: '12px',
-              border: sortOrder === opt.key ? 'none' : '1px solid rgba(0,0,0,0.08)',
-              background: sortOrder === opt.key ? 'linear-gradient(135deg, #A06810, #C8891A)' : '#f2f2f2',
-              color: sortOrder === opt.key ? '#ffffff' : 'var(--text-2)',
-              fontWeight: sortOrder === opt.key ? 600 : 400,
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              flexShrink: 0,
-              transition: 'all 0.15s ease',
-            }}
-          >
-            {opt.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Content */}
-      <div style={{ flex: 1, padding: '0 12px 32px' }}>
-
-        {/* Skeleton loading */}
+      <div style={{ padding: '12px 12px 40px' }}>
+        {/* Skeleton */}
         {loading && (
-          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5" style={{ gap: '10px', paddingTop: '12px' }}>
-            {[1, 2, 3, 4, 5, 6].map(i => <SkeletonCard key={i} />)}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" style={{ gap: '10px' }}>
+            {[1,2,3,4,5,6].map(i => <SkeletonCard key={i} />)}
           </div>
         )}
 
         {!loading && (
           <>
-            {/* Combos section */}
+            {/* Combos */}
             {combos.length > 0 && filterCat !== 'favoritos' && (
-              <section style={{ paddingTop: '20px', marginBottom: '24px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                  <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, var(--el-gold-border), transparent)' }} />
-                  <h2
-                    style={{
-                      fontFamily: 'var(--font-playfair, serif)',
-                      fontSize: '16px',
-                      fontWeight: 600,
-                      color: 'var(--el-gold-solid)',
-                      lineHeight: 1.3,
-                    }}
-                  >
+              <section style={{ marginBottom: '20px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, rgba(200,137,26,0.25), transparent)' }} />
+                  <span style={{
+                    fontFamily: 'var(--font-playfair, serif)',
+                    fontSize: '14px', fontWeight: 700,
+                    color: 'var(--gold)', letterSpacing: '-0.01em',
+                  }}>
                     ✦ Combos & Kits
-                  </h2>
-                  <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, transparent, var(--el-gold-border))' }} />
+                  </span>
+                  <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, transparent, rgba(200,137,26,0.25))' }} />
                 </div>
-                <div
-                  className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5"
-                  style={{ gap: '10px' }}
-                >
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" style={{ gap: '10px' }}>
                   {combos.map(p => (
-                    <ProductCard
-                      key={p.id}
-                      product={p}
-                      channel={channel}
-                      isFav={isFavorite(p.id)}
-                      onToggleFav={() => toggle(p.id)}
-                      onImageClick={() => openLightbox(p)}
-                    />
+                    <ProductCard key={p.id} product={p} channel={channel}
+                      isFav={isFavorite(p.id)} onToggleFav={() => toggle(p.id)}
+                      onImageClick={() => openLightbox(p)} />
                   ))}
                 </div>
               </section>
             )}
 
-            {/* Empty state */}
+            {/* Estado vazio */}
             {regular.length === 0 && combos.length === 0 && (
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '48px 24px',
-                  textAlign: 'center',
-                }}
-              >
-                <div
-                  style={{
-                    width: '64px',
-                    height: '64px',
-                    borderRadius: '50%',
-                    backgroundColor: '#f0f0f0',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '16px',
-                  }}
-                >
-                  <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    style={{ color: 'var(--el-gold-solid)', opacity: 0.5 }}>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
-                      d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+              <div style={{
+                display: 'flex', flexDirection: 'column', alignItems: 'center',
+                justifyContent: 'center', padding: '64px 24px', textAlign: 'center',
+              }}>
+                <div style={{
+                  width: '56px', height: '56px', borderRadius: '50%',
+                  background: '#f0f0f0',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  marginBottom: '14px',
+                }}>
+                  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    style={{ color: 'var(--text-4)' }}>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
-                <h3
-                  style={{
-                    fontFamily: 'var(--font-playfair, serif)',
-                    fontSize: '16px',
-                    fontWeight: 600,
-                    color: 'var(--el-text-secondary)',
-                    marginBottom: '8px',
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {filterCat === 'favoritos' ? 'Nenhum favorito ainda' : 'Nenhum produto nesta categoria'}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: 'var(--font-inter, sans-serif)',
-                    fontSize: '13px',
-                    color: 'var(--el-text-hint)',
-                    lineHeight: 1.5,
-                  }}
-                >
-                  {filterCat === 'favoritos'
-                    ? 'Toque no ♡ nos produtos para salvar.'
-                    : 'Em breve novos produtos serão adicionados.'}
+                <p style={{
+                  fontFamily: 'var(--font-inter, sans-serif)',
+                  fontSize: '15px', fontWeight: 600,
+                  color: 'var(--text-2)', marginBottom: '6px',
+                }}>
+                  {filterCat === 'favoritos' ? 'Nenhum favorito ainda' : 'Nenhum produto encontrado'}
                 </p>
+                <p style={{
+                  fontFamily: 'var(--font-inter, sans-serif)',
+                  fontSize: '13px', color: 'var(--text-3)', lineHeight: 1.5,
+                }}>
+                  {filterCat === 'favoritos'
+                    ? 'Toque em ♡ nos produtos para salvar.'
+                    : search ? 'Tente outro termo de busca.' : 'Em breve novos produtos.'}
+                </p>
+                {(search || filterCat !== 'todas') && (
+                  <button onClick={() => { setSearch(''); setFilterCat('todas') }} style={{
+                    marginTop: '16px',
+                    fontFamily: 'var(--font-inter, sans-serif)',
+                    fontSize: '13px', fontWeight: 600,
+                    color: 'var(--gold)', background: 'none', border: 'none', cursor: 'pointer',
+                  }}>
+                    Limpar filtros
+                  </button>
+                )}
               </div>
             )}
 
-            {/* Main grid */}
+            {/* Grid principal */}
             {regular.length > 0 && (
-              <section style={{ paddingTop: combos.length > 0 ? '0' : '16px' }}>
+              <section>
                 {combos.length > 0 && filterCat === 'todas' && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                    <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, var(--el-gold-border), transparent)' }} />
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-playfair, serif)',
-                        fontSize: '14px',
-                        fontWeight: 600,
-                        color: 'var(--el-text-secondary)',
-                        lineHeight: 1.3,
-                      }}
-                    >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                    <div style={{ height: '1px', flex: 1, background: 'rgba(0,0,0,0.07)' }} />
+                    <span style={{
+                      fontFamily: 'var(--font-inter, sans-serif)',
+                      fontSize: '11px', fontWeight: 600,
+                      color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.06em',
+                    }}>
                       Produtos
                     </span>
-                    <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, transparent, var(--el-gold-border))' }} />
+                    <div style={{ height: '1px', flex: 1, background: 'rgba(0,0,0,0.07)' }} />
                   </div>
                 )}
-
-                {/* Count */}
-                <p
-                  style={{
-                    fontFamily: 'var(--font-inter, sans-serif)',
-                    fontSize: '12px',
-                    color: 'var(--el-text-hint)',
-                    lineHeight: 1.4,
-                    marginBottom: '12px',
-                  }}
-                >
+                <p style={{
+                  fontFamily: 'var(--font-inter, sans-serif)',
+                  fontSize: '11px', color: 'var(--text-4)',
+                  marginBottom: '10px',
+                }}>
                   {regular.length} {regular.length === 1 ? 'produto' : 'produtos'}
                   {filterCat !== 'todas' && filterCat !== 'favoritos' ? ` em ${filterCat}` : ''}
                 </p>
-
-                <div
-                  className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5"
-                  style={{ gap: '10px' }}
-                >
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" style={{ gap: '10px' }}>
                   {regular.map(p => (
-                    <ProductCard
-                      key={p.id}
-                      product={p}
-                      channel={channel}
-                      isFav={isFavorite(p.id)}
-                      onToggleFav={() => toggle(p.id)}
-                      onImageClick={() => openLightbox(p)}
-                    />
+                    <ProductCard key={p.id} product={p} channel={channel}
+                      isFav={isFavorite(p.id)} onToggleFav={() => toggle(p.id)}
+                      onImageClick={() => openLightbox(p)} />
                   ))}
                 </div>
               </section>
@@ -841,7 +684,7 @@ function InnerGrid({ products, allProducts, categorias, channel, whatsapp, onAdd
   )
 }
 
-// ─── Public export ────────────────────────────────────────────────────────────
+// ─── Export ────────────────────────────────────────────────────────────────────
 interface Props {
   initialProducts: Product[]
   categorias: string[]
@@ -855,11 +698,8 @@ export default function CatalogGrid({ initialProducts, categorias, channel, what
   return (
     <CartProvider channel={channel}>
       <InnerGrid
-        products={products}
-        allProducts={products}
-        categorias={categorias}
-        channel={channel}
-        whatsapp={whatsapp}
+        products={products} allProducts={products}
+        categorias={categorias} channel={channel} whatsapp={whatsapp}
         onAdded={p => setProducts(prev => [...prev, p])}
       />
     </CartProvider>

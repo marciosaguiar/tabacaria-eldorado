@@ -19,15 +19,6 @@ export default async function Header({ channel }: HeaderProps) {
       display: 'flex',
       alignItems: 'center',
     }}>
-      {/* Subtle gold shimmer line at top */}
-      <div style={{
-        position: 'absolute',
-        top: 0, left: '50%', transform: 'translateX(-50%)',
-        width: '50%', height: '1px',
-        background: 'linear-gradient(90deg, transparent, rgba(200,137,26,0.35), transparent)',
-        pointerEvents: 'none',
-      }} />
-
       <div style={{
         width: '100%', maxWidth: '1280px',
         margin: '0 auto', padding: '0 16px',

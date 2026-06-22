@@ -4,8 +4,22 @@
 
 /* ================================================================
    TABACARIA ELDORADO — Design System v3
-   Light moderno: branco puro, sombras neutras, dourado como acento.
-   ================================================================ */
+   ================================================================
+
+   ╔══════════════════════════════════════════════════════════════╗
+   ║  EDITE AQUI — tokens de personalização rápida               ║
+   ║                                                              ║
+   ║  Cor de destaque (dourado âmbar):                           ║
+   ║    --gold:       #C8891A   ← cor principal (botões, preços) ║
+   ║    --gold-light: #E8A832   ← hover, gradientes              ║
+   ║    --gold-deep:  #A06810   ← texto sobre fundo branco       ║
+   ║                                                              ║
+   ║  Raio dos cards de produto:                                  ║
+   ║    --r-md: 12px            ← arredondar mais = número maior ║
+   ║                                                              ║
+   ║  Fontes:                                                     ║
+   ║    app/layout.tsx — fontes Inter + Playfair Display          ║
+   ╚══════════════════════════════════════════════════════════════╝ */
 
 /* ── Tokens ─────────────────────────────────────────────────── */
 :root {
